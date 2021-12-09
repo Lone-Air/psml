@@ -3,7 +3,7 @@ input(button){
     value:abc
     br:true
     word-wrap:true
-}!~*
+}
 button(button){
     style:color: red
     inner:[abc
@@ -12,29 +12,29 @@ bcd]
     br:true
     end:true
     word-wrap:true
-}!~*
+}
 button{
     onclick:[alert('abc')]
     inner:abcdefg
     br:true
     end:true
     word-wrap:true
-}!~*
+}
 a{
     href:[javascript:alert('abcd')]
     inner:abc
     br:true
     end:true
     word-wrap:true
-}!~*
+}
 style{
     button&Bs&
         color:red
     &Be&
-}!~*
+}
 html{
 <button id="a">press me</button><br>
-}!~*
+}
 script{
 [    var a=document.getElementById("a")
     a.innerHTML="<font color=\"blue\">hello</font>"]
@@ -42,5 +42,5 @@ script{
 |
  This is an Annotation
  Tip:
-     &Bs&={ &Be&=}  &Ms&=[ &Me&=] &Ss&=( &Se&=) &sp&=; &or&=Annotation_identifier &end&=\n &-&=!~* &in&=- &is&=: &no&=<space>
+     &Bs&={ &Be&=}  &Ms&=[ &Me&=] &Ss&=( &Se&=) &sp&=; &or&=Annotation_identifier &end&=\n &-&=!~* &in&=- &is&=: &no&=<space> &ord&=# &voff&=> &von&=< &vuse&=$
 |
