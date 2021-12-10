@@ -1,9 +1,10 @@
+#!/usr/bin/python3
 from re import *
 try:
     from rlcompleter import*
 except:
     print("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline")
-__version__="0.4.1.1"
+__version__="0.4.2"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings
 warnings.filterwarnings("ignore")
@@ -11,11 +12,14 @@ def fcompile(file,string,mode=1):
     html=compile(string)
     file.write(html)
     return
-def compile(string,mode=1):
+def compile(string,mode=1,varpre={},nobe=0):
+    global html
+    html=""
     codes=string
     tpe=""
     ele=""
-    html="<html>\n"
+    if not nobe:
+        html="<html>\n"
     datas=""
     data=""
     codes=''.join(sub(r"[|]([\w\W]*?)[|]","",codes))
@@ -33,7 +37,7 @@ def compile(string,mode=1):
     cpd=0
     dels=0
     wh=0
-    var={}
+    var=varpre
     used=[]
     for i in codes:
         dei=i
@@ -635,6 +639,45 @@ ControlNameError: Unknown key {repr(v)}""")
         i="&von&".join(i.split("<"))
         i="&vuse&".join(i.split("$"))
         codes=i.join(codes.split("["+dfl+"]"))
+    tmps=findall(r"[/]([\w\W]*?)[/]",codes)
+    codes="".join(codes)
+    if 1:
+        codes="&Bs&".join(codes.split("\\{"))
+        codes="&Be&".join(codes.split("\\}"))
+        codes="&Ms&".join(codes.split("\\["))
+        codes="&Me&".join(codes.split("\\]"))
+        codes="&Se&".join(codes.split("\\)"))
+        codes="&Ss&".join(codes.split("\\("))
+        codes="&sp&".join(codes.split("\\;"))
+        codes="&is&".join(codes.split("\\:"))
+        codes="&in&".join(codes.split("\\-"))
+        codes="&or&".join(codes.split("\\|"))
+        codes="&no&".join(codes.split("\\ "))
+        codes="&ord&".join(codes.split("\\#"))
+        codes="&voff&".join(codes.split("\\>"))
+        codes="&von&".join(codes.split("\\<"))
+        codes="&vuse&".join(codes.split("\\$"))
+    for i in tmps:
+        dfl=i
+        i="&Bs&".join(i.split("{"))
+        i="&Be&".join(i.split("}"))
+        i="&Ms&".join(i.split("["))
+        i="&Me&".join(i.split("]"))
+        i="&Se&".join(i.split(")"))
+        i="&Ss&".join(i.split("("))
+        i="&sp&".join(i.split(";"))
+        i="&is&".join(i.split(":"))
+        i="&in&".join(i.split("-"))
+        i="&-&".join(i.split("!~*"))
+        i="&end&".join(i.split("\n"))
+        i="&or&".join(i.split("|"))
+        i="&no&".join(i.split(" "))
+        i="&ord&".join(i.split("#"))
+        i="&voff&".join(i.split(">"))
+        i="&von&".join(i.split("<"))
+        i="&vuse&".join(i.split("$"))
+        codes=i.join(codes.split("["+dfl+"]"))
+
     codes=";".join(codes.split('\n'))
     codes="}!~*;".join(codes.split("}"))
     if mode==3:
@@ -825,7 +868,7 @@ ELEMENT.DATAS.NAMEERROR: LENGTH OF DATA HAS SMALLER THAN 1""")
                         tmp=(" "+datele+"="+repr(dat))
                     else:
                         tmp=(" "+datele)
-                    if datele=="inner":
+                    if datele=="inner" or datele=="psml":
                         continue
                     if datele=="br":
                         continue
@@ -925,8 +968,78 @@ VariableError: \033[91;1;4m{repr(VARFR)}\033[0m was not declared in this scope""
                             var[VARN]=VARV
                         break
                     html+=tmp
-                if "inner" in elem:
+                if "psml" in elem:
+                    old_html=html
                     if not count in butn:
+                        if "end" in elem:
+                            if dats[elem.index("end")].lower()=="true":
+                                psml=dats[elem.index("psml")]
+                                psml="\n".join(psml.split("\\n"))
+                                psml="{".join(psml.split("&Bs&"))
+                                psml="}".join(psml.split("&Be&"))
+                                psml="[".join(psml.split("&Ms&"))
+                                psml="]".join(psml.split("&Me&"))
+                                psml="(".join(psml.split("&Ss&"))
+                                psml=")".join(psml.split("&Se&"))
+                                psml=";".join(psml.split("&sp&"))
+                                psml=":".join(psml.split("&is&"))
+                                psml="-".join(psml.split("&in&"))
+                                psml="!~*".join(psml.split("&-&"))
+                                psml="\n".join(psml.split("&end&"))
+                                psml="|".join(psml.split("&or&"))
+                                psml=" ".join(psml.split("&no&"))
+                                psml="#".join(psml.split("&ord&"))
+                                psml=">".join(psml.split("&voff&"))
+                                psml="<".join(psml.split("&von&"))
+                                psml="$".join(psml.split("&vuse&"))
+                                old_html+=">"+compile(psml,mode=mode,varpre=var,nobe=1)
+                            else:
+                            #if dats[elem.index("end")].lower()=="true":
+                                psml=dats[elem.index("psml")]
+                                psml="\n".join(psml.split("\\n"))
+                                psml="{".join(psml.split("&Bs&"))
+                                psml="}".join(psml.split("&Be&"))
+                                psml="[".join(psml.split("&Ms&"))
+                                psml="]".join(psml.split("&Me&"))
+                                psml="(".join(psml.split("&Ss&"))
+                                psml=")".join(psml.split("&Se&"))
+                                psml=";".join(psml.split("&sp&"))
+                                psml=":".join(psml.split("&is&"))
+                                psml="-".join(psml.split("&in&"))
+                                psml="!~*".join(psml.split("&-&"))
+                                psml="\n".join(psml.split("&end&"))
+                                psml="|".join(psml.split("&or&"))
+                                psml=" ".join(psml.split("&no&"))
+                                psml="#".join(psml.split("&ord&"))
+                                psml=">".join(psml.split("&voff&"))
+                                psml="<".join(psml.split("&von&"))
+                                psml="$".join(psml.split("&vuse&"))
+                                old_html+=compile(psml,mode=mode,varpre=var,nobe=1)
+                        else:
+                            if 1:
+                                psml=dats[elem.index("psml")]
+                                psml="\n".join(psml.split("\\n"))
+                                psml="{".join(psml.split("&Bs&"))
+                                psml="}".join(psml.split("&Be&"))
+                                psml="[".join(psml.split("&Ms&"))
+                                psml="]".join(psml.split("&Me&"))
+                                psml="(".join(psml.split("&Ss&"))
+                                psml=")".join(psml.split("&Se&"))
+                                psml=";".join(psml.split("&sp&"))
+                                psml=":".join(psml.split("&is&"))
+                                psml="-".join(psml.split("&in&"))
+                                psml="!~*".join(psml.split("&-&"))
+                                psml="\n".join(psml.split("&end&"))
+                                psml="|".join(psml.split("&or&"))
+                                psml=" ".join(psml.split("&no&"))
+                                psml="#".join(psml.split("&ord&"))
+                                psml=">".join(psml.split("&voff&"))
+                                psml="<".join(psml.split("&von&"))
+                                psml="$".join(psml.split("&vuse&"))
+                                old_html+=">"+compile(psml,mode=mode,varpre=var,nobe=1)
+                    html=old_html
+                if "inner" in elem:
+                    if not count in butn and "psml" not in elem:
                         if "end" in elem:
                             if dats[elem.index("end")].lower()=="true":
                                 html+=f">{dats[elem.index('inner')]}</{count}>\n"
@@ -943,7 +1056,7 @@ VariableError: \033[91;1;4m{repr(VARFR)}\033[0m was not declared in this scope""
                         else:
                             html+=f"{dats[elem.index('inner')]}"
                 else:
-                    if not count in butn:
+                    if not count in butn and "psml" not in elem:
                         if "end" in elem:
                             if dats[elem.index("end")].lower()=="true":
                                 html+=f"></{count}>\n"
@@ -975,7 +1088,8 @@ Element.dats: No datas got""")
 VARIABLE \033[95;1m{i}\033[0m
     \033[93m{i}: {var[i]}\033[0m
 VariablesWarning: \033[95;1;4m{repr(i)}\033[0m never use in this scope""")
-    html+="</html>"
+    if not nobe:
+        html+="</html>"
     html="\n".join(html.split("\\n"))
     html="{".join(html.split("&Bs&"))
     html="}".join(html.split("&Be&"))
@@ -1135,7 +1249,7 @@ string: psml code data
 __install__.__doc__="""Copy this .py file to python libraries install directory"""
 __uninstall__.__doc__="""Remove this .py file from python libraries install direcotry"""
 __online__.__doc__="""Run a online compile web project server for psml"""
-
+print(__name__)
 if __name__=="__main__":
     import sys,os
     if(sys.argv==[__file__]):
