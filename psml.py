@@ -1118,9 +1118,13 @@ VariablesWarning: \033[95;1;4m{repr(i)}\033[0m never use in this scope""")
     return html
 def __install__():
     import sys,shutil,os
-    shutil.copyfile(__file__,os.path.join(sys.path[1],"PSML.py"))
-    shutil.copyfile(os.path.join(os.path.dirname(__file__),"psml_web.py"),os.path.join(sys.path[1],"psml_web.py"))
-    shutil.copyfile(os.path.join(os.path.dirname(__file__),"test.psml"),os.path.join(sys.path[1],"test.psml"))
+    path=sys.path.copy()
+    for i in path:
+        if len(i.split(".zip"))>1:
+            del path[path.index(i)]
+    shutil.copyfile(__file__,os.path.join(path[1],"PSML.py"))
+    shutil.copyfile(os.path.join(os.path.dirname(__file__),"psml_web.py"),os.path.join(path[1],"psml_web.py"))
+    shutil.copyfile(os.path.join(os.path.dirname(__file__),"test.psml"),os.path.join(path[1],"test.psml"))
     open(os.path.join(os.path.dirname(sys.executable),"psml"),"w").write("""#!%s
 %s"""%(sys.executable,open(__file__).read()))
     os.chmod(os.path.join(os.path.dirname(sys.executable),"psml"),0o777)
