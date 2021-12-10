@@ -36,7 +36,7 @@ endif
 syn keyword psmlBool true false
 syn keyword psmlStatment php doc html java title style script
 syn keyword psmlInnerELEM br end word-wrap
-syn keyword psmlSYN inner var
+syn keyword psmlSYN inner var psml
 " syn keyword psmlSymbols &Bs& &Be& &Ms& &Me& &Se& &Ss& &sp& &is& &in& &or& &no& &ord& &voff& &von& &vuse& $< >
 
 syn region psmlSYM start=/&/ end=/&/ skip=/\\&/

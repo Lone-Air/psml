@@ -619,6 +619,7 @@ ControlNameError: Unknown key {repr(v)}""")
         codes="&voff&".join(codes.split("\\>"))
         codes="&von&".join(codes.split("\\<"))
         codes="&vuse&".join(codes.split("\\$"))
+        codes="&cod&".join(codes.split("\\/"))
     for i in tmps:
         dfl=i
         i="&Bs&".join(i.split("{"))
@@ -638,6 +639,7 @@ ControlNameError: Unknown key {repr(v)}""")
         i="&voff&".join(i.split(">"))
         i="&von&".join(i.split("<"))
         i="&vuse&".join(i.split("$"))
+        i="&cod&".join(i.split("/"))
         codes=i.join(codes.split("["+dfl+"]"))
     tmps=findall(r"[/]([\w\W]*?)[/]",codes)
     codes="".join(codes)
@@ -657,6 +659,7 @@ ControlNameError: Unknown key {repr(v)}""")
         codes="&voff&".join(codes.split("\\>"))
         codes="&von&".join(codes.split("\\<"))
         codes="&vuse&".join(codes.split("\\$"))
+        codes="&cod&".join(codes.split("\\/"))
     for i in tmps:
         dfl=i
         i="&Bs&".join(i.split("{"))
@@ -676,6 +679,7 @@ ControlNameError: Unknown key {repr(v)}""")
         i="&voff&".join(i.split(">"))
         i="&von&".join(i.split("<"))
         i="&vuse&".join(i.split("$"))
+        i="&cod&".join(i.split("/"))
         codes=i.join(codes.split("["+dfl+"]"))
 
     codes=";".join(codes.split('\n'))
@@ -774,7 +778,6 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">    {i}</font><br><font color="red">
 SyntaxError: Invalid Syntax (Need an element)"""
                     html+="</code></font>"
-                    
                 else:
                     print(f"""PSML RAISE \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -992,6 +995,7 @@ VariableError: \033[91;1;4m{repr(VARFR)}\033[0m was not declared in this scope""
                                 psml=">".join(psml.split("&voff&"))
                                 psml="<".join(psml.split("&von&"))
                                 psml="$".join(psml.split("&vuse&"))
+                                psml="/".join(psml.split("&cod&"))
                                 old_html+=">"+compile(psml,mode=mode,varpre=var,nobe=1)
                             else:
                             #if dats[elem.index("end")].lower()=="true":
@@ -1014,6 +1018,7 @@ VariableError: \033[91;1;4m{repr(VARFR)}\033[0m was not declared in this scope""
                                 psml=">".join(psml.split("&voff&"))
                                 psml="<".join(psml.split("&von&"))
                                 psml="$".join(psml.split("&vuse&"))
+                                psml="/".join(psml.split("&cod&"))
                                 old_html+=compile(psml,mode=mode,varpre=var,nobe=1)
                         else:
                             if 1:
@@ -1036,6 +1041,7 @@ VariableError: \033[91;1;4m{repr(VARFR)}\033[0m was not declared in this scope""
                                 psml=">".join(psml.split("&voff&"))
                                 psml="<".join(psml.split("&von&"))
                                 psml="$".join(psml.split("&vuse&"))
+                                psml="/".join(psml.split("&cod&"))
                                 old_html+=">"+compile(psml,mode=mode,varpre=var,nobe=1)
                     html=old_html
                 if "inner" in elem:
@@ -1108,6 +1114,7 @@ VariablesWarning: \033[95;1;4m{repr(i)}\033[0m never use in this scope""")
     html=">".join(html.split("&voff&"))
     html="<".join(html.split("&von&"))
     html="$".join(html.split("&vuse&"))
+    html="/".join(html.split("&cod&"))
     return html
 def __install__():
     import sys,shutil,os
@@ -1176,6 +1183,7 @@ file: out put .html file path
         &von&=<
         &voff&=>
         &vuse&=$
+        &cod&=/
 ------
     Errors:
             
@@ -1235,6 +1243,7 @@ string: psml code data
         &von&=<
         &voff&=>
         &vuse&=$
+        &cod&=/
 ------
     Errors:
             
@@ -1249,7 +1258,7 @@ string: psml code data
 __install__.__doc__="""Copy this .py file to python libraries install directory"""
 __uninstall__.__doc__="""Remove this .py file from python libraries install direcotry"""
 __online__.__doc__="""Run a online compile web project server for psml"""
-print(__name__)
+
 if __name__=="__main__":
     import sys,os
     if(sys.argv==[__file__]):

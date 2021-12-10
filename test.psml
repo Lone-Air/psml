@@ -42,5 +42,5 @@ script{
 |
  This is an Annotation
  Tip:
-     &Bs&={ &Be&=}  &Ms&=[ &Me&=] &Ss&=( &Se&=) &sp&=; &or&=Annotation_identifier &end&=\n &-&=!~* &in&=- &is&=: &no&=<space> &ord&=# &voff&=> &von&=< &vuse&=$
+    &Bs&={ &Be&=}  &Ms&=[ &Me&=] &Ss&=( &Se&=) &sp&=; &or&=Annotation_identifier &end&=\n &-&=!~* &in&=- &is&=: &no&=<space> &ord&=# &voff&=> &von&=< &vuse&=$ &cod&=/
 |
