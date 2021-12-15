@@ -1,0 +1,15 @@
+            LMFS PSML-Python Server Markup Language
+    PSML: Python Server Markup Language
+    Made with: Python3
+    It's a free software by LMFS. Open source on https://github.com/Lone-Air/psml (LICENSE: GPLv2)
+    A simple web language. Some syntax of psml in python shell:
+        import psml
+        help(psml.compile)
+    Output: HTML
+
+        Feedback: 2991600190@qq.com
+                  Lone_air_Use@outlook.com
+
+
+
+                    Thanks for using!
