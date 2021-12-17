@@ -4,7 +4,7 @@ try:
     from rlcompleter import*
 except:
     print("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline")
-__version__="0.4.2"
+__version__="0.4.3"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings
 warnings.filterwarnings("ignore")
@@ -18,8 +18,9 @@ def compile(string,mode=1,varpre={},nobe=0):
     codes=string
     tpe=""
     ele=""
+    head=""
     if not nobe:
-        html="<html>\n"
+        head="<html"
     datas=""
     data=""
     codes=''.join(sub(r"[|]([\w\W]*?)[|]","",codes))
@@ -765,7 +766,8 @@ MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ReadyCompilingError: The length of types isn't equal to the length of elements""")
                 return html
-        butn=("script", "style", "html", "java", "php", "doc", "var")
+        butn=("script", "style", "html", "java", "php", "doc", "var", "begin")
+        special=("begin")
         for count in ele:
             count=sub(" ",'',str(count))
             defcnt=count
@@ -822,7 +824,7 @@ Element.dats: No datas got""")
                 for j in data:
                     if not j:
                         continue
-                    if not count in butn:
+                    if not count in butn or count in special:
                         tmp=sub(" ",'',str(j))
                         tmp="".join(tmp.split('\t'))
                     VARF=findall("\$\<(.*?)\>",tmp)
@@ -879,6 +881,12 @@ ELEMENT.DATAS.NAMEERROR: LENGTH OF DATA HAS SMALLER THAN 1""")
                         continue
                     if datele=="word-wrap":
                         continue
+                    if count=="begin":
+                        if not nobe:
+                            head+=tmp
+                        else:
+                            break
+                        continue
                     if count=="doc":
                         if not "inner" in elem:
                             elem.append("inner")
@@ -890,7 +898,7 @@ ELEMENT.DATAS.NAMEERROR: LENGTH OF DATA HAS SMALLER THAN 1""")
                                 break
                         doctype="\n".join(datan)
                         dats.append("")
-                        html=f"<!DOCTYPE {doctype}>\n"+html
+                        head=f"<!DOCTYPE {doctype}>\n"+head
                         break
                     if (datele=="source") and (count.lower() in ("audio","video")):
                         if count.lower()=="audio":
@@ -1095,6 +1103,7 @@ VARIABLE \033[95;1m{i}\033[0m
     \033[93m{i}: {var[i]}\033[0m
 VariablesWarning: \033[95;1;4m{repr(i)}\033[0m never use in this scope""")
     if not nobe:
+        html=head+">\n"+html
         html+="</html>"
     html="\n".join(html.split("\\n"))
     html="{".join(html.split("&Bs&"))
