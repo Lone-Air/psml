@@ -9,7 +9,7 @@ __author__="<Lone_air_Use@outlook.com>"
 import warnings
 warnings.filterwarnings("ignore")
 def fcompile(file,string,mode=1):
-    html=compile(string)
+    html=compile(string,mode=mode)
     file.write(html)
     return
 def compile(string,mode=1,varpre={},nobe=0):
