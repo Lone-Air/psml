@@ -43,7 +43,7 @@ syn keyword psmlSYN inner var psml
 syn region psmlSYM start=/&/ end=/&/ skip=/\\&/
 syn region psmlSTR start=/\[/ end=/\]/ skip=/\\\]/
 syn region psmlELEMENT start=/(.*?):/ end=/:/ skip=/\\:/
-syn region psmlATT start=/|/ end=/|/ skip=/\\|a/
+syn region psmlATT start=/|/ end=/|/ skip=/\\|/
 syn region psmlPCOM start=/#/ end=/\n/ skip=/\\>/
 syn region psmlPVAR start=/\$</ end=/>/ 
 syn region psmlEType start=/(/ end=/)/
