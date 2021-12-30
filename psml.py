@@ -1147,67 +1147,7 @@ def __online__():
     import os,sys
     os.system("%s %s"%(sys.executable,(os.path.join(os.path.dirname(__file__),"psml_web.py"))))
     return
-fcompile.__doc__="""This help for psml
-    
-string: psml code data
-file: out put .html file path
-------
-    Syntax:
-                    
-        Element(type|/){
-                    property:value
-                    end:true/false
-                    br:true/false
-                    word-wrap:true/false
-                    (
-                               If Element=audio|video:
-                                   source:src
-                    )
-                    (
-                               If Element=script|style|html|java|php|doc:
-                                   <inner code direct change to html code>
-                    )
-                    (
-                               If Element=var:
-                                   <Name of Variable>: <Value of Variable>
-                                   ...
-                    )
-        }(If it isn't the last element, you can write '!~*' before '}'(You don't have to write))
-------
-    Annotation:
-                    
-        |Annotation Informations|
-------
-    Escape Identifier:
-            
-        &Bs&={
-        &Be&=}
-        &Ms&=[
-        &Ss&=(
-        &Se&=)
-        &sp&=;
-        &or&=Annotation_identifier
-        &end&=\\n
-        &-&=!~*
-        &in&=-
-        &is&=:
-        &no&=<space>
-        &ord&=#
-        &von&=<
-        &voff&=>
-        &vuse&=$
-        &cod&=/
-------
-    Errors:
-            
-        SyntaxError: (Because: Elements|types|syntax)
-        ELEMENT.DATAS.NAMEERROR: (Because: length of data)
-        VariableError: (Because: Use a variable was not declared in that scope)
-------
-    Compile Programming language:
-        
-        html(Hypertext Markup Language)
-"""
+
 compile.__doc__="""This help for psml
     
 string: psml code data
@@ -1268,6 +1208,9 @@ string: psml code data
             
         html(Hypertext Markup Language)
 """
+
+fcompile.__doc__=compile.__doc__
+
 __install__.__doc__="""Copy this .py file to python libraries install directory"""
 __uninstall__.__doc__="""Remove this .py file from python libraries install direcotry"""
 __online__.__doc__="""Run a online compile web project server for psml"""
