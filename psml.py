@@ -1228,7 +1228,7 @@ if __name__=="__main__":
                 sys.exit()
     for i in sys.argv:
         if(i=="-h" or i=="--help"):
-            sys.exit(f"LMFS 2021 (Copyleft) PSML Compiler-Version: {__version__}\nUsage: psml <psml file> [output]\nIf you find bugs, you can send to {__author__}")
+            sys.exit(f"LMFS 2021-2022 (Copyleft) PSML Compiler-Version: {__version__}\nUsage: psml <psml file> [output]\nIf you find bugs, you can send to {__author__}")
         elif(i=="-v" or i=="--version"):
             sys.exit("LMFS PSML Compiler %s"%__version__)
     if len(sys.argv)==2:
