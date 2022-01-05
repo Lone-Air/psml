@@ -4,7 +4,7 @@ try:
     from rlcompleter import*
 except:
     print("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline")
-__version__="0.4.3"
+__version__="0.4.3.1"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings
 warnings.filterwarnings("ignore")
@@ -683,6 +683,8 @@ ControlNameError: Unknown key {repr(v)}""")
         i="&cod&".join(i.split("/"))
         codes=i.join(codes.split("["+dfl+"]"))
 
+
+    codes=''.join(sub(r"[|]([\w\W]*?)[|]","",codes))
     codes=";".join(codes.split('\n'))
     codes="}!~*;".join(codes.split("}"))
     if mode==3:
