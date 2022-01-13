@@ -1313,7 +1313,7 @@ If you find bugs, you can send to {__author__}""")
             try:
                 code+=input()+"\n"
             except EOFError:
-                sys.exit(compile(code))
+                sys.exit(compile(code,werr=w2err))
             except:
                 sys.exit()
     if len(sys.argv)==2:
