@@ -1,11 +1,11 @@
 # PSML - Python server markup language
 ---
-0.4.2:<br>
-1. Added 'psml' built-in attributes that allow code to be nested inside<br>
-2. New symbol: /.../. The usage is the same as for a string, but to separate it from the string highlight in vim
+0.4.3: <br>
+1. You can set the &lt;html ...&gt; Medium '...'. Section, using a new special built-in element: begin
 ---
 New: <br>
-1. You can set the &lt;html ...&gt; Medium '...'. Section, using a new special built-in element: begin
+1. Added compiler parameter -Werror-*: Causes the PSML compiler to think this warning should be an error
+2. The psml compiler deliberately prevents the 'insert' command from repeatedly inserting the same file, causing an endless loop.
 ---
 1. How to install: <code>python install.py</code>
 ---
