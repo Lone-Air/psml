@@ -5,7 +5,7 @@ try:
     from rlcompleter import*
 except:
     print("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline")
-__version__="0.4.4.1"
+__version__="0.4.4.2"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings
 warnings.filterwarnings("ignore")
@@ -1127,8 +1127,8 @@ Element.dats: No datas got""")
             if "unused-variables" in werr:
                 if mode==2:
                     html+=f"""<code>PSML RAIED <font color="red">A FORCE ERROR</font><br>
-MODULE <font color="green"><wh-dels+1><font><br>
-<font color="orange">   {dei}</font><br>
+MODULE <font color="green">{i}<font><br>
+<font color="orange">   i:&nbsp;{var[i]}</font><br>
 <font color="red">VariablesError: {repr(i)} never use in this scope</font></code>"""
                     return html
                 else:
