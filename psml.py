@@ -5,7 +5,7 @@ try:
     from rlcompleter import*
 except:
     print("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline")
-__version__="0.4.4"
+__version__="0.4.4.1"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings
 warnings.filterwarnings("ignore")
@@ -1260,15 +1260,6 @@ if __name__=="__main__":
     import sys,os
     w2err=[]
     realargs=[]
-    if(sys.argv==[__file__]):
-        code=""
-        while(1):
-            try:
-                code+=input()+"\n"
-            except EOFError:
-                sys.exit(compile(code))
-            except:
-                sys.exit()
     for i in sys.argv:
         if(i=="-h" or i=="--help"):
             sys.exit(f"""LMFS 2021-2022 (C) PSML Compiler-Version: {__version__}
@@ -1316,6 +1307,15 @@ If you find bugs, you can send to {__author__}""")
                 else:
                     realargs.append(i)
     sys.argv=realargs.copy()
+    if(sys.argv==[__file__]):
+        code=""
+        while(1):
+            try:
+                code+=input()+"\n"
+            except EOFError:
+                sys.exit(compile(code))
+            except:
+                sys.exit()
     if len(sys.argv)==2:
         if os.path.exists(os.path.join(os.getcwd(),sys.argv[1])):
             try:
