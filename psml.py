@@ -1132,10 +1132,10 @@ MODULE <font color="green"><wh-dels+1><font><br>
 <font color="red">VariablesError: {repr(i)} never use in this scope</font></code>"""
                     return html
                 else:
-                    print(f"""PSML RAISED \033[95;1mA FORCE ERROR\033[0m
+                    print(f"""PSML RAISED \033[91;1mA FORCE ERROR\033[0m
 VARIABLE \033[95;1m{i}\033[0m
     \033[93m{i}: {var[i]}\033[0m
-VariablesError: \033[95;1;4m{repr(i)}\033[0m never use in this scope""")
+VariablesError: \033[91;1;4m{repr(i)}\033[0m never use in this scope""")
                     return html
             else:
                 if(mode==1):
