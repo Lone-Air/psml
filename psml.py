@@ -746,7 +746,7 @@ ControlNameError: Unknown key {repr(v)}""")
                 if mode==2:
                     html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
-<font color="orange">    {i}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 SyntaxError: Invalid Syntax (Element only 1)"""
                     html+="</font></code>"
                     
@@ -774,7 +774,7 @@ SyntaxError: Invalid Syntax (Element only 1)""")
                 if mode==2:
                     html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
-<font color="orange">    {i}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 SyntaxError: Invalid Syntax (Type of element only one or zero)"""
                     html+="</font></code>"
                     
@@ -789,7 +789,7 @@ SyntaxError: Invalid Syntax (Type of element only one or zero)""")
                 if mode==2:
                     html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
-<font color="orange">    {i}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ReadyCompilingError: The length of types isn't equal to the length of elements"""
                     html+="</font></code>"
                     
@@ -810,7 +810,7 @@ ReadyCompilingError: The length of types isn't equal to the length of elements""
                 if mode==2:
                     html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
-<font color="orange">    {i}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 SyntaxError: Invalid Syntax (Need an element)"""
                     html+="</font></code>"
                 else:
@@ -869,7 +869,7 @@ Element.dats: No datas got""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
-<font color="orange">    {i}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 VariableError: {repr(VARFR)} was not declared in this scope"""
                                 html+="</font></code>"
                     
@@ -887,7 +887,7 @@ VariableError: \033[91;1;4m{repr(VARFR)}\033[0m was not declared in this scope""
                         if mode==2:
                             html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
-<font color="orange">    {i}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ELEMENT.DATAS.NAMEERROR: LENGTH OF DATA HAS SMALLER THAN 1"""
                             html+="</font></code>"
                             
@@ -999,7 +999,7 @@ ELEMENT.DATAS.NAMEERROR: LENGTH OF DATA HAS SMALLER THAN 1""")
                                     if mode==2:
                                         html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
-<font color="orange">    {i}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 VariableError: {repr(VARFR)} was not declared in this scope"""
                                         html+="</font></code>"
                     
