@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from bottle import *
 import bottle
-from psml import compile
+from PSML import compile
 from os import remove,path
 from beaker.middleware import *
 from beaker import *
