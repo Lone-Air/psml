@@ -9,6 +9,12 @@ __version__="0.4.4.2"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings
 warnings.filterwarnings("ignore")
+def tohtml(code):
+    code="&amp;".join(code.split("&"))
+    code="&nbsp;".join(code.split(" "))
+    code="&lt;".join(code.split("<"))
+    code>"&gt;".join(code.split(">"))
+    return code
 def fcompile(file,string,mode=1,werr=[]):
     html=compile(string,mode=mode,werr=[])
     file.write(html)
@@ -65,7 +71,7 @@ def compile(string,mode=1,varpre={},nobe=0,werr=[]):
                     if mode==2:
                         html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlsError: Only 1 control command"""
                         html+="</font></code>"
                         
@@ -79,7 +85,7 @@ ControlsError: Only 1 control command""")
                     if mode==2:
                         html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlsError: Need 1 control command"""
                         html+="</font></code>"
                         
@@ -99,7 +105,7 @@ ControlsError: Need 1 control command""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
@@ -113,7 +119,7 @@ ControlArgumentsError: Only 1 argument need""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
@@ -153,7 +159,7 @@ FileLoaderWarning: Duplicate reference to the same file '{n}' [\033[95;1mrepeate
                                 if mode==2:
                                     html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 FileReaderError: Failed to read {repr(n)}"""
                                     html+="</font></code>"
                                 
@@ -179,7 +185,7 @@ FileReaderError: Failed to read {repr(n)}""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
@@ -193,7 +199,7 @@ ControlArgumentsError: Only 1 argument need""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
@@ -210,7 +216,7 @@ ControlArgumentsError: Need 1 argument""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 FileReaderError: Failed to read {repr(n)}"""
                                 html+="</font></code>"
                                 
@@ -236,7 +242,7 @@ FileReaderError: Failed to read {repr(n)}""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
@@ -250,7 +256,7 @@ ControlArgumentsError: Only 1 argument need""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
@@ -276,7 +282,7 @@ ControlArgumentsError: Need 1 argument""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
@@ -290,7 +296,7 @@ ControlArgumentsError: Only 1 argument need""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
@@ -305,7 +311,7 @@ ControlArgumentsError: Need 1 argument""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 LookUpError: Unknown version {n}"""
                                 html+="</font></code>"
                                 
@@ -339,7 +345,7 @@ LookUpError: Unknown version {n}""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
@@ -353,7 +359,7 @@ ControlArgumentsError: Only 1 argument need""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
@@ -379,7 +385,7 @@ ControlArgumentsError: Need 1 argument""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
@@ -393,7 +399,7 @@ ControlArgumentsError: Only 1 argument need""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
@@ -419,7 +425,7 @@ ControlArgumentsError: Need 1 argument""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
@@ -433,7 +439,7 @@ ControlArgumentsError: Only 1 argument need""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
@@ -460,7 +466,7 @@ ControlArgumentsError: Need 1 argument""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
@@ -474,7 +480,7 @@ ControlArgumentsError: Only 1 argument need""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
@@ -501,7 +507,7 @@ ControlArgumentsError: Need 1 argument""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
@@ -517,7 +523,7 @@ ControlArgumentsError: Only 1 argument need""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
@@ -533,7 +539,7 @@ ControlArgumentsError: Need 1 argument""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Time must be a number"""
                                 html+="</font></code>"
                                 
@@ -560,7 +566,7 @@ ControlArgumentsError: Time must be a number""")
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
@@ -588,7 +594,7 @@ ControlArgumentsError: Need 1 argument""")
                     if mode==2:
                         html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{dei}</font><br><font color="red">
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlNameError: Unknown key {repr(v)}"""
                         html+="</font></code>"
                         
