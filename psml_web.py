@@ -31,7 +31,10 @@ def bin(filepath):
 def main():
     dat=request.environ.get("beaker.session")
     if dat.get("code",None)==None:
-        dat["code"]=open(os.path.dirname(__file__)+"/test.psml","r").read()
+        try:
+            dat["code"]=open(os.path.dirname(__file__)+"/test.psml","r").read()
+        except:
+            dat["code"]="/> Write your code here\n"
         dat.save()
         code=dat.get("code",None)
     else:
