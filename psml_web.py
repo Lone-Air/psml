@@ -133,4 +133,5 @@ def change():
 
 app=default_app()
 app=SessionMiddleware(app, session_opts)
-run(app=app,host="127.0.0.1")
+if __name__=="__main__":
+    run(app=app,host="127.0.0.1")

@@ -1177,7 +1177,9 @@ def __install__():
     shutil.copyfile(os.path.join(os.path.dirname(__file__),"test.psml"),os.path.join(path[1],"test.psml"))
     open(os.path.join(os.path.dirname(sys.executable),"psml"),"w").write("""#!%s
 %s"""%(sys.executable,open(__file__).read()))
+    shutil.copy(os.path.join(os.path.dirname(__file__),"psml_web.py"),os.path.join(os.path.dirname(sys.executable),"psmlweb"))
     os.chmod(os.path.join(os.path.dirname(sys.executable),"psml"),0o777)
+    os.chmod(os.path.join(os.path.dirname(sys.executable),"psmlweb"),0o777)
     return
 def __uninstall__():
     import os
