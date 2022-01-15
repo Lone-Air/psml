@@ -15,7 +15,7 @@ if exists("psml_no_doctest_highlight")
 endif
 
 syn keyword psmlBool true false
-syn keyword psmlStatment php doc html java title style script python
+syn keyword psmlStatment php doc html java title style script py
 syn keyword psmlSpecialStm begin Command
 syn keyword psmlServer route
 syn keyword psmlInnerELEM br end word-wrap
