@@ -1049,7 +1049,7 @@ VariableError: \033[91;1;4m{repr(VARFR)}\033[0m was not declared in this scope""
                         break
                     if count=="route":
                         args=tpe[ele.index(defcnt)]
-                        argl=args.split(">")
+                        argl=args.split("~")
                         argl=lclean(argl)
                         r_data=[]
                         r_argl=[]
