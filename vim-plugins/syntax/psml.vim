@@ -14,31 +14,12 @@ if exists("psml_no_doctest_highlight")
     let psml_no_doctest_highlight=1
 endif
 
-"if exists("psml_highlight_all")
-"  if exists("psml_no_builtin_highlight")
-"    unlet psml_no_builtin_highlight
-"  endif
-"  if exists("psml_no_doctest_code_highlight")
-"    unlet psml_no_doctest_code_highlight
-"  endif
-"  if exists("psml_no_doctest_highlight")
-"    unlet psml_no_doctest_highlight
-"  endif
-"  if exists("psml_no_exception_highlight")
-"    unlet psml_no_exception_highlight
-"  endif
-"  if exists("psml_no_number_highlight")
-"    unlet psml_no_number_highlight
-"  endif
-"  let psml_space_error_highlight = 1
-"endif
-
 syn keyword psmlBool true false
-syn keyword psmlStatment php doc html java title style script
-syn keyword psmlSpecialStm begin
+syn keyword psmlStatment php doc html java title style script python
+syn keyword psmlSpecialStm begin Command
+syn keyword psmlServer route
 syn keyword psmlInnerELEM br end word-wrap
 syn keyword psmlSYN inner var psml
-" syn keyword psmlSymbols &Bs& &Be& &Ms& &Me& &Se& &Ss& &sp& &is& &in& &or& &no& &ord& &voff& &von& &vuse& $< >
 
 syn region psmlSYM start=/&/ end=/&/ skip=/\\&/
 syn region psmlSTR start=/\[/ end=/\]/ skip=/\\\]/
@@ -63,3 +44,4 @@ hi psmlPCOM guifg=#37bf84
 hi psmlPVAR guifg=#00ffff
 hi psmlEType guifg=#2a87a3
 hi psmlSpecialStm guifg=#ff7700
+hi psmlServer guifg=#19cf1f

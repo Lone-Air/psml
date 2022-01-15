@@ -1,14 +1,35 @@
 #!/usr/bin/python3
+"""
+LMFS PSML Compiler (Origin)
+It's a free(libre) software
+"""
 from re import *
 import os
 try:
     from rlcompleter import*
 except:
     print("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline")
-__version__="0.4.4.2"
+__version__="0.5"
 __author__="<Lone_air_Use@outlook.com>"
-import warnings
+import warnings,traceback
+import flask
+App=flask.Flask(__name__)
 warnings.filterwarnings("ignore")
+def nox(text,x):
+    return text.strip(x)
+def ignore(text,x):
+    return "".join(text.split(x))
+def isempty(text):
+    text=ignore(text," ")
+    text=ignore(text,"\t")
+    return text==""
+def lclean(l):
+    last=[]
+    while last!=l:
+        last=l.copy()
+        for i in range(len(l)):
+            if isempty(l[i]): l.__delitem__(i)
+    return l
 def tohtml(code):
     code="&amp;".join(code.split("&"))
     code="&nbsp;".join(code.split(" "))
@@ -21,6 +42,7 @@ def fcompile(file,string,mode=1,werr=[]):
     return
 def compile(string,mode=1,varpre={},nobe=0,werr=[]):
     global html
+    routes=0
     html=""
     codes=string
     tpe=""
@@ -621,18 +643,6 @@ ControlNameError: Unknown key {repr(v)}""")
                 dels+=1
         wh+=1
     codes="\n".join(codes)
-    '''codes_=""
-    attr=False
-    for i in codes:
-        if i=="|":
-            if(attr): attr=False
-            else: attr=True
-        else:
-            if(attr):continue
-            else: codes_+=i
-    codes=codes_'''
-    #print(codes)
-    #codes=''.join(sub(r"[|]([\w\W]*?)[|]","",codes))
     tmps=findall(r"[[]([\w\W]*?)[]]",codes)
     codes="".join(codes)
     if 1:
@@ -799,8 +809,9 @@ MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ReadyCompilingError: The length of types isn't equal to the length of elements""")
                 return html
-        butn=("script", "style", "html", "java", "php", "doc", "var", "begin")
-        special=("begin")
+        butn=("script", "style", "html", "java", "php", "doc", "var", "begin", "route", "Command")
+        special=("begin", "route")
+        noarg=("Command",)
         for count in ele:
             count=sub(" ",'',str(count))
             defcnt=count
@@ -828,7 +839,7 @@ SyntaxError: Invalid Syntax (Need an element)""")
             else:
                 if not count in butn:
                     html+=f"<{count}"
-            if len(findall(r'[{](.*?)[}]',i))>0:
+            if len(findall(r'[{](.*?)[}]',i))>0 or count in noarg:
                 inner=True
                 data=findall(r'[{](.*?)[}]',i)
                 datan=data.copy()
@@ -839,12 +850,12 @@ SyntaxError: Invalid Syntax (Need an element)""")
                     ists="".join(ists.split("\t"))
                     if ists!="":
                         data.append(apd)
-                if data==[]:
+                if data==[] and count not in noarg:
                     if mode==1:
                         print(f"""PSML RAISED \033[96;1mA NOTE\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
-Element.dats: No datas got""")
+Element.dat: No data get""")
                 elem=[]
                 dats=[]
                 dts=data.copy()
@@ -878,7 +889,7 @@ VariableError: {repr(VARFR)} was not declared in this scope"""
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 VariableError: \033[91;1;4m{repr(VARFR)}\033[0m was not declared in this scope""")
-                                return html
+                            return html
                     tmp=tmp.split(":")
                     elem.append(tmp[0])
                     try:
@@ -914,6 +925,7 @@ ELEMENT.DATAS.NAMEERROR: LENGTH OF DATA HAS SMALLER THAN 1""")
                         continue
                     if datele=="word-wrap":
                         continue
+                    if count=="Command":tmp="";break
                     if count=="begin":
                         if not nobe:
                             head+=tmp
@@ -975,6 +987,30 @@ ELEMENT.DATAS.NAMEERROR: LENGTH OF DATA HAS SMALLER THAN 1""")
 {php}
 ?>""")
                         break
+                    if count=="py":
+                        if not 'inner' in elem:
+                            elem.append("inner")
+                        py_=[]
+                        for Pcode in data:
+                            py_.append(nosem(Pcode))
+                        py_="\n".join(py_)
+                        try:
+                            exec(py_)
+                        except:
+                            traceback.print_exc()
+                            if mode==2:
+                                html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+PythonCodeExecError: Python raised a fatal error"""
+                                html+="</font></code>"
+                
+                            else:
+                                 print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+PythonCodeExecError: Python raised a fatal error""")
+                            return html
                     if count=='html':
                         if not "inner" in elem:
                             elem.append("inner")
@@ -1008,9 +1044,192 @@ VariableError: {repr(VARFR)} was not declared in this scope"""
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 VariableError: \033[91;1;4m{repr(VARFR)}\033[0m was not declared in this scope""")
-                                        return html
+                                    return html
                             var[VARN]=VARV
                         break
+                    if count=="route":
+                        args=tpe[ele.index(defcnt)]
+                        argl=args.split(">")
+                        argl=lclean(argl)
+                        r_data=[]
+                        r_argl=[]
+                        if(len(argl)<2):
+                            if mode==2:
+                                html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+RouteError: Cannot get the route"""
+                                html+="</font></code>"
+                    
+                            else:
+                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+RouteError: Cannot get the route""")
+                            return html
+                        for psml in argl:
+                            psml="\n".join(psml.split("\\n"))
+                            psml="{".join(psml.split("&Bs&"))
+                            psml="}".join(psml.split("&Be&"))
+                            psml="[".join(psml.split("&Ms&"))
+                            psml="]".join(psml.split("&Me&"))
+                            psml="(".join(psml.split("&Ss&"))
+                            psml=")".join(psml.split("&Se&"))
+                            psml=";".join(psml.split("&sp&"))
+                            psml=":".join(psml.split("&is&"))
+                            psml="-".join(psml.split("&in&"))
+                            psml="!~*".join(psml.split("&-&"))
+                            psml="\n".join(psml.split("&end&"))
+                            psml="|".join(psml.split("&or&"))
+                            psml=" ".join(psml.split("&no&"))
+                            psml="#".join(psml.split("&ord&"))
+                            psml=">".join(psml.split("&voff&"))
+                            psml="<".join(psml.split("&von&"))
+                            psml="$".join(psml.split("&vuse&"))
+                            psml="/".join(psml.split("&cod&"))
+                            r_argl.append(psml)
+                        for psml in data:
+                            psml="\n".join(psml.split("\\n"))
+                            psml="{".join(psml.split("&Bs&"))
+                            psml="}".join(psml.split("&Be&"))
+                            psml="[".join(psml.split("&Ms&"))
+                            psml="]".join(psml.split("&Me&"))
+                            psml="(".join(psml.split("&Ss&"))
+                            psml=")".join(psml.split("&Se&"))
+                            psml=";".join(psml.split("&sp&"))
+                            psml=":".join(psml.split("&is&"))
+                            psml="-".join(psml.split("&in&"))
+                            psml="!~*".join(psml.split("&-&"))
+                            psml="\n".join(psml.split("&end&"))
+                            psml="|".join(psml.split("&or&"))
+                            psml=" ".join(psml.split("&no&"))
+                            psml="#".join(psml.split("&ord&"))
+                            psml=">".join(psml.split("&voff&"))
+                            psml="<".join(psml.split("&von&"))
+                            psml="$".join(psml.split("&vuse&"))
+                            psml="/".join(psml.split("&cod&"))
+                            r_data.append(psml)
+                        Rc="@App.route(%s, methods=%s)\n"%(repr(r_argl[0]), r_argl[1])
+                        Rc+="def r%d(%s):\n"%(routes,", ".join(r_argl[2:]))
+                        for Rcode in r_data:
+                            Rc+="    "+Rcode+"\n"
+                        try:
+                            exec(Rc)
+                        except:
+                            traceback.print_exc()
+                            if mode==2:
+                                html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+RouteError: Python raised a fatal error"""
+                                html+="</font></code>"
+                
+                            else:
+                                 print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+RouteError: Python raised a fatal error""")
+                            return html
+                        routes+=1
+                        break
+                if count=="Command":
+                    cmd=lclean(tpe[ele.index(defcnt)].split(" "))
+                    if len(cmd)<1:
+                        if mode==2:
+                            html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+CommandError: No command got"""
+                            html+="</font></code>"
+                
+                        else:
+                            print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+CommandError: No command got""")
+                            return html
+                    if cmd[0]=="Run":
+                        if len(cmd)<2:
+                            if mode==2:
+                                html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+ArgumentError: Argument weren't enough"""
+                                html+="</font></code>"
+                
+                            else:
+                                 print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+ArgumentError: Argument weren't enough""")
+                            return html
+                        if cmd[1]=="Server":
+                            if len(cmd)<3:
+                                try:
+                                    App.run()
+                                except:
+                                    traceback.print_exc()
+                                    if mode==2:
+                                        html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+RunServerError: Python raised a fatal error"""
+                                        html+="</font></code>"
+                
+                                    else:
+                                        print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+RunServerError: Python raised a fatal error""")
+                                        return html
+                            else:
+                                host=(stat:=cmd[2].split(":"))[0]
+                                port=stat[1]
+                                try:
+                                    App.run(host=host, port=port)
+                                except:
+                                    traceback.print_exc()
+                                    if mode==2:
+                                        html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+RunServerError: Python raised a fatal error"""
+                                        html+="</font></code>"
+                
+                                    else:
+                                        print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+RunServerError: Python raised a fatal error""")
+                                    return html
+                        else:
+                            if mode==2:
+                                html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+ArgumentError: No such argument"""
+                                html+="</font></code>"
+                    
+                            else:
+                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+ArgumentError: No such argument""")
+                            return html
+                    else:
+                        if mode==2:
+                            html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+CommandError: No such command"""
+                            html+="</font></code>"
+                    
+                        else:
+                            print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+CommandError: No such command""")
+                        return html
                     html+=tmp
                 if "psml" in elem:
                     old_html=html
@@ -1127,7 +1346,7 @@ VariableError: \033[91;1;4m{repr(VARFR)}\033[0m was not declared in this scope""
                     print(f"""PSML RAISED \033[96;1mA NOTE\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
-Element.dats: No datas got""")
+Element.dats: No data get""")
     for i in var.keys():
         if(i not in used):
             if "unused-variables" in werr:
@@ -1225,7 +1444,8 @@ string: psml code data
 ------
     Annotation:
                     
-        |Annotation Informations|
+        |Annotation Information|
+        /> Annotation Information
 ------
     Escape Identifier:
             
@@ -1246,12 +1466,6 @@ string: psml code data
         &voff&=>
         &vuse&=$
         &cod&=/
-------
-    Errors:
-            
-        SyntaxError: (Because: Elements|types|syntax)
-        ELEMENT.DATAS.NAMEERROR: (Because: length of data)
-        VariableError: (Because: Use a variable was not declared in that scope)
 ------
     Compile Programming language:
             
@@ -1319,7 +1533,7 @@ If you find bugs, you can send to {__author__}""")
         code=""
         while(1):
             try:
-                code+=input()+"\n"
+                code+=input("P> ")+"\n"
             except EOFError:
                 sys.exit(compile(code,werr=w2err))
             except:
