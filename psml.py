@@ -1247,7 +1247,8 @@ MODULE \033[95;1m{wh+1}\033[0m
 ArgumentError: Argument weren't enough""")
                             return html
                         if cmd[1]=="Page":
-                            if len(cmd)<3:html="\n".join(html.split("\\n"))
+                            if len(cmd)<3:
+                                html="\n".join(html.split("\\n"))
                                 html="{".join(html.split("&Bs&"))
                                 html="}".join(html.split("&Be&"))
                                 html="[".join(html.split("&Ms&"))
