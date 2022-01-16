@@ -1512,7 +1512,7 @@ VariablesError: \033[91;1;4m{repr(i)}\033[0m never use in this scope""")
 VARIABLE \033[95;1m{i}\033[0m
     \033[93m{i}: {var[i]}\033[0m
 VariablesWarning: \033[95;1;4m{repr(i)}\033[0m never use in this scope [\033[95;1munused-variables\033[0m]""")
-    if not nobe and not bran:
+    if not nobe and bran:
         html=head+">\n"+html
         html+="</html>"
     html="\n".join(html.split("\\n"))
