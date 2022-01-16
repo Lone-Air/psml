@@ -1247,10 +1247,46 @@ MODULE \033[95;1m{wh+1}\033[0m
 ArgumentError: Argument weren't enough""")
                             return html
                         if cmd[1]=="Page":
-                            if len(cmd)<3:
+                            if len(cmd)<3:html="\n".join(html.split("\\n"))
+                                html="{".join(html.split("&Bs&"))
+                                html="}".join(html.split("&Be&"))
+                                html="[".join(html.split("&Ms&"))
+                                html="]".join(html.split("&Me&"))
+                                html="(".join(html.split("&Ss&"))
+                                html=")".join(html.split("&Se&"))
+                                html=";".join(html.split("&sp&"))
+                                html=":".join(html.split("&is&"))
+                                html="-".join(html.split("&in&"))
+                                html="!~*".join(html.split("&-&"))
+                                html="\n".join(html.split("&end&"))
+                                html="|".join(html.split("&or&"))
+                                html=" ".join(html.split("&no&"))
+                                html="#".join(html.split("&ord&"))
+                                html=">".join(html.split("&voff&"))
+                                html="<".join(html.split("&von&"))
+                                html="$".join(html.split("&vuse&"))
+                                html="/".join(html.split("&cod&"))
                                 pages[branch]=head+">\n"+html+"</html>" if not nobe else html
                                 branch="Page"+str(pages_c)
                             else:
+                                html="{".join(html.split("&Bs&"))
+                                html="}".join(html.split("&Be&"))
+                                html="[".join(html.split("&Ms&"))
+                                html="]".join(html.split("&Me&"))
+                                html="(".join(html.split("&Ss&"))
+                                html=")".join(html.split("&Se&"))
+                                html=";".join(html.split("&sp&"))
+                                html=":".join(html.split("&is&"))
+                                html="-".join(html.split("&in&"))
+                                html="!~*".join(html.split("&-&"))
+                                html="\n".join(html.split("&end&"))
+                                html="|".join(html.split("&or&"))
+                                html=" ".join(html.split("&no&"))
+                                html="#".join(html.split("&ord&"))
+                                html=">".join(html.split("&voff&"))
+                                html="<".join(html.split("&von&"))
+                                html="$".join(html.split("&vuse&"))
+                                html="/".join(html.split("&cod&"))
                                 pages[branch]=head+">\n"+html+"</html>" if not nobe else html
                                 branch=cmd[2]
                             html=""
@@ -1287,6 +1323,24 @@ MODULE \033[95;1m{wh+1}\033[0m
 BranchError: No branch""")
                             return html
                         if(len(cmd)<2):
+                                html="{".join(html.split("&Bs&"))
+                                html="}".join(html.split("&Be&"))
+                                html="[".join(html.split("&Ms&"))
+                                html="]".join(html.split("&Me&"))
+                                html="(".join(html.split("&Ss&"))
+                                html=")".join(html.split("&Se&"))
+                                html=";".join(html.split("&sp&"))
+                                html=":".join(html.split("&is&"))
+                                html="-".join(html.split("&in&"))
+                                html="!~*".join(html.split("&-&"))
+                                html="\n".join(html.split("&end&"))
+                                html="|".join(html.split("&or&"))
+                                html=" ".join(html.split("&no&"))
+                                html="#".join(html.split("&ord&"))
+                                html=">".join(html.split("&voff&"))
+                                html="<".join(html.split("&von&"))
+                                html="$".join(html.split("&vuse&"))
+                                html="/".join(html.split("&cod&"))
                             pages[branch]=head+">\n"+html+"</html>" if not nobe else html
                             branch="Nothing"
                             bran=0
@@ -1534,6 +1588,8 @@ VariablesWarning: \033[95;1;4m{repr(i)}\033[0m never use in this scope [\033[95;
     html="<".join(html.split("&von&"))
     html="$".join(html.split("&vuse&"))
     html="/".join(html.split("&cod&"))
+    if bran:
+        pages[branch]=html
     return pages
 def __install__():
     import sys,shutil,os
