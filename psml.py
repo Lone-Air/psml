@@ -1672,6 +1672,8 @@ If you find bugs, you can send to {__author__}""")
                         sys.stderr.write(f"\033[91mfatal error\033[0m: cannot find option: {repr(temp[0])}\n")
                 else:
                     realargs.append(i)
+        else:
+            realargs.append(i)
     sys.argv=realargs.copy()
     if(sys.argv==[__file__]):
         code=""
