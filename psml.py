@@ -9,7 +9,7 @@ try:
     from rlcompleter import*
 except:
     print("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline")
-__version__="0.5.1"
+__version__="0.5.1.1"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 import flask
@@ -675,7 +675,7 @@ ControlNameError: Unknown key {repr(v)}""")
         codes="&voff&".join(codes.split("\\>"))
         codes="&von&".join(codes.split("\\<"))
         codes="&vuse&".join(codes.split("\\$"))
-        codes="&cod&".join(codes.split("\\/"))
+        codes="&cod&".join(codes.split("\\`"))
     for i in tmps:
         dfl=i
         i="&Bs&".join(i.split("{"))
@@ -695,9 +695,9 @@ ControlNameError: Unknown key {repr(v)}""")
         i="&voff&".join(i.split(">"))
         i="&von&".join(i.split("<"))
         i="&vuse&".join(i.split("$"))
-        i="&cod&".join(i.split("/"))
+        i="&cod&".join(i.split("`"))
         codes=i.join(codes.split("["+dfl+"]"))
-    tmps=findall(r"[/]([\w\W]*?)[/]",codes)
+    tmps=findall(r"[`]([\w\W]*?)[`]",codes)
     codes="".join(codes)
     if 1:
         codes="&Bs&".join(codes.split("\\{"))
@@ -715,7 +715,7 @@ ControlNameError: Unknown key {repr(v)}""")
         codes="&voff&".join(codes.split("\\>"))
         codes="&von&".join(codes.split("\\<"))
         codes="&vuse&".join(codes.split("\\$"))
-        codes="&cod&".join(codes.split("\\/"))
+        codes="&cod&".join(codes.split("\\`"))
     for i in tmps:
         dfl=i
         i="&Bs&".join(i.split("{"))
@@ -735,8 +735,8 @@ ControlNameError: Unknown key {repr(v)}""")
         i="&voff&".join(i.split(">"))
         i="&von&".join(i.split("<"))
         i="&vuse&".join(i.split("$"))
-        i="&cod&".join(i.split("/"))
-        codes=i.join(codes.split("["+dfl+"]"))
+        i="&cod&".join(i.split("`"))
+        codes=i.join(codes.split("`"+dfl+"`"))
 
 
     codes=''.join(sub(r"[|]([\w\W]*?)[|]","",codes))
@@ -1400,7 +1400,7 @@ CommandError: No such command""")
                                 psml=">".join(psml.split("&voff&"))
                                 psml="<".join(psml.split("&von&"))
                                 psml="$".join(psml.split("&vuse&"))
-                                psml="/".join(psml.split("&cod&"))
+                                psml="`".join(psml.split("&cod&"))
                                 psml+="\nCommand(End)"
                                 result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran)
                                 if(type(result)!=dict):
@@ -1441,7 +1441,7 @@ PsmlInsertRaisedError""")
                                 psml=">".join(psml.split("&voff&"))
                                 psml="<".join(psml.split("&von&"))
                                 psml="$".join(psml.split("&vuse&"))
-                                psml="/".join(psml.split("&cod&"))
+                                psml="`".join(psml.split("&cod&"))
                                 psml+="\nCommand(End)"
                                 result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran)
                                 if(type(result)!=dict):
@@ -1482,7 +1482,7 @@ PsmlInsertRaisedError""")
                                 psml=">".join(psml.split("&voff&"))
                                 psml="<".join(psml.split("&von&"))
                                 psml="$".join(psml.split("&vuse&"))
-                                psml="/".join(psml.split("&cod&"))
+                                psml="`".join(psml.split("&cod&"))
                                 psml+="\nCommand(End)"
                                 result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran)
                                 if(type(result)!=dict):
@@ -1588,7 +1588,7 @@ VariablesWarning: \033[95;1;4m{repr(i)}\033[0m never use in this scope [\033[95;
     html=">".join(html.split("&voff&"))
     html="<".join(html.split("&von&"))
     html="$".join(html.split("&vuse&"))
-    html="/".join(html.split("&cod&"))
+    html="`".join(html.split("&cod&"))
     if bran:
         pages[branch]=html
     return pages
