@@ -9,7 +9,7 @@ try:
     from rlcompleter import*
 except:
     print("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline")
-__version__="0.5.2"
+__version__="0.5.2.1"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 import flask
@@ -1751,7 +1751,7 @@ If you find bugs, you can send to {__author__}""")
                 code+=input("P> ")+"\n"
             except EOFError:
                 print("\r",end="",flush=1)
-                sys.exit(compile(code,werr=w2err),mode=1 if not comp else 3)
+                sys.exit(compile(code,werr=w2err,mode=1 if not comp else 3))
             except:
                 print("\r",end="",flush=1)
                 sys.exit()
@@ -1763,9 +1763,9 @@ If you find bugs, you can send to {__author__}""")
                 except:
                     sys.exit("\033[91mfatal error\033[0m: cannot read '%s'"%sys.argv[1])
                 try:
-                    ret=compile(code, werr=w2err)
+                    ret=compile(code, werr=w2err,mode=1 if not comp else 3)
                     if ret!=None:
-                        print(ret)
+                        sys.exit(ret)
                 except:
                     traceback.print_exc()
                     sys.exit("\033[91mfatal error\033[0m: compiling time error")
