@@ -9,7 +9,7 @@ try:
     from rlcompleter import*
 except:
     print("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline")
-__version__="0.5.1.1"
+__version__="0.5.2"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 import flask
@@ -43,14 +43,18 @@ def tohtml(code):
     return code
 def fcompile(path,string,mode=1,werr=[]):
     html=compile(string,mode=mode,werr=[])
-    try:
-        os.mkdir(path)
-    except:pass
-    for i in html.keys():
-        if i in ("Nothing", "INSERT"): continue
-        else:
-            with open(os.path.join(path,i+".html"), "w") as f:
-                f.write(html[i])
+    if mode!=3:
+        try:
+            os.mkdir(path)
+        except:pass
+        for i in html.keys():
+            if i in ("Nothing", "INSERT"): continue
+            else:
+                with open(os.path.join(path,i+".html"), "w") as f:
+                    f.write(html[i])
+    else:
+        with open(path+".compiled.psml", "w") as f:
+            f.write(html)
     return
 def compile(string,mode=1,varpre={},nobe=0,werr=[],brc="index",brc_=1):
     global html, pages, pages_c
@@ -1683,12 +1687,14 @@ if __name__=="__main__":
     import sys,os
     w2err=[]
     realargs=[]
+    comp=0
     for i in sys.argv:
         if(i=="-h" or i=="--help"):
             sys.exit(f"""LMFS 2021-2022 (C) PSML Compiler-Version: {__version__}
 Usage: psml <psml file> [output: directory name] [targets]
 Argument:
     -Werror-*       Make this warning an error for the psml compiler task
+    -c --compile    Only pretreatment psml code
     -h --help       Show help of psml
     -v --version    Show version of psml
 If you find bugs, you can send to {__author__}""")
@@ -1704,8 +1710,10 @@ If you find bugs, you can send to {__author__}""")
                     temp=temp.split("-")
                     if temp[0]=="Werror":
                         w2err.append("-".join(temp[1:]))
+                    elif temp[0]=="compile":
+                        comp=1
                     else:
-                        sys.stderr.write(f"\033[91mfatal error\033[0m: cannot find option: {repr(temp[0])}\n")
+                        sys.stderr.write(f"\033[91mfatal error\033[0m: cannot find option (--): {repr(temp[0])}\n")
                 elif i[0]=="-":
                     temp=list(i)
                     del temp[0]
@@ -1713,8 +1721,10 @@ If you find bugs, you can send to {__author__}""")
                     temp=temp.split("-")
                     if temp[0]=="Werror":
                         w2err.append("-".join(temp[1:]))
+                    elif temp[0]=="c":
+                        comp=1
                     else:
-                        sys.stderr.write(f"\033[91mfatal error\033[0m: cannot find option: {repr(temp[0])}\n")
+                        sys.stderr.write(f"\033[91mfatal error\033[0m: cannot find option (-): {repr(temp[0])}\n")
                 else:
                     realargs.append(i)
             else:
@@ -1725,8 +1735,10 @@ If you find bugs, you can send to {__author__}""")
                     temp=temp.split("-")
                     if temp[0]=="Werror":
                         w2err.append("-".join(temp[1:]))
+                    elif temp[0]=="c":
+                        comp=1
                     else:
-                        sys.stderr.write(f"\033[91mfatal error\033[0m: cannot find option: {repr(temp[0])}\n")
+                        sys.stderr.write(f"\033[91mfatal error\033[0m: cannot find option (-): {repr(temp[0])}\n")
                 else:
                     realargs.append(i)
         else:
@@ -1739,7 +1751,7 @@ If you find bugs, you can send to {__author__}""")
                 code+=input("P> ")+"\n"
             except EOFError:
                 print("\r",end="",flush=1)
-                sys.exit(compile(code,werr=w2err))
+                sys.exit(compile(code,werr=w2err),mode=1 if not comp else 3)
             except:
                 print("\r",end="",flush=1)
                 sys.exit()
@@ -1769,7 +1781,7 @@ If you find bugs, you can send to {__author__}""")
                 except:
                     sys.exit("\033[91mfatal error\033[0m: cannot read '%s'"%(sys.argv[1]))
                 try:
-                    fcompile(sys.argv[2],code)
+                    fcompile(sys.argv[2],code,mode=1 if not comp else 3)
                 except:
                     traceback.print_exc()
                     sys.exit("\033[91mfatal error\033[0m: compile failed with error")
