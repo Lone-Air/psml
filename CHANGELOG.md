@@ -1,3 +1,7 @@
+#  (2022-02-05)
+
+fix: Correct an incorrect symbol in the code
+
 #  (2022-01-18)
 
 fix: Fix terminal input code compilation error
