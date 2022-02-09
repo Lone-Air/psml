@@ -1,5 +1,9 @@
 #  (2022-02-09)
 
+fix: Fix case where 'psml' internal property returns are combined with 'Command(End)'
+
+#  (2022-02-09)
+
 fix: Fix werror cannot be used in fcompile
 feat: Added -no-*, which can be used to ignore a Command-formatted code, example: psml pages.psml -no-server
 

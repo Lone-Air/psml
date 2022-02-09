@@ -9,7 +9,7 @@ try:
     from rlcompleter import*
 except:
     print("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline")
-__version__="0.5.3"
+__version__="0.5.3.1"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 import flask
@@ -1411,7 +1411,7 @@ CommandError: No such command""")
                                 psml="<".join(psml.split("&von&"))
                                 psml="$".join(psml.split("&vuse&"))
                                 psml="`".join(psml.split("&cod&"))
-                                psml+="\nCommand(End)"
+                                psml+=";!~*\nCommand(End)"
                                 result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran,werr=werr,no=no)
                                 if(type(result)!=dict):
                                     if mode==2:
@@ -1452,7 +1452,7 @@ PsmlInsertRaisedError""")
                                 psml="<".join(psml.split("&von&"))
                                 psml="$".join(psml.split("&vuse&"))
                                 psml="`".join(psml.split("&cod&"))
-                                psml+="\nCommand(End)"
+                                psml+=";!~*\nCommand(End)"
                                 result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran,werr=werr,no=no)
                                 if(type(result)!=dict):
                                     if mode==2:
@@ -1493,7 +1493,7 @@ PsmlInsertRaisedError""")
                                 psml="<".join(psml.split("&von&"))
                                 psml="$".join(psml.split("&vuse&"))
                                 psml="`".join(psml.split("&cod&"))
-                                psml+="\nCommand(End)"
+                                psml+=";!~*\nCommand(End)"
                                 result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran,no=no,werr=werr)
                                 if(type(result)!=dict):
                                     if mode==2:
