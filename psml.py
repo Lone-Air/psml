@@ -1705,7 +1705,7 @@ Argument:
     -c --compile    Only pretreatment psml code
     -h --help       Show help of psml
     -v --version    Show version of psml
-If you find bugs, you can send to {__author__}""")
+When you find bugs, you may send it to {__author__}""")
         elif(i=="-v" or i=="--version"):
             sys.exit("LMFS PSML Compiler %s"%__version__)
         elif(len(i)>1):
@@ -1762,7 +1762,7 @@ If you find bugs, you can send to {__author__}""")
         code=""
         while(1):
             try:
-                code+=input("P> ")+"\n"
+                code+=input("PSML> ")+"\n"
             except EOFError:
                 print("\r",end="",flush=1)
                 sys.exit(compile(code,werr=w2err,mode=1 if not comp else 3,no=noc))
