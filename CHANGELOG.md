@@ -1,3 +1,8 @@
+#  (2022-02-09)
+
+fix: Fix werror cannot be used in fcompile
+feat: Added -no-*, which can be used to ignore a Command-formatted code, example: psml pages.psml -no-server
+
 #  (2022-02-05)
 
 fix: Correct an incorrect symbol in the code

@@ -9,7 +9,7 @@ try:
     from rlcompleter import*
 except:
     print("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline")
-__version__="0.5.2.2"
+__version__="0.5.3"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 import flask
@@ -41,8 +41,8 @@ def tohtml(code):
     code="&lt;".join(code.split("<"))
     code="&gt;".join(code.split(">"))
     return code
-def fcompile(path,string,mode=1,werr=[]):
-    html=compile(string,mode=mode,werr=[])
+def fcompile(path,string,mode=1,werr=[],no=[]):
+    html=compile(string,mode=mode,werr=werr,no=no)
     if mode!=3:
         try:
             os.mkdir(path)
@@ -56,7 +56,7 @@ def fcompile(path,string,mode=1,werr=[]):
         with open(path+".compiled.psml", "w") as f:
             f.write(html)
     return
-def compile(string,mode=1,varpre={},nobe=0,werr=[],brc="index",brc_=1):
+def compile(string,mode=1,varpre={},nobe=0,werr=[],brc="index",brc_=1,no=[]):
     global html, pages, pages_c
     routes=0
     html=""
@@ -1183,7 +1183,13 @@ MODULE \033[95;1m{wh+1}\033[0m
 ArgumentError: Argument weren't enough""")
                             return html
                         if cmd[1]=="Server":
-                            if len(cmd)<3:
+                            if "server" in no:
+                                if mode==1:
+                                    print(f"""PSML \033[90;1mIgnored this command\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+Ignored""")
+                            elif len(cmd)<3:
                                 try:
                                     App.run()
                                 except:
@@ -1406,7 +1412,7 @@ CommandError: No such command""")
                                 psml="$".join(psml.split("&vuse&"))
                                 psml="`".join(psml.split("&cod&"))
                                 psml+="\nCommand(End)"
-                                result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran)
+                                result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran,werr=werr,no=no)
                                 if(type(result)!=dict):
                                     if mode==2:
                                         html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
@@ -1447,7 +1453,7 @@ PsmlInsertRaisedError""")
                                 psml="$".join(psml.split("&vuse&"))
                                 psml="`".join(psml.split("&cod&"))
                                 psml+="\nCommand(End)"
-                                result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran)
+                                result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran,werr=werr,no=no)
                                 if(type(result)!=dict):
                                     if mode==2:
                                         html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
@@ -1488,7 +1494,7 @@ PsmlInsertRaisedError""")
                                 psml="$".join(psml.split("&vuse&"))
                                 psml="`".join(psml.split("&cod&"))
                                 psml+="\nCommand(End)"
-                                result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran)
+                                result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran,no=no,werr=werr)
                                 if(type(result)!=dict):
                                     if mode==2:
                                         html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
@@ -1687,6 +1693,7 @@ if __name__=="__main__":
     import sys,os
     w2err=[]
     realargs=[]
+    noc=[]
     comp=0
     for i in sys.argv:
         if(i=="-h" or i=="--help"):
@@ -1694,6 +1701,7 @@ if __name__=="__main__":
 Usage: psml <psml file> [output: directory name] [targets]
 Argument:
     -Werror-*       Make this warning an error for the psml compiler task
+    -no-*           Causes the psml interpreter to ignore the command
     -c --compile    Only pretreatment psml code
     -h --help       Show help of psml
     -v --version    Show version of psml
@@ -1710,6 +1718,8 @@ If you find bugs, you can send to {__author__}""")
                     temp=temp.split("-")
                     if temp[0]=="Werror":
                         w2err.append("-".join(temp[1:]))
+                    elif temp[0]=="no":
+                        noc.append("-".join(temp[1:]))
                     elif temp[0]=="compile":
                         comp=1
                     else:
@@ -1721,6 +1731,8 @@ If you find bugs, you can send to {__author__}""")
                     temp=temp.split("-")
                     if temp[0]=="Werror":
                         w2err.append("-".join(temp[1:]))
+                    elif temp[0]=="no":
+                        noc.append("-".join(temp[1:]))
                     elif temp[0]=="c":
                         comp=1
                     else:
@@ -1735,6 +1747,8 @@ If you find bugs, you can send to {__author__}""")
                     temp=temp.split("-")
                     if temp[0]=="Werror":
                         w2err.append("-".join(temp[1:]))
+                    elif temp[0]=="no":
+                        noc.append("-".join(temp[1:]))
                     elif temp[0]=="c":
                         comp=1
                     else:
@@ -1751,7 +1765,7 @@ If you find bugs, you can send to {__author__}""")
                 code+=input("P> ")+"\n"
             except EOFError:
                 print("\r",end="",flush=1)
-                sys.exit(compile(code,werr=w2err,mode=1 if not comp else 3))
+                sys.exit(compile(code,werr=w2err,mode=1 if not comp else 3,no=noc))
             except:
                 print("\r",end="",flush=1)
                 sys.exit()
@@ -1763,7 +1777,7 @@ If you find bugs, you can send to {__author__}""")
                 except:
                     sys.exit("\033[91mfatal error\033[0m: cannot read '%s'"%sys.argv[1])
                 try:
-                    ret=compile(code, werr=w2err,mode=1 if not comp else 3)
+                    ret=compile(code, werr=w2err,mode=1 if not comp else 3,no=noc)
                     if ret!=None:
                         sys.exit(ret)
                 except:
@@ -1781,7 +1795,7 @@ If you find bugs, you can send to {__author__}""")
                 except:
                     sys.exit("\033[91mfatal error\033[0m: cannot read '%s'"%(sys.argv[1]))
                 try:
-                    fcompile(sys.argv[2],code,mode=1 if not comp else 3)
+                    fcompile(sys.argv[2],code,mode=1 if not comp else 3,no=noc)
                 except:
                     traceback.print_exc()
                     sys.exit("\033[91mfatal error\033[0m: compile failed with error")
