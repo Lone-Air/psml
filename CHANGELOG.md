@@ -1,3 +1,7 @@
+#  (2022-02-11)
+
+fix: Fix the problem that the front-end command directly compiles the file and reports an error, and fix the element attribute combiner
+
 #  (2022-02-09)
 
 fix: Fix case where 'psml' internal property returns are combined with 'Command(End)'

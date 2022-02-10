@@ -9,7 +9,7 @@ try:
     from rlcompleter import*
 except:
     print("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline")
-__version__="0.5.3.1"
+__version__="0.5.3.2"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 import flask
@@ -1151,6 +1151,7 @@ RouteError: Python raised a fatal error""")
                             return html
                         routes+=1
                         break
+                    html+=tmp
                 if count=="Command":
                     cmd=lclean(tpe[ele.index(defcnt)].split(" "))
                     if len(cmd)<1:
@@ -1697,7 +1698,7 @@ if __name__=="__main__":
     comp=0
     for i in sys.argv:
         if(i=="-h" or i=="--help"):
-            sys.exit(f"""LMFS 2021-2022 (C) PSML Compiler-Version: {__version__}
+            sys.stderr.write(f"""LMFS 2021-2022 (C) PSML Compiler-Version: {__version__}
 Usage: psml <psml file> [output: directory name] [targets]
 Argument:
     -Werror-*       Make this warning an error for the psml compiler task
@@ -1705,9 +1706,11 @@ Argument:
     -c --compile    Only pretreatment psml code
     -h --help       Show help of psml
     -v --version    Show version of psml
-When you find bugs, you may send it to {__author__}""")
+When you find bugs, you may send it to {__author__}\n""")
+            exit()
         elif(i=="-v" or i=="--version"):
-            sys.exit("LMFS PSML Compiler %s"%__version__)
+            sys.stderr.write("LMFS PSML Compiler %s\n"%__version__)
+            exit()
         elif(len(i)>1):
             if(len(i)>2):
                 if i[0]+i[1]=="--":
@@ -1774,13 +1777,14 @@ When you find bugs, you may send it to {__author__}""")
             try:
                 try:
                     code=open(os.path.join(os.getcwd(),sys.argv[1]),"rt").read()
-                except:
+                except Exception:
                     sys.exit("\033[91mfatal error\033[0m: cannot read '%s'"%sys.argv[1])
                 try:
                     ret=compile(code, werr=w2err,mode=1 if not comp else 3,no=noc)
                     if ret!=None:
-                        sys.exit(ret)
-                except:
+                        sys.stderr.write(repr(ret)+"\n")
+                        exit()
+                except Exception:
                     traceback.print_exc()
                     sys.exit("\033[91mfatal error\033[0m: compiling time error")
             except (KeyboardInterrupt,EOFError):
@@ -1792,11 +1796,11 @@ When you find bugs, you may send it to {__author__}""")
             try:
                 try:
                     code=open(os.path.join(os.getcwd(),sys.argv[1]),"rt").read()
-                except:
+                except Exception:
                     sys.exit("\033[91mfatal error\033[0m: cannot read '%s'"%(sys.argv[1]))
                 try:
                     fcompile(sys.argv[2],code,mode=1 if not comp else 3,no=noc)
-                except:
+                except Exception:
                     traceback.print_exc()
                     sys.exit("\033[91mfatal error\033[0m: compile failed with error")
             except (KeyboardInterrupt,EOFError):
