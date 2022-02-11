@@ -1,5 +1,9 @@
 #  (2022-02-11)
 
+feat: Added '-quiet' compilation parameter to prevent all NOTE output during compilation
+
+#  (2022-02-11)
+
 fix: Fix the problem that the front-end command directly compiles the file and reports an error, and fix the element attribute combiner
 
 #  (2022-02-09)

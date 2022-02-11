@@ -9,7 +9,7 @@ try:
     from rlcompleter import*
 except:
     print("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline")
-__version__="0.5.3.2"
+__version__="0.5.4"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 import flask
@@ -41,7 +41,7 @@ def tohtml(code):
     code="&lt;".join(code.split("<"))
     code="&gt;".join(code.split(">"))
     return code
-def fcompile(path,string,mode=1,werr=[],no=[]):
+def fcompile(path,string,mode=1,werr=[],no=[],quiet=False):
     html=compile(string,mode=mode,werr=werr,no=no)
     if mode!=3:
         try:
@@ -56,7 +56,7 @@ def fcompile(path,string,mode=1,werr=[],no=[]):
         with open(path+".compiled.psml", "w") as f:
             f.write(html)
     return
-def compile(string,mode=1,varpre={},nobe=0,werr=[],brc="index",brc_=1,no=[]):
+def compile(string,mode=1,varpre={},nobe=0,werr=[],brc="index",brc_=1,no=[],quiet=False):
     global html, pages, pages_c
     routes=0
     html=""
@@ -870,7 +870,7 @@ SyntaxError: Invalid Syntax (Need an element)""")
                     if ists!="":
                         data.append(apd)
                 if data==[] and count not in noarg:
-                    if mode==1:
+                    if mode==1 and not quiet:
                         print(f"""PSML RAISED \033[96;1mA NOTE\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
@@ -1552,7 +1552,7 @@ PsmlInsertRaisedError""")
                         html+="&end&"
             else:
                 html+=">\n"
-                if mode==1:
+                if mode==1 and not quiet:
                     print(f"""PSML RAISED \033[96;1mA NOTE\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
@@ -1695,6 +1695,7 @@ if __name__=="__main__":
     w2err=[]
     realargs=[]
     noc=[]
+    qit=False
     comp=0
     for i in sys.argv:
         if(i=="-h" or i=="--help"):
@@ -1704,6 +1705,7 @@ Argument:
     -Werror-*       Make this warning an error for the psml compiler task
     -no-*           Causes the psml interpreter to ignore the command
     -c --compile    Only pretreatment psml code
+    -quiet --quiet  Block output of any NOTE
     -h --help       Show help of psml
     -v --version    Show version of psml
 When you find bugs, you may send it to {__author__}\n""")
@@ -1725,6 +1727,8 @@ When you find bugs, you may send it to {__author__}\n""")
                         noc.append("-".join(temp[1:]))
                     elif temp[0]=="compile":
                         comp=1
+                    elif temp[0]=="quiet":
+                        qit=True
                     else:
                         sys.stderr.write(f"\033[91mfatal error\033[0m: cannot find option (--): {repr(temp[0])}\n")
                 elif i[0]=="-":
@@ -1736,6 +1740,8 @@ When you find bugs, you may send it to {__author__}\n""")
                         w2err.append("-".join(temp[1:]))
                     elif temp[0]=="no":
                         noc.append("-".join(temp[1:]))
+                    elif temp[0]=="quiet":
+                        qit=True
                     elif temp[0]=="c":
                         comp=1
                     else:
@@ -1754,6 +1760,8 @@ When you find bugs, you may send it to {__author__}\n""")
                         noc.append("-".join(temp[1:]))
                     elif temp[0]=="c":
                         comp=1
+                    elif temp[0]=="quiet":
+                        qit=True
                     else:
                         sys.stderr.write(f"\033[91mfatal error\033[0m: cannot find option (-): {repr(temp[0])}\n")
                 else:
@@ -1768,7 +1776,7 @@ When you find bugs, you may send it to {__author__}\n""")
                 code+=input("PSML> ")+"\n"
             except EOFError:
                 print("\r",end="",flush=1)
-                sys.exit(compile(code,werr=w2err,mode=1 if not comp else 3,no=noc))
+                sys.exit(compile(code,werr=w2err,mode=1 if not comp else 3,no=noc,quiet=qit))
             except:
                 print("\r",end="",flush=1)
                 sys.exit()
@@ -1780,7 +1788,7 @@ When you find bugs, you may send it to {__author__}\n""")
                 except Exception:
                     sys.exit("\033[91mfatal error\033[0m: cannot read '%s'"%sys.argv[1])
                 try:
-                    ret=compile(code, werr=w2err,mode=1 if not comp else 3,no=noc)
+                    ret=compile(code, werr=w2err,mode=1 if not comp else 3,no=noc,quiet=qit)
                     if ret!=None:
                         sys.stderr.write(repr(ret)+"\n")
                         exit()
@@ -1799,7 +1807,7 @@ When you find bugs, you may send it to {__author__}\n""")
                 except Exception:
                     sys.exit("\033[91mfatal error\033[0m: cannot read '%s'"%(sys.argv[1]))
                 try:
-                    fcompile(sys.argv[2],code,mode=1 if not comp else 3,no=noc)
+                    fcompile(sys.argv[2],code,mode=1 if not comp else 3,no=noc,quiet=qit)
                 except Exception:
                     traceback.print_exc()
                     sys.exit("\033[91mfatal error\033[0m: compile failed with error")
