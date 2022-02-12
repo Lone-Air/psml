@@ -1,5 +1,9 @@
 #  (2022-02-12)
 
+fix: Fixed case where quiet compilation mode does not work in fcompile
+
+#  (2022-02-12)
+
 feat: Preprocessing commands and single-line comments no longer require top-cell writing
 
 #  (2022-02-11)

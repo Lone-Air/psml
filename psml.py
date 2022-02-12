@@ -9,7 +9,7 @@ try:
     from rlcompleter import*
 except:
     print("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline")
-__version__="0.5.5"
+__version__="0.5.5.1"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 import flask
@@ -42,7 +42,7 @@ def tohtml(code):
     code="&gt;".join(code.split(">"))
     return code
 def fcompile(path,string,mode=1,werr=[],no=[],quiet=False):
-    html=compile(string,mode=mode,werr=werr,no=no)
+    html=compile(string,mode=mode,werr=werr,no=no,quiet=quiet)
     if mode!=3:
         try:
             os.mkdir(path)
