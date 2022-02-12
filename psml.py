@@ -9,7 +9,7 @@ try:
     from rlcompleter import*
 except:
     print("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline")
-__version__="0.5.4"
+__version__="0.5.5"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 import flask
@@ -83,6 +83,8 @@ def compile(string,mode=1,varpre={},nobe=0,werr=[],brc="index",brc_=1,no=[],quie
             del codes[idx-del_]
             del_+=1
         idx+=1
+    for i in range(len(codes)):
+        codes[i]=codes[i].strip()
     cpd=0
     dels=0
     wh=0

@@ -1,3 +1,7 @@
+#  (2022-02-12)
+
+feat: Preprocessing commands and single-line comments no longer require top-cell writing
+
 #  (2022-02-11)
 
 feat: Added '-quiet' compilation parameter to prevent all NOTE output during compilation
