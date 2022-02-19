@@ -9,15 +9,20 @@ try:
     from rlcompleter import*
 except:
     print("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline")
-__version__="0.5.5.1"
+__version__="0.5.6"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
-import flask
-App=flask.Flask(__name__)
+App=None
 warnings.filterwarnings("ignore")
 html=""
 pages={}
 pages_c=0
+
+def initialize_server():
+    global App
+    import flask
+    App=flask.Flask("PSML_DEV_SERVER")
+
 def getpage(branch):
     return pages[branch]
 def nox(text,x):
@@ -41,17 +46,23 @@ def tohtml(code):
     code="&lt;".join(code.split("<"))
     code="&gt;".join(code.split(">"))
     return code
-def fcompile(path,string,mode=1,werr=[],no=[],quiet=False):
+def fcompile(path,string,mode=1,werr=[],no=[],quiet=False,keeponly="all"):
     html=compile(string,mode=mode,werr=werr,no=no,quiet=quiet)
     if mode!=3:
         try:
             os.mkdir(path)
         except:pass
-        for i in html.keys():
-            if i in ("Nothing", "INSERT"): continue
-            else:
-                with open(os.path.join(path,i+".html"), "w") as f:
-                    f.write(html[i])
+        if keeponly!="all":
+            for i in keeponly:
+                if i in list(html.keys()):
+                    with open(os.path.join(path,i+".html"), "w") as f:
+                        f.write(html[i])
+        else:
+            for i in html.keys():
+                if i in ("Nothing", "INSERT"): continue
+                else:
+                    with open(os.path.join(path,i+".html"), "w") as f:
+                        f.write(html[i])
     else:
         with open(path+".compiled.psml", "w") as f:
             f.write(html)
@@ -1193,6 +1204,7 @@ MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 Ignored""")
                             elif len(cmd)<3:
+                                initialize_server()
                                 try:
                                     App.run()
                                 except:
@@ -1211,6 +1223,7 @@ MODULE \033[95;1m{wh+1}\033[0m
 RunServerError: Python raised a fatal error""")
                                         return html
                             else:
+                                initialize_server()
                                 host=(stat:=cmd[2].split(":"))[0]
                                 port=stat[1]
                                 try:
@@ -1254,7 +1267,7 @@ ArgumentError: Argument weren't enough"""
                                 html+="</font></code>"
                 
                             else:
-                                 print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ArgumentError: Argument weren't enough""")
@@ -1699,6 +1712,7 @@ if __name__=="__main__":
     noc=[]
     qit=False
     comp=0
+    keeponly="all"
     for i in sys.argv:
         if(i=="-h" or i=="--help"):
             sys.stderr.write(f"""LMFS 2021-2022 (C) PSML Compiler-Version: {__version__}
@@ -1706,6 +1720,7 @@ Usage: psml <psml file> [output: directory name] [targets]
 Argument:
     -Werror-*       Make this warning an error for the psml compiler task
     -no-*           Causes the psml interpreter to ignore the command
+    -keeponly=*     Only the page is output after compilation
     -c --compile    Only pretreatment psml code
     -quiet --quiet  Block output of any NOTE
     -h --help       Show help of psml
@@ -1731,6 +1746,12 @@ When you find bugs, you may send it to {__author__}\n""")
                         comp=1
                     elif temp[0]=="quiet":
                         qit=True
+                    elif temp[0].split("=")[0]=="keeponly":
+                        keeponly='='.join(temp[0].split("=")[1:])
+                        keeponly=keeponly.replace(" ",  "")
+                        keeponly=keeponly.replace("\t", "")
+                        keeponly=keeponly.split(",")
+                        if "all" in keeponly: keeponly="all"
                     else:
                         sys.stderr.write(f"\033[91mfatal error\033[0m: cannot find option (--): {repr(temp[0])}\n")
                 elif i[0]=="-":
@@ -1746,6 +1767,12 @@ When you find bugs, you may send it to {__author__}\n""")
                         qit=True
                     elif temp[0]=="c":
                         comp=1
+                    elif temp[0].split("=")[0]=="keeponly":
+                        keeponly='='.join(temp[0].split("=")[1:])
+                        keeponly=keeponly.replace(" ",  "")
+                        keeponly=keeponly.replace("\t", "")
+                        keeponly=keeponly.split(",")
+                        if "all" in keeponly: keeponly="all"
                     else:
                         sys.stderr.write(f"\033[91mfatal error\033[0m: cannot find option (-): {repr(temp[0])}\n")
                 else:
@@ -1764,6 +1791,12 @@ When you find bugs, you may send it to {__author__}\n""")
                         comp=1
                     elif temp[0]=="quiet":
                         qit=True
+                    elif temp[0].split("=")[0]=="keeponly":
+                        keeponly='='.join(temp[0].split("=")[1:])
+                        keeponly=keeponly.replace(" ",  "")
+                        keeponly=keeponly.replace("\t", "")
+                        keeponly=keeponly.split(",")
+                        if "all" in keeponly: keeponly="all"
                     else:
                         sys.stderr.write(f"\033[91mfatal error\033[0m: cannot find option (-): {repr(temp[0])}\n")
                 else:
@@ -1778,7 +1811,22 @@ When you find bugs, you may send it to {__author__}\n""")
                 code+=input("PSML> ")+"\n"
             except EOFError:
                 print("\r",end="",flush=1)
-                sys.exit(compile(code,werr=w2err,mode=1 if not comp else 3,no=noc,quiet=qit))
+                PG=compile(code,werr=w2err,mode=1 if not comp else 3,no=noc,quiet=qit)
+                if keeponly!="all":
+                    if comp==3: sys.exit(PG)
+                    elif type(PG)!=dict: sys.exit(PG)
+                    else:
+                        NPG={}
+                        for P in keeponly:
+                            if P in PG:
+                                NPG[P]=PG[P]
+                            else:
+                                sys.stderr.write(f"\033[91mfatal error\033[0m: {repr(P)} isn't in the pages\n")
+                        PG=NPG.copy()
+                        sys.stdout.write(str(PG)+"\n")
+                    sys.exit()
+                else:
+                    sys.exit(PG)
             except:
                 print("\r",end="",flush=1)
                 sys.exit()
@@ -1792,7 +1840,23 @@ When you find bugs, you may send it to {__author__}\n""")
                 try:
                     ret=compile(code, werr=w2err,mode=1 if not comp else 3,no=noc,quiet=qit)
                     if ret!=None:
-                        sys.stderr.write(repr(ret)+"\n")
+                        if keeponly!="all" and comp!=3:
+                            if type(ret)!=dict:
+                                sys.stdout.write(ret+"\n")
+                            else:
+                                Nret={}
+                                for P in keeponly:
+                                    if P in ret:
+                                        Nret[P]=ret[P]
+                                    else:
+                                        sys.stderr.write(f"\033[91mfatal error\033[0m: {repr(P)} isn't in the pages\n")
+                                ret=Nret.copy()
+                                sys.stdout.write(str(ret)+"\n")
+                        else:
+                            if type(ret)==dict:
+                                sys.stdout.write(str(ret)+"\n")
+                            else:
+                                sys.stdout.write(ret+"\n")
                         exit()
                 except Exception:
                     traceback.print_exc()
@@ -1809,7 +1873,7 @@ When you find bugs, you may send it to {__author__}\n""")
                 except Exception:
                     sys.exit("\033[91mfatal error\033[0m: cannot read '%s'"%(sys.argv[1]))
                 try:
-                    fcompile(sys.argv[2],code,mode=1 if not comp else 3,no=noc,quiet=qit)
+                    fcompile(sys.argv[2],code,mode=1 if not comp else 3,no=noc,quiet=qit,keeponly=keeponly)
                 except Exception:
                     traceback.print_exc()
                     sys.exit("\033[91mfatal error\033[0m: compile failed with error")

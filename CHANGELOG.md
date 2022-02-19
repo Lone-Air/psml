@@ -1,3 +1,9 @@
+#  (2022-02-19)
+
+fix: Fix a line of code on the web side that may cause Python to report an error
+feat: Add the '-keeponly=*' compilation parameter to control the pages that are reserved only after compilation is completed ('all' means all pages are reserved, use ',' split page name)
+changed: The server function component is no longer loaded when psml is started, and the server function is initialized when the server function is called (refer to the function: initialize_server(/)).
+
 #  (2022-02-12)
 
 fix: Fixed case where quiet compilation mode does not work in fcompile

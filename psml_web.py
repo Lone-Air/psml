@@ -75,6 +75,8 @@ def change():
         codes="<".join(codes.split("&lt;"))
         codes=">".join(codes.split("&gt;"))
         html=compile(codes,mode=2)
+        if type(html)==dict:
+            html=html["index"]
         htmlELE="&lt;".join(html.split("<"))
         htmlELE="&gt;".join(htmlELE.split(">"))
         htmlELE="&nbsp".join(htmlELE.split(" "))
