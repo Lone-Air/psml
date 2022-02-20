@@ -1,5 +1,9 @@
 #  (2022-02-20)
 
+fix: Correct an error in help.
+
+#  (2022-02-20)
+
 fix: Fix the problem of using 'route' without importing 'flask' and reporting an error.
 feat: Internal elements are no longer case-limited; 'init' commands are added to initialize some functions in advance (example: command(init server)); The 'fcompile' in 'keeponly' mode outputs a 'error' if it encounters a page that does not exist, but it is not a 'fatal error', so it does not exit the compiler; New 'del' command to remove duplicate pages when compiling multiple psml files at once (example: command(del page TEST)).
 changed: The psml compiler does not start with 'psml <input> {output}' as a directed output, replaced by the '-o' option (example: psml a.psml -o b); the psml compiler is no longer restricted to compiling a single file at a time, it can compile multiple files at a time, and it can output HTML at the same time.

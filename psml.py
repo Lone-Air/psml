@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os
-__version__="0.6"
+__version__="0.6.0.1"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -1841,7 +1841,7 @@ if __name__=="__main__":
             continue
         if(i=="-h" or i=="--help" or i=="-help"):
             sys.stderr.write(f"""LMFS 2021-2022 (C) PSML Compiler-Version: {__version__}
-Usage: psml <psml file> [output: directory name] [targets]
+Usage: psml <files...> [targets]
 Argument:
     -Werror-*       Make this warning an error for the psml compiler task
     -no-*           Causes the psml interpreter to ignore the command
