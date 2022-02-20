@@ -5,9 +5,21 @@ It can reduce some of the development steps for you, so that you can complete th
 It is free(libre) software, open source under the GPL v2.0 license.
 
 ---
-1. How to install: <code>python install.py</code>
+1. How to install: <code>$ sudo python install.py</code>
 ---
 2. How to compile:<br>
-<code>psml &lt;file&gt; {output: directory name} {targets ...}</code><br>
+<code>psml &lt;file&gt; {targets...}</code><br>
+Example: <br>
+<code>
+$ cat &lt; test.psml &gt;&gt; "EOF"
+> text{
+>     inner: Hello World!
+> }
+> command(end)
+> EOF
+$ psml test.psml -o TEST
+$ ls TEST
+index.html
+</code>
 ---
 3. Feedback: Lone_air_Use@outlook.com

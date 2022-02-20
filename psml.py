@@ -5,11 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os
-try:
-    from rlcompleter import*
-except:
-    print("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline")
-__version__="0.5.6"
+__version__="0.6"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -22,6 +18,10 @@ def initialize_server():
     global App
     import flask
     App=flask.Flask("PSML_DEV_SERVER")
+
+def ERR(text):
+    if text[-1]!="\n": text+="\n"
+    sys.stderr.write(text)
 
 def getpage(branch):
     return pages[branch]
@@ -57,6 +57,8 @@ def fcompile(path,string,mode=1,werr=[],no=[],quiet=False,keeponly="all"):
                 if i in list(html.keys()):
                     with open(os.path.join(path,i+".html"), "w") as f:
                         f.write(html[i])
+                else:
+                    sys.stderr.write(f"\033[91merror\033[0m: {repr(i)} isn't in pages\n")
         else:
             for i in html.keys():
                 if i in ("Nothing", "INSERT"): continue
@@ -129,7 +131,7 @@ ControlsError: Only 1 control command"""
                         html+="</font></code>"
                         
                     else:
-                        print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                        ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlsError: Only 1 control command""")
@@ -143,7 +145,7 @@ ControlsError: Need 1 control command"""
                         html+="</font></code>"
                         
                     else:
-                        print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                        ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlsError: Need 1 control command""")
@@ -163,7 +165,7 @@ ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Only 1 argument need""")
@@ -177,7 +179,7 @@ ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Need 1 argument""")
@@ -192,14 +194,14 @@ MODULE <font color="green"><wh-dels+1><font><br>
 <font color="red"> FileLoaderError: Duplicate reference to the same file '{n}'</font></code>"""
                                     return html
                                 else:
-                                    print(f"""PSML RAISED \033[91;1mA FORCE ERROR\033[0m
+                                    ERR(f"""PSML RAISED \033[91;1mA FORCE ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 FileLoaderError: Duplicate reference to the same file '{n}'""")
                                     return html
                             else:
                                 if mode!=2:
-                                    print(f"""PSML RAISED \033[95;1mA WARNING\033[0m
+                                    ERR(f"""PSML RAISED \033[95;1mA WARNING\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 FileLoaderWarning: Duplicate reference to the same file '{n}' [\033[95;1mrepeated-insertion\033[0m]""")
@@ -217,7 +219,7 @@ FileReaderError: Failed to read {repr(n)}"""
                                     html+="</font></code>"
                                 
                                 else:
-                                    print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                    ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 FileReaderError: Failed to read {repr(n)}""")
@@ -243,7 +245,7 @@ ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Only 1 argument need""")
@@ -257,7 +259,7 @@ ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Need 1 argument""")
@@ -274,7 +276,7 @@ FileReaderError: Failed to read {repr(n)}"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 FileReaderError: Failed to read {repr(n)}""")
@@ -300,7 +302,7 @@ ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Only 1 argument need""")
@@ -314,7 +316,7 @@ ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Need 1 argument""")
@@ -340,7 +342,7 @@ ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Only 1 argument need""")
@@ -354,7 +356,7 @@ ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Need 1 argument""")
@@ -369,7 +371,7 @@ LookUpError: Unknown version {n}"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 LookUpError: Unknown version {n}""")
@@ -403,7 +405,7 @@ ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Only 1 argument need""")
@@ -417,7 +419,7 @@ ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Need 1 argument""")
@@ -443,7 +445,7 @@ ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Only 1 argument need""")
@@ -457,7 +459,7 @@ ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Need 1 argument""")
@@ -483,7 +485,7 @@ ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Only 1 argument need""")
@@ -497,7 +499,7 @@ ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Need 1 argument""")
@@ -524,7 +526,7 @@ ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Only 1 argument need""")
@@ -538,7 +540,7 @@ ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Need 1 argument""")
@@ -565,7 +567,7 @@ ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Only 1 argument need""")
@@ -581,7 +583,7 @@ ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Need 1 argument""")
@@ -597,7 +599,7 @@ ControlArgumentsError: Time must be a number"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Time must be a number""")
@@ -624,7 +626,7 @@ ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Need 1 argument""")
@@ -652,7 +654,7 @@ ControlNameError: Unknown key {repr(v)}"""
                         html+="</font></code>"
                         
                     else:
-                        print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                        ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlNameError: Unknown key {repr(v)}""")
@@ -793,7 +795,7 @@ SyntaxError: Invalid Syntax (Element only 1)"""
                     html+="</font></code>"
                     
                 else:
-                    print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                    ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 SyntaxError: Invalid Syntax (Element only 1)""")
@@ -821,7 +823,7 @@ SyntaxError: Invalid Syntax (Type of element only one or zero)"""
                     html+="</font></code>"
                     
                 else:
-                    print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                    ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 SyntaxError: Invalid Syntax (Type of element only one or zero)""")
@@ -836,19 +838,19 @@ ReadyCompilingError: The length of types isn't equal to the length of elements""
                     html+="</font></code>"
                     
                 else:
-                    print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                    ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ReadyCompilingError: The length of types isn't equal to the length of elements""")
                 return html
-        butn=("script", "style", "html", "java", "php", "doc", "var", "begin", "route", "Command")
+        butn=("script", "style", "html", "java", "php", "doc", "var", "begin", "route", "command")
         special=("begin", "route")
-        noarg=("Command",)
+        noarg=("command",)
         for count in ele:
             count=sub(" ",'',str(count))
             defcnt=count
             count=sub(";","",str(count))
-            count="".join(count.split('\t'))
+            count="".join(count.split('\t')).lower()
             if count=="":
                 if mode==2:
                     html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
@@ -857,7 +859,7 @@ MODULE <font color="green">{wh+1}</font><br>
 SyntaxError: Invalid Syntax (Need an element)"""
                     html+="</font></code>"
                 else:
-                    print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                    ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 SyntaxError: Invalid Syntax (Need an element)""")
@@ -884,7 +886,7 @@ SyntaxError: Invalid Syntax (Need an element)""")
                         data.append(apd)
                 if data==[] and count not in noarg:
                     if mode==1 and not quiet:
-                        print(f"""PSML RAISED \033[96;1mA NOTE\033[0m
+                        ERR(f"""PSML RAISED \033[96;1mA NOTE\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 Element.dat: No data get""")
@@ -917,7 +919,7 @@ VariableError: {repr(VARFR)} was not declared in this scope"""
                                 html+="</font></code>"
                     
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 VariableError: \033[91;1;4m{repr(VARFR)}\033[0m was not declared in this scope""")
@@ -935,7 +937,7 @@ ELEMENT.DATAS.NAMEERROR: LENGTH OF DATA HAS SMALLER THAN 1"""
                             html+="</font></code>"
                             
                         else:
-                            print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                            ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ELEMENT.DATAS.NAMEERROR: LENGTH OF DATA HAS SMALLER THAN 1""")
@@ -957,7 +959,7 @@ ELEMENT.DATAS.NAMEERROR: LENGTH OF DATA HAS SMALLER THAN 1""")
                         continue
                     elif datele=="word-wrap":
                         continue
-                    if count=="Command":tmp="";break
+                    if count=="command":tmp="";break
                     elif count=="begin":
                         if not nobe:
                             head+=tmp
@@ -1038,7 +1040,7 @@ PythonCodeExecError: Python raised a fatal error"""
                                 html+="</font></code>"
                 
                             else:
-                                 print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                 ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 PythonCodeExecError: Python raised a fatal error""")
@@ -1072,7 +1074,7 @@ VariableError: {repr(VARFR)} was not declared in this scope"""
                                         html+="</font></code>"
                     
                                     else:
-                                        print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                        ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 VariableError: \033[91;1;4m{repr(VARFR)}\033[0m was not declared in this scope""")
@@ -1080,92 +1082,100 @@ VariableError: \033[91;1;4m{repr(VARFR)}\033[0m was not declared in this scope""
                             var[VARN]=VARV
                         break
                     elif count=="route":
-                        args=tpe[ele.index(defcnt)]
-                        argl=args.split("~")
-                        argl=lclean(argl)
-                        r_data=[]
-                        r_argl=[]
-                        if(len(argl)<2):
-                            if mode==2:
-                                html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
+                        if "server" in no:
+                            if mode==1:
+                                ERR(f"""PSML \033[90;1mIgnored this route\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+Ignored""")
+                        else:
+                            initialize_server()
+                            args=tpe[ele.index(defcnt)]
+                            argl=args.split("~")
+                            argl=lclean(argl)
+                            r_data=[]
+                            r_argl=[]
+                            if(len(argl)<2):
+                                if mode==2:
+                                    html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 RouteError: Cannot get the route"""
-                                html+="</font></code>"
-                    
-                            else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                    html+="</font></code>"
+                        
+                                else:
+                                    ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 RouteError: Cannot get the route""")
-                            return html
-                        for psml in argl:
-                            psml="\n".join(psml.split("\\n"))
-                            psml="{".join(psml.split("&Bs&"))
-                            psml="}".join(psml.split("&Be&"))
-                            psml="[".join(psml.split("&Ms&"))
-                            psml="]".join(psml.split("&Me&"))
-                            psml="(".join(psml.split("&Ss&"))
-                            psml=")".join(psml.split("&Se&"))
-                            psml=";".join(psml.split("&sp&"))
-                            psml=":".join(psml.split("&is&"))
-                            psml="-".join(psml.split("&in&"))
-                            psml="!~*".join(psml.split("&-&"))
-                            psml="\n".join(psml.split("&end&"))
-                            psml="|".join(psml.split("&or&"))
-                            psml=" ".join(psml.split("&no&"))
-                            psml="#".join(psml.split("&ord&"))
-                            psml=">".join(psml.split("&voff&"))
-                            psml="<".join(psml.split("&von&"))
-                            psml="$".join(psml.split("&vuse&"))
-                            psml="/".join(psml.split("&cod&"))
-                            r_argl.append(psml)
-                        for psml in data:
-                            psml="\n".join(psml.split("\\n"))
-                            psml="{".join(psml.split("&Bs&"))
-                            psml="}".join(psml.split("&Be&"))
-                            psml="[".join(psml.split("&Ms&"))
-                            psml="]".join(psml.split("&Me&"))
-                            psml="(".join(psml.split("&Ss&"))
-                            psml=")".join(psml.split("&Se&"))
-                            psml=";".join(psml.split("&sp&"))
-                            psml=":".join(psml.split("&is&"))
-                            psml="-".join(psml.split("&in&"))
-                            psml="!~*".join(psml.split("&-&"))
-                            psml="\n".join(psml.split("&end&"))
-                            psml="|".join(psml.split("&or&"))
-                            psml=" ".join(psml.split("&no&"))
-                            psml="#".join(psml.split("&ord&"))
-                            psml=">".join(psml.split("&voff&"))
-                            psml="<".join(psml.split("&von&"))
-                            psml="$".join(psml.split("&vuse&"))
-                            psml="/".join(psml.split("&cod&"))
-                            r_data.append(psml)
-                        Rc="@App.route(%s, methods=%s)\n"%(repr(r_argl[0]), r_argl[1])
-                        Rc+="def r%d(%s):\n"%(routes,", ".join(r_argl[2:]))
-                        for Rcode in r_data:
-                            Rc+="    "+Rcode+"\n"
-                        try:
-                            exec(Rc)
-                        except:
-                            traceback.print_exc()
-                            if mode==2:
-                                html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
+                                return html
+                            for psml in argl:
+                                psml="\n".join(psml.split("\\n"))
+                                psml="{".join(psml.split("&Bs&"))
+                                psml="}".join(psml.split("&Be&"))
+                                psml="[".join(psml.split("&Ms&"))
+                                psml="]".join(psml.split("&Me&"))
+                                psml="(".join(psml.split("&Ss&"))
+                                psml=")".join(psml.split("&Se&"))
+                                psml=";".join(psml.split("&sp&"))
+                                psml=":".join(psml.split("&is&"))
+                                psml="-".join(psml.split("&in&"))
+                                psml="!~*".join(psml.split("&-&"))
+                                psml="\n".join(psml.split("&end&"))
+                                psml="|".join(psml.split("&or&"))
+                                psml=" ".join(psml.split("&no&"))
+                                psml="#".join(psml.split("&ord&"))
+                                psml=">".join(psml.split("&voff&"))
+                                psml="<".join(psml.split("&von&"))
+                                psml="$".join(psml.split("&vuse&"))
+                                psml="/".join(psml.split("&cod&"))
+                                r_argl.append(psml)
+                            for psml in data:
+                                psml="\n".join(psml.split("\\n"))
+                                psml="{".join(psml.split("&Bs&"))
+                                psml="}".join(psml.split("&Be&"))
+                                psml="[".join(psml.split("&Ms&"))
+                                psml="]".join(psml.split("&Me&"))
+                                psml="(".join(psml.split("&Ss&"))
+                                psml=")".join(psml.split("&Se&"))
+                                psml=";".join(psml.split("&sp&"))
+                                psml=":".join(psml.split("&is&"))
+                                psml="-".join(psml.split("&in&"))
+                                psml="!~*".join(psml.split("&-&"))
+                                psml="\n".join(psml.split("&end&"))
+                                psml="|".join(psml.split("&or&"))
+                                psml=" ".join(psml.split("&no&"))
+                                psml="#".join(psml.split("&ord&"))
+                                psml=">".join(psml.split("&voff&"))
+                                psml="<".join(psml.split("&von&"))
+                                psml="$".join(psml.split("&vuse&"))
+                                psml="/".join(psml.split("&cod&"))
+                                r_data.append(psml)
+                            Rc="@App.route(%s, methods=%s)\n"%(repr(r_argl[0]), r_argl[1])
+                            Rc+="def r%d(%s):\n"%(routes,", ".join(r_argl[2:]))
+                            for Rcode in r_data:
+                                Rc+="    "+Rcode+"\n"
+                            try:
+                                exec(Rc)
+                            except:
+                                traceback.print_exc()
+                                if mode==2:
+                                    html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 RouteError: Python raised a fatal error"""
-                                html+="</font></code>"
-                
-                            else:
-                                 print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                    html+="</font></code>"
+                    
+                                else:
+                                     ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 RouteError: Python raised a fatal error""")
-                            return html
-                        routes+=1
-                        break
+                                return html
+                            routes+=1
+                            break
                     html+=tmp
-                if count=="Command":
+                if count.lower()=="command":
                     cmd=lclean(tpe[ele.index(defcnt)].split(" "))
                     if len(cmd)<1:
                         if mode==2:
@@ -1176,12 +1186,12 @@ CommandError: No command got"""
                             html+="</font></code>"
                 
                         else:
-                            print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                            ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 CommandError: No command got""")
                             return html
-                    if cmd[0]=="Run":
+                    if cmd[0].lower()=="run":
                         if len(cmd)<2:
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
@@ -1191,15 +1201,15 @@ ArgumentError: Argument weren't enough"""
                                 html+="</font></code>"
                 
                             else:
-                                 print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                 ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ArgumentError: Argument weren't enough""")
                             return html
-                        if cmd[1]=="Server":
+                        if cmd[1].lower()=="server":
                             if "server" in no:
                                 if mode==1:
-                                    print(f"""PSML \033[90;1mIgnored this command\033[0m
+                                    ERR(f"""PSML \033[90;1mIgnored this command\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 Ignored""")
@@ -1217,7 +1227,7 @@ RunServerError: Python raised a fatal error"""
                                         html+="</font></code>"
                 
                                     else:
-                                        print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                        ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 RunServerError: Python raised a fatal error""")
@@ -1238,7 +1248,7 @@ RunServerError: Python raised a fatal error"""
                                         html+="</font></code>"
                 
                                     else:
-                                        print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                        ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 RunServerError: Python raised a fatal error""")
@@ -1252,27 +1262,120 @@ ArgumentError: No such argument"""
                                 html+="</font></code>"
                     
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ArgumentError: No such argument""")
                             return html
-                    elif cmd[0]=="New":
+                    elif cmd[0].lower()=="init":
                         if len(cmd)<2:
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
-ArgumentError: Argument weren't enough"""
+ArgumentError: Arguments weren't enough"""
                                 html+="</font></code>"
                 
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
-ArgumentError: Argument weren't enough""")
+ArgumentError: Arguments weren't enough""")
                             return html
-                        if cmd[1]=="Page":
+                        if cmd[1].lower()=="server":
+                            if "server" in no:
+                                if mode==1:
+                                    ERR(f"""PSML \033[90;1mIgnored this command\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+Ignored""")
+                            initialize_server()
+                        else:
+                            if mode==2:
+                                html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+ArgumentError: No such argument"""
+                                html+="</font></code>"
+                    
+                            else:
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+ArgumentError: No such argument""")
+                    elif cmd[0].lower()=="del":
+                        if len(cmd)<2:
+                            if mode==2:
+                                html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+ArgumentError: Arguments weren't enough"""
+                                html+="</font></code>"
+                
+                            else:
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+ArgumentError: Arguments weren't enough""")
+                        if cmd[1].lower()=="page":
+                            if len(cmd)<3:
+                                if mode==2:
+                                    html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+ArgumentError: Arguments weren't enough"""
+                                    html+="</font></code>"
+                    
+                                else:
+                                    ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+ArgumentError: Arguments weren't enough""")
+                            if cmd[2] in pages.keys():
+                                del pages[cmd[2]]
+                            else:
+                                if mode==2:
+                                    html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+DeletePageError: Nonexistent page <text color='purple'><b><u>'{cmd[2]}'</u></b></text>"""
+                                    html+="</font></code>"
+                    
+                                else:
+                                    ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+DeletePageError: Nonexistent page \033[95;1;4m'{cmd[2]}'\033[0m""")
+                        else:
+                            if mode==2:
+                                html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+ArgumentError: No such argument"""
+                                html+="</font></code>"
+                    
+                            else:
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+ArgumentError: No such argument""")
+                            return html
+                    elif cmd[0].lower()=="new":
+                        if len(cmd)<2:
+                            if mode==2:
+                                html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+ArgumentError: Arguments weren't enough"""
+                                html+="</font></code>"
+                
+                            else:
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+ArgumentError: Arguments weren't enough""")
+                            return html
+                        if cmd[1].lower()=="page":
                             if len(cmd)<3:
                                 html="\n".join(html.split("\\n"))
                                 html="{".join(html.split("&Bs&"))
@@ -1329,12 +1432,12 @@ ArgumentError: No such argument"""
                                 html+="</font></code>"
                     
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ArgumentError: No such argument""")
                             return html
-                    elif cmd[0]=="End":
+                    elif cmd[0].lower()=="end":
                         if bran==0:
                             if mode==2:
                                 html=f"""<code>PSML RAISED <font color="red">AN ERROR</font><br>
@@ -1344,7 +1447,7 @@ BranchError: No branch"""
                                 html+="</font></code>"
                     
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 BranchError: No branch""")
@@ -1382,7 +1485,7 @@ ArgumentError: No argument"""
                                 html+="</font></code>"
                     
                             else:
-                                print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ArgumentError: No argument""")
@@ -1396,7 +1499,7 @@ CommandError: No such command"""
                             html+="</font></code>"
                     
                         else:
-                            print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                            ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 CommandError: No such command""")
@@ -1438,7 +1541,7 @@ PsmlInserRaisedError"""
                                         html+="</font></code>"
                     
                                     else:
-                                        print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                        ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 PsmlInsertRaisedError""")
@@ -1479,7 +1582,7 @@ PsmlInserRaisedError"""
                                         html+="</font></code>"
                     
                                     else:
-                                        print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                        ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 PsmlInsertRaisedError""")
@@ -1520,7 +1623,7 @@ PsmlInserRaisedError"""
                                         html+="</font></code>"
                     
                                     else:
-                                        print(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
+                                        ERR(f"""PSML RAISED \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 PsmlInsertRaisedError""")
@@ -1568,7 +1671,7 @@ PsmlInsertRaisedError""")
             else:
                 html+=">\n"
                 if mode==1 and not quiet:
-                    print(f"""PSML RAISED \033[96;1mA NOTE\033[0m
+                    ERR(f"""PSML RAISED \033[96;1mA NOTE\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 Element.dats: No data get""")
@@ -1582,14 +1685,14 @@ MODULE <font color="green">{i}<font><br>
 <font color="red">VariablesError: {repr(i)} never use in this scope</font></code>"""
                     return html
                 else:
-                    print(f"""PSML RAISED \033[91;1mA FORCE ERROR\033[0m
+                    ERR(f"""PSML RAISED \033[91;1mA FORCE ERROR\033[0m
 VARIABLE \033[95;1m{i}\033[0m
     \033[93m{i}: {var[i]}\033[0m
 VariablesError: \033[91;1;4m{repr(i)}\033[0m never use in this scope""")
                     return html
             else:
                 if(mode==1):
-                    print(f"""PSML RAISED \033[95;1mA WARNING\033[0m
+                    ERR(f"""PSML RAISED \033[95;1mA WARNING\033[0m
 VARIABLE \033[95;1m{i}\033[0m
     \033[93m{i}: {var[i]}\033[0m
 VariablesWarning: \033[95;1;4m{repr(i)}\033[0m never use in this scope [\033[95;1munused-variables\033[0m]""")
@@ -1643,23 +1746,28 @@ def __online__():
     os.system("%s %s"%(sys.executable,(os.path.join(os.path.dirname(__file__),"psml_web.py"))))
     return
 
-compile.__doc__="""This help for psml
+compile.__doc__="""This is help on psml syntax
     
-string: psml code data
+string: code of psml-page
     ------
     Syntax:
                     
         Element(type|/){
                     property:value
+
+                    /> Inner property
                     end:true/false
                     br:true/false
                     word-wrap:true/false
+                    /> End of Inner property
+
+                    /> Some special elements
                     (
                                If Element=audio|video:
                                    source:src
                     )
                     (
-                               If Element=script|style|html|java|php|doc:
+                               If Element=script|style|html|java|php|doc|...:
                                    <inner code direct change to html code>
                     )
                     (
@@ -1667,7 +1775,11 @@ string: psml code data
                                    <Name of Variable>: <Value of Variable>
                                    ...
                     )
-                }(If it isn't the last element, you can write '!~*' before '}'(You don't have to write))
+                    (
+                               If Element=Command:
+                                   example: Command(Init Server)
+                    )
+                }|(If it isn't the last element, you can write '!~*' before '}'(You don't have to write, unless it's an element with no type or attribute))|
 ------
     Annotation:
                     
@@ -1706,6 +1818,10 @@ __uninstall__.__doc__="""Remove this .py file from python libraries install dire
 __online__.__doc__="""Run a online compile web project server for psml"""
 
 if __name__=="__main__":
+    try:
+        from rlcompleter import*
+    except:
+        sys.stderr.write("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline\n")
     import sys,os
     w2err=[]
     realargs=[]
@@ -1713,21 +1829,31 @@ if __name__=="__main__":
     qit=False
     comp=0
     keeponly="all"
+    save="NO!"
+    OM=False
     for i in sys.argv:
-        if(i=="-h" or i=="--help"):
+        if OM:
+            if save!="NO!":
+                sys.stderr.write("\033[91merror\033[0m: You can only export to one directory\n")
+            else:
+                save=i
+            OM=False
+            continue
+        if(i=="-h" or i=="--help" or i=="-help"):
             sys.stderr.write(f"""LMFS 2021-2022 (C) PSML Compiler-Version: {__version__}
 Usage: psml <psml file> [output: directory name] [targets]
 Argument:
     -Werror-*       Make this warning an error for the psml compiler task
     -no-*           Causes the psml interpreter to ignore the command
     -keeponly=*     Only the page is output after compilation
-    -c --compile    Only pretreatment psml code
-    -quiet --quiet  Block output of any NOTE
-    -h --help       Show help of psml
-    -v --version    Show version of psml
+    -c -compile     Only pretreatment psml code
+    -q -quiet       Block output of any NOTE
+    -o -output *    Compilation results are output to '*' ('*' is a directory name)
+    -h -help        Show help of psml
+    -v -version     Show version of psml
 When you find bugs, you may send it to {__author__}\n""")
             exit()
-        elif(i=="-v" or i=="--version"):
+        elif(i=="-v" or i=="--version" or i=="-version"):
             sys.stderr.write("LMFS PSML Compiler %s\n"%__version__)
             exit()
         elif(len(i)>1):
@@ -1752,8 +1878,10 @@ When you find bugs, you may send it to {__author__}\n""")
                         keeponly=keeponly.replace("\t", "")
                         keeponly=keeponly.split(",")
                         if "all" in keeponly: keeponly="all"
+                    elif temp[0]=="output":
+                        OM=True
                     else:
-                        sys.stderr.write(f"\033[91mfatal error\033[0m: cannot find option (--): {repr(temp[0])}\n")
+                        sys.stderr.write(f"\033[91mfatal error\033[0m: unrecognized option (--): {repr(temp[0])}\n")
                 elif i[0]=="-":
                     temp=list(i)
                     del temp[0]
@@ -1763,7 +1891,7 @@ When you find bugs, you may send it to {__author__}\n""")
                         w2err.append("-".join(temp[1:]))
                     elif temp[0]=="no":
                         noc.append("-".join(temp[1:]))
-                    elif temp[0]=="quiet":
+                    elif temp[0]=="quiet" or temp[0]=="q":
                         qit=True
                     elif temp[0]=="c":
                         comp=1
@@ -1773,8 +1901,10 @@ When you find bugs, you may send it to {__author__}\n""")
                         keeponly=keeponly.replace("\t", "")
                         keeponly=keeponly.split(",")
                         if "all" in keeponly: keeponly="all"
+                    elif temp[0]=="o" or temp[0]=="output":
+                        OM=True
                     else:
-                        sys.stderr.write(f"\033[91mfatal error\033[0m: cannot find option (-): {repr(temp[0])}\n")
+                        sys.stderr.write(f"\033[91mfatal error\033[0m: unrecognized option (-): {repr(temp[0])}\n")
                 else:
                     realargs.append(i)
             else:
@@ -1783,22 +1913,14 @@ When you find bugs, you may send it to {__author__}\n""")
                     del temp[0]
                     temp="".join(temp)
                     temp=temp.split("-")
-                    if temp[0]=="Werror":
-                        w2err.append("-".join(temp[1:]))
-                    elif temp[0]=="no":
-                        noc.append("-".join(temp[1:]))
-                    elif temp[0]=="c":
+                    if temp[0]=="c":
                         comp=1
-                    elif temp[0]=="quiet":
+                    elif temp[0]=="q":
                         qit=True
-                    elif temp[0].split("=")[0]=="keeponly":
-                        keeponly='='.join(temp[0].split("=")[1:])
-                        keeponly=keeponly.replace(" ",  "")
-                        keeponly=keeponly.replace("\t", "")
-                        keeponly=keeponly.split(",")
-                        if "all" in keeponly: keeponly="all"
+                    elif temp[0]=="o":
+                        OM=True
                     else:
-                        sys.stderr.write(f"\033[91mfatal error\033[0m: cannot find option (-): {repr(temp[0])}\n")
+                        sys.stderr.write(f"\033[91mfatal error\033[0m: unrecognized option (-): {repr(temp[0])}\n")
                 else:
                     realargs.append(i)
         else:
@@ -1811,73 +1933,96 @@ When you find bugs, you may send it to {__author__}\n""")
                 code+=input("PSML> ")+"\n"
             except EOFError:
                 print("\r",end="",flush=1)
-                PG=compile(code,werr=w2err,mode=1 if not comp else 3,no=noc,quiet=qit)
-                if keeponly!="all":
-                    if comp==3: sys.exit(PG)
-                    elif type(PG)!=dict: sys.exit(PG)
+                if save=="NO!":
+                    PG=compile(code,werr=w2err,mode=1 if not comp else 3,no=noc,quiet=qit)
+                    if keeponly!="all":
+                        if comp==3: sys.exit(PG)
+                        elif type(PG)!=dict: sys.exit(PG)
+                        else:
+                            NPG={}
+                            for P in keeponly:
+                                if P in PG:
+                                    NPG[P]=PG[P]
+                                else:
+                                    sys.stderr.write(f"\033[91merror\033[0m: {repr(P)} isn't in the pages\n")
+                            PG=NPG.copy()
+                            sys.stdout.write(str(PG)+"\n")
+                        sys.exit()
                     else:
-                        NPG={}
-                        for P in keeponly:
-                            if P in PG:
-                                NPG[P]=PG[P]
-                            else:
-                                sys.stderr.write(f"\033[91mfatal error\033[0m: {repr(P)} isn't in the pages\n")
-                        PG=NPG.copy()
-                        sys.stdout.write(str(PG)+"\n")
-                    sys.exit()
+                        sys.exit(PG)
                 else:
-                    sys.exit(PG)
+                    try:
+                        fcompile(save,code,mode=1 if not comp else 3,no=noc,quiet=qit,keeponly=keeponly)
+                    except Exception:
+                        traceback.print_exc()
+                        sys.exit("\033[91mfatal error\033[0m: compile failed with error")
+                    except KeyboardInterrupt:
+                        sys.exit("\033[91mfatal error\033[0m: compile ** break")
+                sys.exit()
             except:
                 print("\r",end="",flush=1)
                 sys.exit()
-    if len(sys.argv)==2:
-        if os.path.exists(os.path.join(os.getcwd(),sys.argv[1])):
-            try:
+    if save=="NO!":
+        for PSMLC in sys.argv:
+            if PSMLC==__file__: continue
+            if os.path.exists(PSMLC):
                 try:
-                    code=open(os.path.join(os.getcwd(),sys.argv[1]),"rt").read()
-                except Exception:
-                    sys.exit("\033[91mfatal error\033[0m: cannot read '%s'"%sys.argv[1])
-                try:
-                    ret=compile(code, werr=w2err,mode=1 if not comp else 3,no=noc,quiet=qit)
-                    if ret!=None:
-                        if keeponly!="all" and comp!=3:
-                            if type(ret)!=dict:
-                                sys.stdout.write(ret+"\n")
+                    try:
+                        with open(os.path.join(os.getcwd(),PSMLC),"rt") as F:
+                            code=F.read()
+                    except Exception:
+                        sys.stderr.write("\033[91mfatal error\033[0m: cannot read '%s'\n"%PSMLC)
+                        sys.exit()
+                    try:
+                        ret=compile(code, werr=w2err,mode=1 if not comp else 3,no=noc,quiet=qit)
+                        if ret!=None:
+                            if keeponly!="all" and comp!=3:
+                                if type(ret)!=dict:
+                                    sys.stdout.write(ret+"\n")
+                                else:
+                                    Nret={}
+                                    for P in keeponly:
+                                        if P in ret:
+                                            Nret[P]=ret[P]
+                                        else:
+                                            sys.stderr.write(f"\033[91merror\033[0m: {repr(P)} isn't in the pages\n")
+                                    ret=Nret.copy()
+                                    sys.stdout.write(str(ret)+"\n")
                             else:
-                                Nret={}
-                                for P in keeponly:
-                                    if P in ret:
-                                        Nret[P]=ret[P]
-                                    else:
-                                        sys.stderr.write(f"\033[91mfatal error\033[0m: {repr(P)} isn't in the pages\n")
-                                ret=Nret.copy()
-                                sys.stdout.write(str(ret)+"\n")
-                        else:
-                            if type(ret)==dict:
-                                sys.stdout.write(str(ret)+"\n")
-                            else:
-                                sys.stdout.write(ret+"\n")
-                        exit()
-                except Exception:
-                    traceback.print_exc()
-                    sys.exit("\033[91mfatal error\033[0m: compiling time error")
-            except (KeyboardInterrupt,EOFError):
-                sys.exit("\033[91mfatal error\033[0m: compile ** break")
-        else:
-            sys.exit("\033[91mfatal error\033[0m: cannot find '%s'"%sys.argv[1])
-    if len(sys.argv)==3:
-        if os.path.exists(os.path.join(os.getcwd(),sys.argv[1])):
-            try:
+                                if type(ret)==dict:
+                                    sys.stdout.write(str(ret)+"\n")
+                                else:
+                                    sys.stdout.write(ret+"\n")
+                    except Exception:
+                        traceback.print_exc()
+                        sys.stderr.write("\033[91mfatal error\033[0m: an error occurred while compiling\n")
+                        sys.exit()
+                except (KeyboardInterrupt,EOFError):
+                    sys.stderr.write("\033[91mfatal error\033[0m: compile ** break\n")
+                    sys.exit()
+            else:
+                sys.stderr.write("\033[91mfatal error\033[0m: no such file or directory '%s'\n"%PSMLC)
+                sys.exit()
+    else:
+        for PSMLC in sys.argv:
+            if PSMLC==__file__: continue
+            if os.path.exists(PSMLC):
                 try:
-                    code=open(os.path.join(os.getcwd(),sys.argv[1]),"rt").read()
-                except Exception:
-                    sys.exit("\033[91mfatal error\033[0m: cannot read '%s'"%(sys.argv[1]))
-                try:
-                    fcompile(sys.argv[2],code,mode=1 if not comp else 3,no=noc,quiet=qit,keeponly=keeponly)
-                except Exception:
-                    traceback.print_exc()
-                    sys.exit("\033[91mfatal error\033[0m: compile failed with error")
-            except (KeyboardInterrupt,EOFError):
-                sys.exit("\033[91mfatal error\033[0m: compile ** break")
-        else:
-            sys.exit("\033[91mfatal error\033[0m: cannot find '%s'"%sys.argv[1])
+                    try:
+                        with open(os.path.join(os.getcwd(),PSMLC),"rt") as F:
+                            code=F.read()
+                    except Exception:
+                        sys.stderr.write("\033[91mfatal error\033[0m: cannot read '%s'"%(PSMLC))
+                        sys.exit()
+                    try:
+                        fcompile(save,code,mode=1 if not comp else 3,no=noc,quiet=qit,keeponly=keeponly)
+                    except Exception:
+                        traceback.print_exc()
+                        sys.stderr.write("\033[91mfatal error\033[0m: an error occurred while compiling\n")
+                        sys.exit()
+                except (KeyboardInterrupt,EOFError):
+                    sys.stderr.write("\033[91mfatal error\033[0m: compile ** break\n")
+                    sys.exit()
+            else:
+                sys.stderr.write("\033[91mfatal error\033[0m: no such file or directory '%s'\n"%PSMLC)
+                sys.exit()
