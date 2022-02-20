@@ -14,9 +14,9 @@ It is free(libre) software, open source under the GPL v2.0 license.
 <code>psml &lt;file&gt; {targets...}</code><br>
 Example: <br>
 <code>
-$ cat &lt; test.psml &gt;&gt; "EOF"<br>
+$ cat &gt; test.psml &lt;&lt; "EOF"<br>
 > text{<br>
->     inner: Hello World!<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;inner: Hello World!<br>
 > }<br>
 > command(end)<br>
 > EOF<br>
