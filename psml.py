@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os
-__version__="0.6.0.1"
+__version__="0.6.0.2"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -1088,6 +1088,7 @@ VariableError: \033[91;1;4m{repr(VARFR)}\033[0m was not declared in this scope""
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 Ignored""")
+                            break
                         else:
                             initialize_server()
                             args=tpe[ele.index(defcnt)]

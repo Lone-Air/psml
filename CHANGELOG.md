@@ -1,5 +1,9 @@
 #  (2022-02-20)
 
+fix: Fix not truncating loop when route is ignored
+
+#  (2022-02-20)
+
 fix: Correct an error in help.
 
 #  (2022-02-20)
