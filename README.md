@@ -5,8 +5,11 @@ It can reduce some of the development steps for you, so that you can complete th
 It is free(libre) software, open source under the GPL v2.0 license.
 
 ---
+
 1. How to install: <code>$ sudo python install.py</code>
+
 ---
+
 2. How to compile:<br>
 <code>psml &lt;file&gt; {targets...}</code><br>
 Example: <br>
@@ -20,6 +23,8 @@ $ cat &lt; test.psml &gt;&gt; "EOF"<br>
 $ psml test.psml -o TEST<br>
 $ ls TEST<br>
 index.html
-</code>
+</code><br>
+
 ---
+
 3. Feedback: Lone_air_Use@outlook.com
