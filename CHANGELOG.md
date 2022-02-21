@@ -1,3 +1,10 @@
+#  (2022-02-21)
+
+fix: Fix the problem that the preprocessing mode cannot run normally; fix the problem that the command line reference compiler reports an error
+feat: Added '-mode' option to set the compilation mode for foreground compilation; added skip preprocessor operation mode (mode id: 4)
+changed: Modify the '-c' parameter processing logic
+removed: The rest of the criteria for not using the 'comp' variable as a preprocessing mode
+
 #  (2022-02-20)
 
 fix: Fix not truncating loop when route is ignored

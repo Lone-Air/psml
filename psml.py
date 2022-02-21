@@ -4,8 +4,8 @@ LMFS PSML Compiler (Origin)
 It's a free(libre) software
 """
 from re import *
-import os
-__version__="0.6.0.2"
+import os,sys
+__version__="0.6.1"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -89,21 +89,23 @@ def compile(string,mode=1,varpre={},nobe=0,werr=[],brc="index",brc_=1,no=[],quie
     del_=0
     codes_=codes.copy()
     alload=[]
-    for i in codes_:
-        i=sub("\t","",i)
-        i=sub(" ","",i)
-        if(i==""):
-            del codes[idx-del_]
-            del_+=1
-        idx+=1
-    for i in range(len(codes)):
-        codes[i]=codes[i].strip()
+    if mode!=4:
+        for i in codes_:
+            i=sub("\t","",i)
+            i=sub(" ","",i)
+            if(i==""):
+                del codes[idx-del_]
+                del_+=1
+            idx+=1
+        for i in range(len(codes)):
+            codes[i]=codes[i].strip()
     cpd=0
     dels=0
     wh=0
     var=varpre
     used=[]
     for i in codes:
+        if mode==4: break
         dei=i
         if "".join("".join(dei.split(" ")).split("\t"))=="":
             del codes[wh-dels]
@@ -663,6 +665,7 @@ ControlNameError: Unknown key {repr(v)}""")
     dels=0
     wh=0
     for obj in codes:
+        if mode==4: break
         if len(obj)>=2:
             if obj[0]+obj[1]=="/>":
                 del codes[wh-dels]
@@ -676,9 +679,9 @@ ControlNameError: Unknown key {repr(v)}""")
                 dels+=1
         wh+=1
     codes="\n".join(codes)
-    tmps=findall(r"[[]([\w\W]*?)[]]",codes)
-    codes="".join(codes)
-    if 1:
+    if mode!=4:
+        tmps=findall(r"[[]([\w\W]*?)[]]",codes)
+        codes="".join(codes)
         codes="&Bs&".join(codes.split("\\{"))
         codes="&Be&".join(codes.split("\\}"))
         codes="&Ms&".join(codes.split("\\["))
@@ -695,30 +698,29 @@ ControlNameError: Unknown key {repr(v)}""")
         codes="&von&".join(codes.split("\\<"))
         codes="&vuse&".join(codes.split("\\$"))
         codes="&cod&".join(codes.split("\\`"))
-    for i in tmps:
-        dfl=i
-        i="&Bs&".join(i.split("{"))
-        i="&Be&".join(i.split("}"))
-        i="&Ms&".join(i.split("["))
-        i="&Me&".join(i.split("]"))
-        i="&Se&".join(i.split(")"))
-        i="&Ss&".join(i.split("("))
-        i="&sp&".join(i.split(";"))
-        i="&is&".join(i.split(":"))
-        i="&in&".join(i.split("-"))
-        i="&-&".join(i.split("!~*"))
-        i="&end&".join(i.split("\n"))
-        i="&or&".join(i.split("|"))
-        i="&no&".join(i.split(" "))
-        i="&ord&".join(i.split("#"))
-        i="&voff&".join(i.split(">"))
-        i="&von&".join(i.split("<"))
-        i="&vuse&".join(i.split("$"))
-        i="&cod&".join(i.split("`"))
-        codes=i.join(codes.split("["+dfl+"]"))
-    tmps=findall(r"[`]([\w\W]*?)[`]",codes)
-    codes="".join(codes)
-    if 1:
+        for i in tmps:
+            dfl=i
+            i="&Bs&".join(i.split("{"))
+            i="&Be&".join(i.split("}"))
+            i="&Ms&".join(i.split("["))
+            i="&Me&".join(i.split("]"))
+            i="&Se&".join(i.split(")"))
+            i="&Ss&".join(i.split("("))
+            i="&sp&".join(i.split(";"))
+            i="&is&".join(i.split(":"))
+            i="&in&".join(i.split("-"))
+            i="&-&".join(i.split("!~*"))
+            i="&end&".join(i.split("\n"))
+            i="&or&".join(i.split("|"))
+            i="&no&".join(i.split(" "))
+            i="&ord&".join(i.split("#"))
+            i="&voff&".join(i.split(">"))
+            i="&von&".join(i.split("<"))
+            i="&vuse&".join(i.split("$"))
+            i="&cod&".join(i.split("`"))
+            codes=i.join(codes.split("["+dfl+"]"))
+        tmps=findall(r"[`]([\w\W]*?)[`]",codes)
+        codes="".join(codes)
         codes="&Bs&".join(codes.split("\\{"))
         codes="&Be&".join(codes.split("\\}"))
         codes="&Ms&".join(codes.split("\\["))
@@ -735,33 +737,33 @@ ControlNameError: Unknown key {repr(v)}""")
         codes="&von&".join(codes.split("\\<"))
         codes="&vuse&".join(codes.split("\\$"))
         codes="&cod&".join(codes.split("\\`"))
-    for i in tmps:
-        dfl=i
-        i="&Bs&".join(i.split("{"))
-        i="&Be&".join(i.split("}"))
-        i="&Ms&".join(i.split("["))
-        i="&Me&".join(i.split("]"))
-        i="&Se&".join(i.split(")"))
-        i="&Ss&".join(i.split("("))
-        i="&sp&".join(i.split(";"))
-        i="&is&".join(i.split(":"))
-        i="&in&".join(i.split("-"))
-        i="&-&".join(i.split("!~*"))
-        i="&end&".join(i.split("\n"))
-        i="&or&".join(i.split("|"))
-        i="&no&".join(i.split(" "))
-        i="&ord&".join(i.split("#"))
-        i="&voff&".join(i.split(">"))
-        i="&von&".join(i.split("<"))
-        i="&vuse&".join(i.split("$"))
-        i="&cod&".join(i.split("`"))
-        codes=i.join(codes.split("`"+dfl+"`"))
+        for i in tmps:
+            dfl=i
+            i="&Bs&".join(i.split("{"))
+            i="&Be&".join(i.split("}"))
+            i="&Ms&".join(i.split("["))
+            i="&Me&".join(i.split("]"))
+            i="&Se&".join(i.split(")"))
+            i="&Ss&".join(i.split("("))
+            i="&sp&".join(i.split(";"))
+            i="&is&".join(i.split(":"))
+            i="&in&".join(i.split("-"))
+            i="&-&".join(i.split("!~*"))
+            i="&end&".join(i.split("\n"))
+            i="&or&".join(i.split("|"))
+            i="&no&".join(i.split(" "))
+            i="&ord&".join(i.split("#"))
+            i="&voff&".join(i.split(">"))
+            i="&von&".join(i.split("<"))
+            i="&vuse&".join(i.split("$"))
+            i="&cod&".join(i.split("`"))
+            codes=i.join(codes.split("`"+dfl+"`"))
 
-
-    codes=''.join(sub(r"[|]([\w\W]*?)[|]","",codes))
-    codes=";".join(codes.split('\n'))
-    codes="}!~*;".join(codes.split("}"))
-    codes=")!~*;".join(codes.split(");"))
+    if mode!=4:
+        codes=''.join(sub(r"[|]([\w\W]*?)[|]","",codes))
+        codes=";".join(codes.split('\n'))
+        codes="}!~*;".join(codes.split("}"))
+        codes=")!~*;".join(codes.split(");"))
     if mode==3:
         return codes
     tmps=codes.split("!~*;").copy()
@@ -1828,7 +1830,7 @@ if __name__=="__main__":
     realargs=[]
     noc=[]
     qit=False
-    comp=0
+    _M=1
     keeponly="all"
     save="NO!"
     OM=False
@@ -1842,16 +1844,24 @@ if __name__=="__main__":
             continue
         if(i=="-h" or i=="--help" or i=="-help"):
             sys.stderr.write(f"""LMFS 2021-2022 (C) PSML Compiler-Version: {__version__}
-Usage: psml <files...> [targets]
+Usage: psml <files...> [targets...]
 Argument:
     -Werror-*       Make this warning an error for the psml compiler task
     -no-*           Causes the psml interpreter to ignore the command
     -keeponly=*     Only the page is output after compilation
-    -c -compile     Only pretreatment psml code
+    -c -compile     Only pretreatment psml code (same effect as '-mode=3 ')
     -q -quiet       Block output of any NOTE
     -o -output *    Compilation results are output to '*' ('*' is a directory name)
+    -mode=1|2|3|4   Set the compilation mode
     -h -help        Show help of psml
     -v -version     Show version of psml
+
+Mode:
+    1: Normal compile mode
+    2: Web Page Embedded Compiler Mode
+    3: Run the preprocessor only (you can use the '-c' parameter directly)
+    4: Compile without running the preprocessor
+
 When you find bugs, you may send it to {__author__}\n""")
             exit()
         elif(i=="-v" or i=="--version" or i=="-version"):
@@ -1870,7 +1880,7 @@ When you find bugs, you may send it to {__author__}\n""")
                     elif temp[0]=="no":
                         noc.append("-".join(temp[1:]))
                     elif temp[0]=="compile":
-                        comp=1
+                        _M=3
                     elif temp[0]=="quiet":
                         qit=True
                     elif temp[0].split("=")[0]=="keeponly":
@@ -1879,10 +1889,21 @@ When you find bugs, you may send it to {__author__}\n""")
                         keeponly=keeponly.replace("\t", "")
                         keeponly=keeponly.split(",")
                         if "all" in keeponly: keeponly="all"
+                    elif temp[0].split("=")[0]=="mode":
+                        _M='='.join(temp[0].split("=")[1:])
+                        _M=_M.replace(" ",  "")
+                        _M=_M.replace("\t", "")
+                        try:
+                            _M=int(_M)
+                            if _M<1 or _M>4: raise ValueError("Must be a number from 1 to 4")
+                        except:
+                            sys.stderr.write(f"\033[91mfatal error\033[0m: compile mode must be a number from 1 to 4")
+                            exit()
                     elif temp[0]=="output":
                         OM=True
                     else:
                         sys.stderr.write(f"\033[91mfatal error\033[0m: unrecognized option (--): {repr(temp[0])}\n")
+                        exit()
                 elif i[0]=="-":
                     temp=list(i)
                     del temp[0]
@@ -1895,13 +1916,23 @@ When you find bugs, you may send it to {__author__}\n""")
                     elif temp[0]=="quiet" or temp[0]=="q":
                         qit=True
                     elif temp[0]=="c":
-                        comp=1
+                        _M=3
                     elif temp[0].split("=")[0]=="keeponly":
                         keeponly='='.join(temp[0].split("=")[1:])
                         keeponly=keeponly.replace(" ",  "")
                         keeponly=keeponly.replace("\t", "")
                         keeponly=keeponly.split(",")
                         if "all" in keeponly: keeponly="all"
+                    elif temp[0].split("=")[0]=="mode":
+                        _M='='.join(temp[0].split("=")[1:])
+                        _M=_M.replace(" ",  "")
+                        _M=_M.replace("\t", "")
+                        try:
+                            _M=int(_M)
+                            if _M<1 or _M>4: raise ValueError("Must be a number from 1 to 4")
+                        except:
+                            sys.stderr.write(f"\033[91mfatal error\033[0m: compile mode must be a number from 1 to 4")
+                            exit()
                     elif temp[0]=="o" or temp[0]=="output":
                         OM=True
                     else:
@@ -1915,7 +1946,7 @@ When you find bugs, you may send it to {__author__}\n""")
                     temp="".join(temp)
                     temp=temp.split("-")
                     if temp[0]=="c":
-                        comp=1
+                        _M=3
                     elif temp[0]=="q":
                         qit=True
                     elif temp[0]=="o":
@@ -1935,9 +1966,9 @@ When you find bugs, you may send it to {__author__}\n""")
             except EOFError:
                 print("\r",end="",flush=1)
                 if save=="NO!":
-                    PG=compile(code,werr=w2err,mode=1 if not comp else 3,no=noc,quiet=qit)
+                    PG=compile(code,werr=w2err,mode=_M,no=noc,quiet=qit)
                     if keeponly!="all":
-                        if comp==3: sys.exit(PG)
+                        if _M==3: sys.exit(PG)
                         elif type(PG)!=dict: sys.exit(PG)
                         else:
                             NPG={}
@@ -1953,7 +1984,7 @@ When you find bugs, you may send it to {__author__}\n""")
                         sys.exit(PG)
                 else:
                     try:
-                        fcompile(save,code,mode=1 if not comp else 3,no=noc,quiet=qit,keeponly=keeponly)
+                        fcompile(save,code,mode=_M,no=noc,quiet=qit,keeponly=keeponly)
                     except Exception:
                         traceback.print_exc()
                         sys.exit("\033[91mfatal error\033[0m: compile failed with error")
@@ -1975,9 +2006,9 @@ When you find bugs, you may send it to {__author__}\n""")
                         sys.stderr.write("\033[91mfatal error\033[0m: cannot read '%s'\n"%PSMLC)
                         sys.exit()
                     try:
-                        ret=compile(code, werr=w2err,mode=1 if not comp else 3,no=noc,quiet=qit)
+                        ret=compile(code, werr=w2err,mode=_M,no=noc,quiet=qit)
                         if ret!=None:
-                            if keeponly!="all" and comp!=3:
+                            if keeponly!="all" and _M!=3:
                                 if type(ret)!=dict:
                                     sys.stdout.write(ret+"\n")
                                 else:
@@ -2016,7 +2047,7 @@ When you find bugs, you may send it to {__author__}\n""")
                         sys.stderr.write("\033[91mfatal error\033[0m: cannot read '%s'"%(PSMLC))
                         sys.exit()
                     try:
-                        fcompile(save,code,mode=1 if not comp else 3,no=noc,quiet=qit,keeponly=keeponly)
+                        fcompile(save,code,mode=_M,no=noc,quiet=qit,keeponly=keeponly)
                     except Exception:
                         traceback.print_exc()
                         sys.stderr.write("\033[91mfatal error\033[0m: an error occurred while compiling\n")
