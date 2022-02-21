@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.6.1"
+__version__="0.6.1.1"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -678,6 +678,19 @@ ControlNameError: Unknown key {repr(v)}""")
                 del codes[wh-dels]
                 dels+=1
         wh+=1
+
+
+    # This is the part that cannot be ignored, otherwise it will not compile properly!!!
+    if mode==4:
+        dels=0
+        wh=0
+        for obj in codes:
+            if "".join("".join(obj.split(" ")).split("\t"))=="":
+                del codes[wh-dels+1]
+                dels+=1
+    # end
+
+
     codes="\n".join(codes)
     if mode!=4:
         tmps=findall(r"[[]([\w\W]*?)[]]",codes)

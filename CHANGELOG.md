@@ -1,5 +1,9 @@
 #  (2022-02-21)
 
+fiz: Fix element error generation problem in '4' mode
+
+#  (2022-02-21)
+
 fix: Fix the problem that the preprocessing mode cannot run normally; fix the problem that the command line reference compiler reports an error
 feat: Added '-mode' option to set the compilation mode for foreground compilation; added skip preprocessor operation mode (mode id: 4)
 changed: Modify the '-c' parameter processing logic
