@@ -1,3 +1,14 @@
+## 0.6.1.3 - 2022-02-22
+
+### Feature
+
+* Added an feature (XD).
+
+### Refactored
+
+* The format of CHANGELOG.md is improved.
+* The psml compiler help information now exists as a separate function.
+
 #  (2022-02-21)
 
 fix: Fix a code that will throws an error.

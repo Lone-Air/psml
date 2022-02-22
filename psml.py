@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.6.1.2"
+__version__="0.6.1.3"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -13,6 +13,30 @@ warnings.filterwarnings("ignore")
 html=""
 pages={}
 pages_c=0
+
+def _P_Help():
+    sys.stderr.write(f"""LMFS 2021-2022 (C) PSML Compiler-Version: {__version__}
+Usage: psml <files...> [targets...]
+Argument:
+    -Werror-*       Make this warning an error for the psml compiler task
+    -no-*           Causes the psml interpreter to ignore the command
+    -keeponly=*     Only the page is output after compilation
+    -c -compile     Only pretreatment psml code (same effect as '-mode=3')
+    -q -quiet       Block output of any NOTE
+    -o -output *    Compilation results are output to '*' ('*' is a directory name)
+    -mode=1|2|3|4   Set the compilation mode
+    -h -help        Show help of psml
+    -v -version     Show version of psml
+
+Mode:
+    1: Normal compile mode
+    2: Web Page Embedded Compiler Mode
+    3: Run the preprocessor only (you can use the '-c' parameter directly)
+    4: Compile without running the preprocessor
+
+                        \033[1m This compiler tool has a super \033[1;4mPlayability (XD)\033[0m
+
+When you find bugs, you may send it to {__author__}\n""")
 
 def initialize_server():
     global App
@@ -1858,26 +1882,7 @@ if __name__=="__main__":
             OM=False
             continue
         if(i=="-h" or i=="--help" or i=="-help"):
-            sys.stderr.write(f"""LMFS 2021-2022 (C) PSML Compiler-Version: {__version__}
-Usage: psml <files...> [targets...]
-Argument:
-    -Werror-*       Make this warning an error for the psml compiler task
-    -no-*           Causes the psml interpreter to ignore the command
-    -keeponly=*     Only the page is output after compilation
-    -c -compile     Only pretreatment psml code (same effect as '-mode=3 ')
-    -q -quiet       Block output of any NOTE
-    -o -output *    Compilation results are output to '*' ('*' is a directory name)
-    -mode=1|2|3|4   Set the compilation mode
-    -h -help        Show help of psml
-    -v -version     Show version of psml
-
-Mode:
-    1: Normal compile mode
-    2: Web Page Embedded Compiler Mode
-    3: Run the preprocessor only (you can use the '-c' parameter directly)
-    4: Compile without running the preprocessor
-
-When you find bugs, you may send it to {__author__}\n""")
+            _P_Help()
             exit()
         elif(i=="-v" or i=="--version" or i=="-version"):
             sys.stderr.write("LMFS PSML Compiler %s\n"%__version__)
