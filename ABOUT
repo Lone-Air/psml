@@ -1,6 +1,11 @@
             LMFS PSML-Python Server Markup Language
     PSML: Python Server Markup Language
     Made with: Python3
+    
+    This is LMFS-PSML Compiler. It has a built-in staging server and can compile one psml file into many usable HTML pages.
+    It can reduce some of the development steps for you, so that you can complete the front-end development faster.
+    It is free(libre) software, open source under the GPL v2.0 license.
+    
     It's a free software by LMFS. Open source on https://github.com/Lone-Air/psml (LICENSE: GPLv2)
     A simple web language. Some syntax of psml in python shell:
         import psml

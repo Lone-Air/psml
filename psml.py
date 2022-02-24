@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.6.1.3"
+__version__="0.6.1.4"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -15,8 +15,13 @@ pages={}
 pages_c=0
 
 def _P_Help():
-    sys.stderr.write(f"""LMFS 2021-2022 (C) PSML Compiler-Version: {__version__}
+    sys.stderr.write(f"""LMFS 2021-2022 (C) PSML Compiler-Version: \033[92m{__version__}\033[0m
 Usage: psml <files...> [targets...]
+
+This is LMFS-PSML Compiler. It has a built-in staging server and can compile one psml file into many usable HTML pages.
+It can reduce some of the development steps for you, so that you can complete the front-end development faster.
+It is free(libre) software, open source under the GPL v2.0 license.
+
 Argument:
     -Werror-*       Make this warning an error for the psml compiler task
     -no-*           Causes the psml interpreter to ignore the command
@@ -34,9 +39,9 @@ Mode:
     3: Run the preprocessor only (you can use the '-c' parameter directly)
     4: Compile without running the preprocessor
 
-                        \033[1m This compiler tool has a super \033[1;4mPlayability (XD)\033[0m
+                        \033[1m This compiler tool has a super \033[1;4;93mPlayability (XD)\033[0m
 
-When you find bugs, you may send it to {__author__}\n""")
+When you find bugs, you may report it to \033[92m{__author__}\033[0m\n""")
 
 def initialize_server():
     global App
@@ -1957,6 +1962,7 @@ if __name__=="__main__":
                         OM=True
                     else:
                         sys.stderr.write(f"\033[91mfatal error\033[0m: unrecognized option (-): {repr(temp[0])}\n")
+                        sys.exit()
                 else:
                     realargs.append(i)
             else:
@@ -1973,6 +1979,7 @@ if __name__=="__main__":
                         OM=True
                     else:
                         sys.stderr.write(f"\033[91mfatal error\033[0m: unrecognized option (-): {repr(temp[0])}\n")
+                        sys.exit()
                 else:
                     realargs.append(i)
         else:

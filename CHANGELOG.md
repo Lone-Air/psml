@@ -1,3 +1,10 @@
+## 0.6.1.4 - 2022-02-24
+
+### Changed
+
+* Have better help information.
+* The description in the README.md is copied into ABOUT
+
 ## 0.6.1.3 - 2022-02-22
 
 ### Feature
