@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.6.1.4"
+__version__="0.6.1.5"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -22,25 +22,26 @@ This is LMFS-PSML Compiler. It has a built-in staging server and can compile one
 It can reduce some of the development steps for you, so that you can complete the front-end development faster.
 It is free(libre) software, open source under the GPL v2.0 license.
 
-Argument:
-    -Werror-*       Make this warning an error for the psml compiler task
-    -no-*           Causes the psml interpreter to ignore the command
-    -keeponly=*     Only the page is output after compilation
-    -c -compile     Only pretreatment psml code (same effect as '-mode=3')
-    -q -quiet       Block output of any NOTE
-    -o -output *    Compilation results are output to '*' ('*' is a directory name)
-    -mode=1|2|3|4   Set the compilation mode
-    -h -help        Show help of psml
-    -v -version     Show version of psml
+Options:
+        -Werror-*       Make this warning an error for the psml compiler task
+        -no-*           Causes the psml interpreter to ignore the command
+        -keeponly=*     Only the page is output after compilation
+        -c -compile     Only pretreatment psml code (same effect as '-mode=3')
+        -q -quiet       Block output of any NOTE
+        -o -output *    Compilation results are output to '*' ('*' is a directory name)
+        -mode=1|2|3|4   Set the compilation mode
+        -h -help        Show help of psml
+        -v -version     Show version of psml
 
-Mode:
-    1: Normal compile mode
-    2: Web Page Embedded Compiler Mode
-    3: Run the preprocessor only (you can use the '-c' parameter directly)
-    4: Compile without running the preprocessor
+Compile Mode:
+             1: Normal compile mode
+             2: Web Page Embedded Compiler Mode
+             3: Run the preprocessor only (you can use the '-c' parameter directly)
+             4: Compile without running the preprocessor
 
                         \033[1m This compiler tool has a super \033[1;4;93mPlayability (XD)\033[0m
 
+Thanks for using.
 When you find bugs, you may report it to \033[92m{__author__}\033[0m\n""")
 
 def initialize_server():
@@ -155,28 +156,28 @@ def compile(string,mode=1,varpre={},nobe=0,werr=[],brc="index",brc_=1,no=[],quie
                 v=findall(r"(.*?)[<]",i)
                 if len(v)>1:
                     if mode==2:
-                        html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                        html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlsError: Only 1 control command"""
                         html+="</font></code>"
                         
                     else:
-                        ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                        ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlsError: Only 1 control command""")
                     return html
                 elif len(v)<1:
                     if mode==2:
-                        html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                        html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlsError: Need 1 control command"""
                         html+="</font></code>"
                         
                     else:
-                        ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                        ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlsError: Need 1 control command""")
@@ -189,28 +190,28 @@ ControlsError: Need 1 control command""")
                     if v=="insert":
                         if len(n)>1:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Only 1 argument need""")
                             return html
                         elif len(n)<1:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Need 1 argument""")
@@ -225,14 +226,14 @@ MODULE <font color="green"><wh-dels+1><font><br>
 <font color="red"> FileLoaderError: Duplicate reference to the same file '{n}'</font></code>"""
                                     return html
                                 else:
-                                    ERR(f"""PSML throws \033[91;1mA FORCE ERROR\033[0m
+                                    ERR(f"""PSML THREW \033[91;1mA FORCE ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 FileLoaderError: Duplicate reference to the same file '{n}'""")
                                     return html
                             else:
                                 if mode!=2:
-                                    ERR(f"""PSML throws \033[95;1mA WARNING\033[0m
+                                    ERR(f"""PSML THREW \033[95;1mA WARNING\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 FileLoaderWarning: Duplicate reference to the same file '{n}' [\033[95;1mrepeated-insertion\033[0m]""")
@@ -243,14 +244,14 @@ FileLoaderWarning: Duplicate reference to the same file '{n}' [\033[95;1mrepeate
                                 read=open(n).read()
                             except:
                                 if mode==2:
-                                    html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                    html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 FileReaderError: Failed to read {repr(n)}"""
                                     html+="</font></code>"
                                 
                                 else:
-                                    ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                    ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 FileReaderError: Failed to read {repr(n)}""")
@@ -269,28 +270,28 @@ FileReaderError: Failed to read {repr(n)}""")
                     if v=="php":
                         if len(n)>1:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Only 1 argument need""")
                             return html
                         elif len(n)<1:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Need 1 argument""")
@@ -300,14 +301,14 @@ ControlArgumentsError: Need 1 argument""")
                             read=open(n).read()
                         except:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 FileReaderError: Failed to read {repr(n)}"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 FileReaderError: Failed to read {repr(n)}""")
@@ -326,28 +327,28 @@ FileReaderError: Failed to read {repr(n)}""")
                     elif v=="js":
                         if len(n)>1:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Only 1 argument need""")
                             return html
                         elif len(n)<1:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Need 1 argument""")
@@ -366,28 +367,28 @@ ControlArgumentsError: Need 1 argument""")
                     elif v=="html":
                         if len(n)>1:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Only 1 argument need""")
                             return html
                         elif len(n)<1:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Need 1 argument""")
@@ -395,14 +396,14 @@ ControlArgumentsError: Need 1 argument""")
                         n=",".join(n)
                         if n not in("4.01","5","x"):
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 LookUpError: Unknown version {n}"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 LookUpError: Unknown version {n}""")
@@ -429,28 +430,28 @@ LookUpError: Unknown version {n}""")
                     elif v=="css":
                         if len(n)>1:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Only 1 argument need""")
                             return html
                         elif len(n)<1:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Need 1 argument""")
@@ -469,28 +470,28 @@ ControlArgumentsError: Need 1 argument""")
                     elif v=="ico":
                         if len(n)>1:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Only 1 argument need""")
                             return html
                         elif len(n)<1:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Need 1 argument""")
@@ -509,28 +510,28 @@ ControlArgumentsError: Need 1 argument""")
                     elif v=="title":
                         if len(n)>1:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Only 1 argument need""")
                             return html
                         elif len(n)<1:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Need 1 argument""")
@@ -550,28 +551,28 @@ ControlArgumentsError: Need 1 argument""")
                     elif v=="encoding":
                         if len(n)>1:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Only 1 argument need""")
                             return html
                         elif len(n)<1:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Need 1 argument""")
@@ -591,14 +592,14 @@ ControlArgumentsError: Need 1 argument""")
                     if v=="goto":
                         if len(n)>2:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Only 1 argument need""")
@@ -607,14 +608,14 @@ ControlArgumentsError: Only 1 argument need""")
                             n.append("0")
                         elif len(n)<1:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Need 1 argument""")
@@ -623,14 +624,14 @@ ControlArgumentsError: Need 1 argument""")
                             float(n[1])
                         except:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Time must be a number"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Time must be a number""")
@@ -650,14 +651,14 @@ ControlArgumentsError: Time must be a number""")
                             n.append("")
                         elif len(n)<1:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
                                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlArgumentsError: Need 1 argument""")
@@ -678,14 +679,14 @@ ControlArgumentsError: Need 1 argument""")
                             codes.insert(wh-dels+cpd,"!~*")
                 else:
                     if mode==2:
-                        html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                        html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlNameError: Unknown key {repr(v)}"""
                         html+="</font></code>"
                         
                     else:
-                        ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                        ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
 ControlNameError: Unknown key {repr(v)}""")
@@ -834,14 +835,14 @@ ControlNameError: Unknown key {repr(v)}""")
                 ele=[i]
             elif len(ele)>1:
                 if mode==2:
-                    html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                    html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 SyntaxError: Invalid Syntax (Element only 1)"""
                     html+="</font></code>"
                     
                 else:
-                    ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                    ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 SyntaxError: Invalid Syntax (Element only 1)""")
@@ -862,14 +863,14 @@ SyntaxError: Invalid Syntax (Element only 1)""")
         elif len(tpe)>1:
             if 1:
                 if mode==2:
-                    html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                    html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 SyntaxError: Invalid Syntax (Type of element only one or zero)"""
                     html+="</font></code>"
                     
                 else:
-                    ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                    ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 SyntaxError: Invalid Syntax (Type of element only one or zero)""")
@@ -877,14 +878,14 @@ SyntaxError: Invalid Syntax (Type of element only one or zero)""")
         if len(tpe)!=len(ele):
             if 1:
                 if mode==2:
-                    html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                    html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ReadyCompilingError: The length of types isn't equal to the length of elements"""
                     html+="</font></code>"
                     
                 else:
-                    ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                    ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ReadyCompilingError: The length of types isn't equal to the length of elements""")
@@ -899,13 +900,13 @@ ReadyCompilingError: The length of types isn't equal to the length of elements""
             count="".join(count.split('\t')).lower()
             if count=="":
                 if mode==2:
-                    html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                    html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 SyntaxError: Invalid Syntax (Need an element)"""
                     html+="</font></code>"
                 else:
-                    ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                    ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 SyntaxError: Invalid Syntax (Need an element)""")
@@ -932,7 +933,7 @@ SyntaxError: Invalid Syntax (Need an element)""")
                         data.append(apd)
                 if data==[] and count not in noarg:
                     if mode==1 and not quiet:
-                        ERR(f"""PSML throws \033[96;1mA NOTE\033[0m
+                        ERR(f"""PSML THREW \033[96;1mA NOTE\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 Element.dat: No data get""")
@@ -958,14 +959,14 @@ Element.dat: No data get""")
                             used.append(VARFR)
                         else:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 VariableError: {repr(VARFR)} was not declared in this scope"""
                                 html+="</font></code>"
                     
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 VariableError: \033[91;1;4m{repr(VARFR)}\033[0m was not declared in this scope""")
@@ -976,14 +977,14 @@ VariableError: \033[91;1;4m{repr(VARFR)}\033[0m was not declared in this scope""
                         datele=tmp[0]
                     except:
                         if mode==2:
-                            html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                            html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ELEMENT.DATAS.NAMEERROR: LENGTH OF DATA HAS SMALLER THAN 1"""
                             html+="</font></code>"
                             
                         else:
-                            ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                            ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ELEMENT.DATAS.NAMEERROR: LENGTH OF DATA HAS SMALLER THAN 1""")
@@ -1079,17 +1080,17 @@ ELEMENT.DATAS.NAMEERROR: LENGTH OF DATA HAS SMALLER THAN 1""")
                         except:
                             traceback.print_exc()
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
-PythonCodeExecError: Python throws a fatal error"""
+PythonCodeExecError: Python threw a fatal error"""
                                 html+="</font></code>"
                 
                             else:
-                                 ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
-PythonCodeExecError: Python throws a fatal error""")
+PythonCodeExecError: Python threw a fatal error""")
                             return html
                     elif count=='html':
                         if not "inner" in elem:
@@ -1113,14 +1114,14 @@ PythonCodeExecError: Python throws a fatal error""")
                                     VARV=var[VARFR].join(VARV.split(f"$<{VARFR}>"))
                                 else:
                                     if mode==2:
-                                        html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                        html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 VariableError: {repr(VARFR)} was not declared in this scope"""
                                         html+="</font></code>"
                     
                                     else:
-                                        ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                        ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 VariableError: \033[91;1;4m{repr(VARFR)}\033[0m was not declared in this scope""")
@@ -1144,14 +1145,14 @@ Ignored""")
                             r_argl=[]
                             if(len(argl)<2):
                                 if mode==2:
-                                    html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                    html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 RouteError: Cannot get the route"""
                                     html+="</font></code>"
                         
                                 else:
-                                    ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                    ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 RouteError: Cannot get the route""")
@@ -1207,17 +1208,17 @@ RouteError: Cannot get the route""")
                             except:
                                 traceback.print_exc()
                                 if mode==2:
-                                    html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                    html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
-RouteError: Python throws a fatal error"""
+RouteError: Python threw a fatal error"""
                                     html+="</font></code>"
                     
                                 else:
-                                     ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                     ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
-RouteError: Python throws a fatal error""")
+RouteError: Python threw a fatal error""")
                                 return html
                             routes+=1
                             break
@@ -1226,14 +1227,14 @@ RouteError: Python throws a fatal error""")
                     cmd=lclean(tpe[ele.index(defcnt)].split(" "))
                     if len(cmd)<1:
                         if mode==2:
-                            html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                            html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 CommandError: No command got"""
                             html+="</font></code>"
                 
                         else:
-                            ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                            ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 CommandError: No command got""")
@@ -1241,14 +1242,14 @@ CommandError: No command got""")
                     if cmd[0].lower()=="run":
                         if len(cmd)<2:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ArgumentError: Argument weren't enough"""
                                 html+="</font></code>"
                 
                             else:
-                                 ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ArgumentError: Argument weren't enough""")
@@ -1267,17 +1268,17 @@ Ignored""")
                                 except:
                                     traceback.print_exc()
                                     if mode==2:
-                                        html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                        html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
-RunServerError: Python throws a fatal error"""
+RunServerError: Python threw a fatal error"""
                                         html+="</font></code>"
                 
                                     else:
-                                        ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                        ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
-RunServerError: Python throws a fatal error""")
+RunServerError: Python threw a fatal error""")
                                         return html
                             else:
                                 initialize_server()
@@ -1288,28 +1289,28 @@ RunServerError: Python throws a fatal error""")
                                 except:
                                     traceback.print_exc()
                                     if mode==2:
-                                        html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                        html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
-RunServerError: Python throws a fatal error"""
+RunServerError: Python threw a fatal error"""
                                         html+="</font></code>"
                 
                                     else:
-                                        ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                        ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
-RunServerError: Python throws a fatal error""")
+RunServerError: Python threw a fatal error""")
                                     return html
                         else:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ArgumentError: No such argument"""
                                 html+="</font></code>"
                     
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ArgumentError: No such argument""")
@@ -1317,14 +1318,14 @@ ArgumentError: No such argument""")
                     elif cmd[0].lower()=="init":
                         if len(cmd)<2:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ArgumentError: Arguments weren't enough"""
                                 html+="</font></code>"
                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ArgumentError: Arguments weren't enough""")
@@ -1339,42 +1340,42 @@ Ignored""")
                             initialize_server()
                         else:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ArgumentError: No such argument"""
                                 html+="</font></code>"
                     
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ArgumentError: No such argument""")
                     elif cmd[0].lower()=="del":
                         if len(cmd)<2:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ArgumentError: Arguments weren't enough"""
                                 html+="</font></code>"
                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ArgumentError: Arguments weren't enough""")
                         if cmd[1].lower()=="page":
                             if len(cmd)<3:
                                 if mode==2:
-                                    html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                    html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ArgumentError: Arguments weren't enough"""
                                     html+="</font></code>"
                     
                                 else:
-                                    ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                    ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ArgumentError: Arguments weren't enough""")
@@ -1382,27 +1383,27 @@ ArgumentError: Arguments weren't enough""")
                                 del pages[cmd[2]]
                             else:
                                 if mode==2:
-                                    html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                    html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 DeletePageError: Nonexistent page <text color='purple'><b><u>'{cmd[2]}'</u></b></text>"""
                                     html+="</font></code>"
                     
                                 else:
-                                    ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                    ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 DeletePageError: Nonexistent page \033[95;1;4m'{cmd[2]}'\033[0m""")
                         else:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ArgumentError: No such argument"""
                                 html+="</font></code>"
                     
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ArgumentError: No such argument""")
@@ -1410,14 +1411,14 @@ ArgumentError: No such argument""")
                     elif cmd[0].lower()=="new":
                         if len(cmd)<2:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ArgumentError: Arguments weren't enough"""
                                 html+="</font></code>"
                 
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ArgumentError: Arguments weren't enough""")
@@ -1472,14 +1473,14 @@ ArgumentError: Arguments weren't enough""")
                             bran=1
                         else:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ArgumentError: No such argument"""
                                 html+="</font></code>"
                     
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ArgumentError: No such argument""")
@@ -1487,14 +1488,14 @@ ArgumentError: No such argument""")
                     elif cmd[0].lower()=="end":
                         if bran==0:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 BranchError: No branch"""
                                 html+="</font></code>"
                     
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 BranchError: No branch""")
@@ -1525,28 +1526,28 @@ BranchError: No branch""")
                             head="" if nobe else "<html"
                         else:
                             if mode==2:
-                                html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ArgumentError: No argument"""
                                 html+="</font></code>"
                     
                             else:
-                                ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ArgumentError: No argument""")
                             return html
                     else:
                         if mode==2:
-                            html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                            html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 CommandError: No such command"""
                             html+="</font></code>"
                     
                         else:
-                            ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                            ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 CommandError: No such command""")
@@ -1581,17 +1582,17 @@ CommandError: No such command""")
                                 result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran,werr=werr,no=no)
                                 if(type(result)!=dict):
                                     if mode==2:
-                                        html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                        html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
-PsmlInserthrowsError"""
+PsmlInsertThrewError"""
                                         html+="</font></code>"
                     
                                     else:
-                                        ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                        ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
-PsmlInsertthrowsError""")
+PsmlInsertThrewError""")
                                     return html
                                 else:
                                     old_html+=">"+result["INSERT"]
@@ -1622,17 +1623,17 @@ PsmlInsertthrowsError""")
                                 result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran,werr=werr,no=no)
                                 if(type(result)!=dict):
                                     if mode==2:
-                                        html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                        html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
-PsmlInserthrowsError"""
+PsmlInsertThrewError"""
                                         html+="</font></code>"
                     
                                     else:
-                                        ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                        ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
-PsmlInsertthrowsError""")
+PsmlInsertThrewError""")
                                     return html
                                 else:
                                     old_html+=result["INSERT"]
@@ -1663,17 +1664,17 @@ PsmlInsertthrowsError""")
                                 result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran,no=no,werr=werr)
                                 if(type(result)!=dict):
                                     if mode==2:
-                                        html=f"""<code>PSML throws <font color="red">AN ERROR</font><br>
+                                        html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
-PsmlInserthrowsError"""
+PsmlInsertThrewError"""
                                         html+="</font></code>"
                     
                                     else:
-                                        ERR(f"""PSML throws \033[91;1mAN ERROR\033[0m
+                                        ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
-PsmlInsertthrowsError""")
+PsmlInsertThrewError""")
                                     return html
                                 else:
                                     old_html+=">"+result["INSERT"]
@@ -1718,7 +1719,7 @@ PsmlInsertthrowsError""")
             else:
                 html+=">\n"
                 if mode==1 and not quiet:
-                    ERR(f"""PSML throws \033[96;1mA NOTE\033[0m
+                    ERR(f"""PSML THREW \033[96;1mA NOTE\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 Element.dats: No data get""")
@@ -1732,14 +1733,14 @@ MODULE <font color="green">{i}<font><br>
 <font color="red">VariablesError: {repr(i)} never use in this scope</font></code>"""
                     return html
                 else:
-                    ERR(f"""PSML throws \033[91;1mA FORCE ERROR\033[0m
+                    ERR(f"""PSML THREW \033[91;1mA FORCE ERROR\033[0m
 VARIABLE \033[95;1m{i}\033[0m
     \033[93m{i}: {var[i]}\033[0m
 VariablesError: \033[91;1;4m{repr(i)}\033[0m never use in this scope""")
                     return html
             else:
                 if(mode==1):
-                    ERR(f"""PSML throws \033[95;1mA WARNING\033[0m
+                    ERR(f"""PSML THREW \033[95;1mA WARNING\033[0m
 VARIABLE \033[95;1m{i}\033[0m
     \033[93m{i}: {var[i]}\033[0m
 VariablesWarning: \033[95;1;4m{repr(i)}\033[0m never use in this scope [\033[95;1munused-variables\033[0m]""")

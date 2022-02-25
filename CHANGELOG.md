@@ -1,3 +1,9 @@
+## 0.6.1.5 - 2022-02-25
+
+### Changed
+
+* Have better help information and error information
+
 ## 0.6.1.4 - 2022-02-24
 
 ### Changed
