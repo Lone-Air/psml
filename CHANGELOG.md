@@ -1,15 +1,21 @@
+## 0.6.1.6 - 2022-02-26
+
+### Fixed
+
+* Fix comment syntax in strings being parsed.
+
 ## 0.6.1.5 - 2022-02-25
 
 ### Changed
 
-* Have better help information and error information
+* Have better help information and error information.
 
 ## 0.6.1.4 - 2022-02-24
 
 ### Changed
 
 * Have better help information.
-* The description in the README.md is copied into ABOUT
+* The description in the README.md is copied into ABOUT.
 
 ## 0.6.1.3 - 2022-02-22
 

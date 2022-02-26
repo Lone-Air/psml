@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.6.1.5"
+__version__="0.6.1.6"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -113,7 +113,6 @@ def compile(string,mode=1,varpre={},nobe=0,werr=[],brc="index",brc_=1,no=[],quie
         head="<html"
     datas=""
     data=""
-    codes=''.join(sub(r"[|]([\w\W]*?)[|]","",codes))
     codes=codes.split("\n")
     idx=0
     del_=0
