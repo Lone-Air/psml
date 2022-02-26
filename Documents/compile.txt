@@ -1,0 +1,12 @@
+function: compile
+args: strings: A string. PSML code
+      mode:    An integer. Compilation mode
+      varpre:  A dictionary. Its contents are automatically added to the variable reference table before compilation begins
+      nobe:    An integer. Decided whether to add the beginning and the end after compilation
+      werr:    A list. If PSML includes the warning message number to be output in this parameter, it will be converted to an error and output.
+      brc:     A string. Specifies the page branch at the start of compilation
+      brc_:    An integer. This parameter specifies whether a page branch exists at the start of compilation.
+      no:      A list. If the number of the command received by the Command built-in element of PSML is included in this parameter, the PSML compiler ignores it
+      quiet:   A boolean. When it is True, the PSML compiler will not output any NOTE
+
+This function is the main part of the PSML compiler

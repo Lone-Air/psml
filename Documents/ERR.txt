@@ -1,0 +1,4 @@
+function: ERR
+args: text: A string. The information of an error
+
+Use this function to print information into the stderr stream (automatically added if there is no line feed at the end)

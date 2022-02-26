@@ -1,0 +1,4 @@
+function: del_page
+args: page_name: A string. Specify which page branch to delete
+
+Use this function to delete an existing page branch

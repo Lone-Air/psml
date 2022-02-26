@@ -1,0 +1,7 @@
+function: endpage
+args: branch: A string, It refers to the name of the page to end
+      html:   A string, the code of page
+      head:   A string, The beginning of the page that is about to end such as '<html lang=en'
+      nobe:   An integer. Decided whether to add a start and end to the page that will end
+
+Use this function to end a page branch that is being edited

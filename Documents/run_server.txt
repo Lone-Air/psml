@@ -1,0 +1,5 @@
+function: run_server
+args: host: A string. It is the host address of the server such as 'localhost' and 'www.example.com'
+      port: Am integer. It specifies the port to be mapped by the server such as 8080 and 5050
+
+Use this function to start the Flask server built into PSML

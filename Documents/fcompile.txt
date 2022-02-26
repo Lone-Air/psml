@@ -1,0 +1,10 @@
+function: fcompile
+args: path:     A string. The name of the folder to output the compiled content
+      string:   A string. PSML code
+      mode:     An integer. Compilation mode
+      werr:     A list. If PSML includes the warning message number to be output in this parameter, it will be converted to an error and output.
+      no:       A list. If the number of the command received by the Command built-in element of PSML is included in this parameter, the PSML compiler ignores it
+      quiet:    A boolean. When it is True, the PSML compiler will not output any NOTE
+      keeponly: A list. It specifies as long as the page branches remain.
+
+Directs the output of the compile function to a directory (the path specified by the path parameter)

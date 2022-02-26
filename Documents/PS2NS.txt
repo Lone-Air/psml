@@ -1,0 +1,4 @@
+function: PS2NS
+args: psml: A string. String in PSML string format
+
+Convert hard-coded in PSML strings to normal strings

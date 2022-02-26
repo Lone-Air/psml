@@ -1,0 +1,5 @@
+function: NS2PS
+args: NS:   A string. The plain string to be converted to a PSML string
+      mode: An integer. Replace pattern (1 replaces by regular character, 2 replaces by backslash escape character)
+
+Use this function to convert an ordinary string to a PSML string, that is, to convert the characters contained in the PSML syntax of an ordinary string to their corresponding PSML string hardcodes.

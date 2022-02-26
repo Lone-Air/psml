@@ -1,0 +1,8 @@
+function: initialize_page
+args: branch: A string. The name of a page branch
+      html:   A string. page code
+      head:   A string. Start of page such as '<html lang=en'
+      NewP_N: A string. The name of new page. (When the NewP_N is a None Object, the function will use the default name format)
+      nobe:   A boolean. Determines whether you want to add a beginning and an end to the page to be saved
+
+Use this function to start a new page and end the previous one.

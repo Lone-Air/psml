@@ -1,0 +1,8 @@
+function: initialize_route
+args: ROUTE:  A string such as '/' and '/admin'
+      METHOD: A list such as ["GET"] and ["POST", "GET"]
+      ID:     An integer. The number of the page for the website
+      ARGS:   Parameter part of the page call function
+      CODE:   Code section of the site call function section
+
+Use this function to define a page location for the PSML built-in Flask server. The principle is to test the code based on the page first, and then use it formally when starting the server.

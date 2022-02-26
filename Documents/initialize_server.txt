@@ -1,0 +1,4 @@
+function: initialize_server
+args: /
+
+Call this function to initialize the flask server built into PSML

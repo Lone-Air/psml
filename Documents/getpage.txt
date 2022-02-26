@@ -1,0 +1,4 @@
+function: getpage
+args: branch: A string. The name of the page branch to get
+
+Use this function to retrieve the contents of an existing page branch.
