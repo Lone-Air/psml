@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.6.1.6"
+__version__="0.7"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -13,6 +13,7 @@ warnings.filterwarnings("ignore")
 html=""
 pages={}
 pages_c=0
+Routes=[]
 
 def _P_Help():
     sys.stderr.write(f"""LMFS 2021-2022 (C) PSML Compiler-Version: \033[92m{__version__}\033[0m
@@ -45,13 +46,114 @@ Thanks for using.
 When you find bugs, you may report it to \033[92m{__author__}\033[0m\n""")
 
 def initialize_server():
-    global App
+    global App, Routes
     import flask
     App=flask.Flask("PSML_DEV_SERVER")
+
+def initialize_route(ROUTE: str, METHOD: list, ID: int, ARGS: list, CODE: str):
+    global App, Routes
+    initialize_server()
+    Rc="@App.route(%s, methods=%s)\n"%(repr(ROUTE), str(METHOD))
+    Rc+="def r%d(%s):\n"%(ID, ", ".join(ARGS))
+    CODE=CODE.split("\n")
+    for RCCC in CODE:
+        Rc+="    "+RCCC+"\n"
+    exec(Rc)
+    Routes.append(Rc)
+
+def initialize_page(branch, html="", head="<html", NewP_N=None, nobe=0):
+    global pages_c,pages
+    html="\n".join(html.split("\\n"))
+    html=PS2NS(html)
+    pages[branch]=head+">\n"+html+"</html>" if not nobe else html
+    branch=NewP_N if NewP_N!=None else "Page"+str(pages_c)
+    pages[branch]=""
+    pages_c+=1
+
+def endpage(branch, html="", head="", nobe=0):
+    global pages
+    html="\n".join(html.split("\\n"))
+    html=PS2NS(html)
+    pages[branch]=head+">\n"+html+"</html>" if not nobe else html
+
+def run_server(host="localhost", port=8080):
+    global App, Routes
+    initialize_server()
+    exec('\n\n'.join(Routes))
+    App.run(host=host, port=port)
+
+def del_page(page_name: str):
+    global pages
+    del pages[page_name]
 
 def ERR(text):
     if text[-1]!="\n": text+="\n"
     sys.stderr.write(text)
+
+def PS2NS(psml):
+    psml="\n".join(psml.split("\\n"))
+    psml="{".join(psml.split("&Bs&"))
+    psml="}".join(psml.split("&Be&"))
+    psml="[".join(psml.split("&Ms&"))
+    psml="]".join(psml.split("&Me&"))
+    psml="(".join(psml.split("&Ss&"))
+    psml=")".join(psml.split("&Se&"))
+    psml=";".join(psml.split("&sp&"))
+    psml=":".join(psml.split("&is&"))
+    psml="-".join(psml.split("&in&"))
+    psml="!~*".join(psml.split("&-&"))
+    psml="\n".join(psml.split("&end&"))
+    psml="|".join(psml.split("&or&"))
+    psml=" ".join(psml.split("&no&"))
+    psml="#".join(psml.split("&ord&"))
+    psml=">".join(psml.split("&voff&"))
+    psml="<".join(psml.split("&von&"))
+    psml="$".join(psml.split("&vuse&"))
+    psml="/".join(psml.split("&cod&"))
+    return psml
+
+def NS2PS(NS, mode=1):
+    if mode==1:
+        i=NS
+        i="&Bs&".join(i.split("{"))
+        i="&Be&".join(i.split("}"))
+        i="&Ms&".join(i.split("["))
+        i="&Me&".join(i.split("]"))
+        i="&Se&".join(i.split(")"))
+        i="&Ss&".join(i.split("("))
+        i="&sp&".join(i.split(";"))
+        i="&is&".join(i.split(":"))
+        i="&in&".join(i.split("-"))
+        i="&-&".join(i.split("!~*"))
+        i="&end&".join(i.split("\n"))
+        i="&or&".join(i.split("|"))
+        i="&no&".join(i.split(" "))
+        i="&ord&".join(i.split("#"))
+        i="&voff&".join(i.split(">"))
+        i="&von&".join(i.split("<"))
+        i="&vuse&".join(i.split("$"))
+        i="&cod&".join(i.split("`"))
+        NS=i
+    if mode==2:
+        codes=NS
+        codes="&Bs&".join(codes.split("\\{"))
+        codes="&Be&".join(codes.split("\\}"))
+        codes="&Ms&".join(codes.split("\\["))
+        codes="&Me&".join(codes.split("\\]"))
+        codes="&Se&".join(codes.split("\\)"))
+        codes="&Ss&".join(codes.split("\\("))
+        codes="&sp&".join(codes.split("\\;"))
+        codes="&is&".join(codes.split("\\:"))
+        codes="&in&".join(codes.split("\\-"))
+        codes="&or&".join(codes.split("\\|"))
+        codes="&no&".join(codes.split("\\ "))
+        codes="&ord&".join(codes.split("\\#"))
+        codes="&voff&".join(codes.split("\\>"))
+        codes="&von&".join(codes.split("\\<"))
+        codes="&vuse&".join(codes.split("\\$"))
+        codes="&cod&".join(codes.split("\\`"))
+        NS=codes
+    return NS
 
 def getpage(branch):
     return pages[branch]
@@ -726,81 +828,17 @@ ControlNameError: Unknown key {repr(v)}""")
     if mode!=4:
         tmps=findall(r"[[]([\w\W]*?)[]]",codes)
         codes="".join(codes)
-        codes="&Bs&".join(codes.split("\\{"))
-        codes="&Be&".join(codes.split("\\}"))
-        codes="&Ms&".join(codes.split("\\["))
-        codes="&Me&".join(codes.split("\\]"))
-        codes="&Se&".join(codes.split("\\)"))
-        codes="&Ss&".join(codes.split("\\("))
-        codes="&sp&".join(codes.split("\\;"))
-        codes="&is&".join(codes.split("\\:"))
-        codes="&in&".join(codes.split("\\-"))
-        codes="&or&".join(codes.split("\\|"))
-        codes="&no&".join(codes.split("\\ "))
-        codes="&ord&".join(codes.split("\\#"))
-        codes="&voff&".join(codes.split("\\>"))
-        codes="&von&".join(codes.split("\\<"))
-        codes="&vuse&".join(codes.split("\\$"))
-        codes="&cod&".join(codes.split("\\`"))
+        codes=NS2PS(codes, mode=2)
         for i in tmps:
             dfl=i
-            i="&Bs&".join(i.split("{"))
-            i="&Be&".join(i.split("}"))
-            i="&Ms&".join(i.split("["))
-            i="&Me&".join(i.split("]"))
-            i="&Se&".join(i.split(")"))
-            i="&Ss&".join(i.split("("))
-            i="&sp&".join(i.split(";"))
-            i="&is&".join(i.split(":"))
-            i="&in&".join(i.split("-"))
-            i="&-&".join(i.split("!~*"))
-            i="&end&".join(i.split("\n"))
-            i="&or&".join(i.split("|"))
-            i="&no&".join(i.split(" "))
-            i="&ord&".join(i.split("#"))
-            i="&voff&".join(i.split(">"))
-            i="&von&".join(i.split("<"))
-            i="&vuse&".join(i.split("$"))
-            i="&cod&".join(i.split("`"))
+            i=NS2PS(i)
             codes=i.join(codes.split("["+dfl+"]"))
         tmps=findall(r"[`]([\w\W]*?)[`]",codes)
         codes="".join(codes)
-        codes="&Bs&".join(codes.split("\\{"))
-        codes="&Be&".join(codes.split("\\}"))
-        codes="&Ms&".join(codes.split("\\["))
-        codes="&Me&".join(codes.split("\\]"))
-        codes="&Se&".join(codes.split("\\)"))
-        codes="&Ss&".join(codes.split("\\("))
-        codes="&sp&".join(codes.split("\\;"))
-        codes="&is&".join(codes.split("\\:"))
-        codes="&in&".join(codes.split("\\-"))
-        codes="&or&".join(codes.split("\\|"))
-        codes="&no&".join(codes.split("\\ "))
-        codes="&ord&".join(codes.split("\\#"))
-        codes="&voff&".join(codes.split("\\>"))
-        codes="&von&".join(codes.split("\\<"))
-        codes="&vuse&".join(codes.split("\\$"))
-        codes="&cod&".join(codes.split("\\`"))
+        codes=NS2PS(codes, mode=2)
         for i in tmps:
             dfl=i
-            i="&Bs&".join(i.split("{"))
-            i="&Be&".join(i.split("}"))
-            i="&Ms&".join(i.split("["))
-            i="&Me&".join(i.split("]"))
-            i="&Se&".join(i.split(")"))
-            i="&Ss&".join(i.split("("))
-            i="&sp&".join(i.split(";"))
-            i="&is&".join(i.split(":"))
-            i="&in&".join(i.split("-"))
-            i="&-&".join(i.split("!~*"))
-            i="&end&".join(i.split("\n"))
-            i="&or&".join(i.split("|"))
-            i="&no&".join(i.split(" "))
-            i="&ord&".join(i.split("#"))
-            i="&voff&".join(i.split(">"))
-            i="&von&".join(i.split("<"))
-            i="&vuse&".join(i.split("$"))
-            i="&cod&".join(i.split("`"))
+            i=NS2PS(i)
             codes=i.join(codes.split("`"+dfl+"`"))
 
     if mode!=4:
@@ -1158,52 +1196,17 @@ RouteError: Cannot get the route""")
                                 return html
                             for psml in argl:
                                 psml="\n".join(psml.split("\\n"))
-                                psml="{".join(psml.split("&Bs&"))
-                                psml="}".join(psml.split("&Be&"))
-                                psml="[".join(psml.split("&Ms&"))
-                                psml="]".join(psml.split("&Me&"))
-                                psml="(".join(psml.split("&Ss&"))
-                                psml=")".join(psml.split("&Se&"))
-                                psml=";".join(psml.split("&sp&"))
-                                psml=":".join(psml.split("&is&"))
-                                psml="-".join(psml.split("&in&"))
-                                psml="!~*".join(psml.split("&-&"))
-                                psml="\n".join(psml.split("&end&"))
-                                psml="|".join(psml.split("&or&"))
-                                psml=" ".join(psml.split("&no&"))
-                                psml="#".join(psml.split("&ord&"))
-                                psml=">".join(psml.split("&voff&"))
-                                psml="<".join(psml.split("&von&"))
-                                psml="$".join(psml.split("&vuse&"))
-                                psml="/".join(psml.split("&cod&"))
+                                psml=PS2NS(psml)
                                 r_argl.append(psml)
                             for psml in data:
                                 psml="\n".join(psml.split("\\n"))
-                                psml="{".join(psml.split("&Bs&"))
-                                psml="}".join(psml.split("&Be&"))
-                                psml="[".join(psml.split("&Ms&"))
-                                psml="]".join(psml.split("&Me&"))
-                                psml="(".join(psml.split("&Ss&"))
-                                psml=")".join(psml.split("&Se&"))
-                                psml=";".join(psml.split("&sp&"))
-                                psml=":".join(psml.split("&is&"))
-                                psml="-".join(psml.split("&in&"))
-                                psml="!~*".join(psml.split("&-&"))
-                                psml="\n".join(psml.split("&end&"))
-                                psml="|".join(psml.split("&or&"))
-                                psml=" ".join(psml.split("&no&"))
-                                psml="#".join(psml.split("&ord&"))
-                                psml=">".join(psml.split("&voff&"))
-                                psml="<".join(psml.split("&von&"))
-                                psml="$".join(psml.split("&vuse&"))
-                                psml="/".join(psml.split("&cod&"))
+                                psml=PS2NS(psml)
                                 r_data.append(psml)
-                            Rc="@App.route(%s, methods=%s)\n"%(repr(r_argl[0]), r_argl[1])
-                            Rc+="def r%d(%s):\n"%(routes,", ".join(r_argl[2:]))
+                            RC=""
                             for Rcode in r_data:
-                                Rc+="    "+Rcode+"\n"
+                                RC+=Rcode+"\n"
                             try:
-                                exec(Rc)
+                                initialize_route(r_argl[0], r_argl[1], routes, argl[2:],RC)
                             except:
                                 traceback.print_exc()
                                 if mode==2:
@@ -1263,7 +1266,7 @@ Ignored""")
                             elif len(cmd)<3:
                                 initialize_server()
                                 try:
-                                    App.run()
+                                    run_server()
                                 except:
                                     traceback.print_exc()
                                     if mode==2:
@@ -1284,7 +1287,7 @@ RunServerError: Python threw a fatal error""")
                                 host=(stat:=cmd[2].split(":"))[0]
                                 port=stat[1]
                                 try:
-                                    App.run(host=host, port=port)
+                                    run_server(host, port)
                                 except:
                                     traceback.print_exc()
                                     if mode==2:
@@ -1379,7 +1382,7 @@ MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ArgumentError: Arguments weren't enough""")
                             if cmd[2] in pages.keys():
-                                del pages[cmd[2]]
+                                del_page(cmd[2])
                             else:
                                 if mode==2:
                                     html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
@@ -1423,52 +1426,14 @@ MODULE \033[95;1m{wh+1}\033[0m
 ArgumentError: Arguments weren't enough""")
                             return html
                         if cmd[1].lower()=="page":
+                            OLD=branch
                             if len(cmd)<3:
-                                html="\n".join(html.split("\\n"))
-                                html="{".join(html.split("&Bs&"))
-                                html="}".join(html.split("&Be&"))
-                                html="[".join(html.split("&Ms&"))
-                                html="]".join(html.split("&Me&"))
-                                html="(".join(html.split("&Ss&"))
-                                html=")".join(html.split("&Se&"))
-                                html=";".join(html.split("&sp&"))
-                                html=":".join(html.split("&is&"))
-                                html="-".join(html.split("&in&"))
-                                html="!~*".join(html.split("&-&"))
-                                html="\n".join(html.split("&end&"))
-                                html="|".join(html.split("&or&"))
-                                html=" ".join(html.split("&no&"))
-                                html="#".join(html.split("&ord&"))
-                                html=">".join(html.split("&voff&"))
-                                html="<".join(html.split("&von&"))
-                                html="$".join(html.split("&vuse&"))
-                                html="/".join(html.split("&cod&"))
-                                pages[branch]=head+">\n"+html+"</html>" if not nobe else html
                                 branch="Page"+str(pages_c)
                             else:
-                                html="{".join(html.split("&Bs&"))
-                                html="}".join(html.split("&Be&"))
-                                html="[".join(html.split("&Ms&"))
-                                html="]".join(html.split("&Me&"))
-                                html="(".join(html.split("&Ss&"))
-                                html=")".join(html.split("&Se&"))
-                                html=";".join(html.split("&sp&"))
-                                html=":".join(html.split("&is&"))
-                                html="-".join(html.split("&in&"))
-                                html="!~*".join(html.split("&-&"))
-                                html="\n".join(html.split("&end&"))
-                                html="|".join(html.split("&or&"))
-                                html=" ".join(html.split("&no&"))
-                                html="#".join(html.split("&ord&"))
-                                html=">".join(html.split("&voff&"))
-                                html="<".join(html.split("&von&"))
-                                html="$".join(html.split("&vuse&"))
-                                html="/".join(html.split("&cod&"))
-                                pages[branch]=head+">\n"+html+"</html>" if not nobe else html
                                 branch=cmd[2]
+                            initialize_page(OLD, html=html, head=head, NewP_N=branch, nobe=nobe)
                             html=""
                             head="" if nobe else "<html"
-                            pages_c+=1
                             bran=1
                         else:
                             if mode==2:
@@ -1500,25 +1465,7 @@ MODULE \033[95;1m{wh+1}\033[0m
 BranchError: No branch""")
                             return html
                         if(len(cmd)<2):
-                            html="{".join(html.split("&Bs&"))
-                            html="}".join(html.split("&Be&"))
-                            html="[".join(html.split("&Ms&"))
-                            html="]".join(html.split("&Me&"))
-                            html="(".join(html.split("&Ss&"))
-                            html=")".join(html.split("&Se&"))
-                            html=";".join(html.split("&sp&"))
-                            html=":".join(html.split("&is&"))
-                            html="-".join(html.split("&in&"))
-                            html="!~*".join(html.split("&-&"))
-                            html="\n".join(html.split("&end&"))
-                            html="|".join(html.split("&or&"))
-                            html=" ".join(html.split("&no&"))
-                            html="#".join(html.split("&ord&"))
-                            html=">".join(html.split("&voff&"))
-                            html="<".join(html.split("&von&"))
-                            html="$".join(html.split("&vuse&"))
-                            html="/".join(html.split("&cod&"))
-                            pages[branch]=head+">\n"+html+"</html>" if not nobe else html
+                            endpage(branch, html=html, head=head, nobe=nobe)
                             branch="Nothing"
                             bran=0
                             html=""
@@ -1559,24 +1506,7 @@ CommandError: No such command""")
                             if dats[elem.index("end")].lower()=="true":
                                 psml=dats[elem.index("psml")]
                                 psml="\n".join(psml.split("\\n"))
-                                psml="{".join(psml.split("&Bs&"))
-                                psml="}".join(psml.split("&Be&"))
-                                psml="[".join(psml.split("&Ms&"))
-                                psml="]".join(psml.split("&Me&"))
-                                psml="(".join(psml.split("&Ss&"))
-                                psml=")".join(psml.split("&Se&"))
-                                psml=";".join(psml.split("&sp&"))
-                                psml=":".join(psml.split("&is&"))
-                                psml="-".join(psml.split("&in&"))
-                                psml="!~*".join(psml.split("&-&"))
-                                psml="\n".join(psml.split("&end&"))
-                                psml="|".join(psml.split("&or&"))
-                                psml=" ".join(psml.split("&no&"))
-                                psml="#".join(psml.split("&ord&"))
-                                psml=">".join(psml.split("&voff&"))
-                                psml="<".join(psml.split("&von&"))
-                                psml="$".join(psml.split("&vuse&"))
-                                psml="`".join(psml.split("&cod&"))
+                                psml=PS2NS(psml)
                                 psml+=";!~*\nCommand(End)"
                                 result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran,werr=werr,no=no)
                                 if(type(result)!=dict):
@@ -1600,24 +1530,7 @@ PsmlInsertThrewError""")
                             #if dats[elem.index("end")].lower()=="true":
                                 psml=dats[elem.index("psml")]
                                 psml="\n".join(psml.split("\\n"))
-                                psml="{".join(psml.split("&Bs&"))
-                                psml="}".join(psml.split("&Be&"))
-                                psml="[".join(psml.split("&Ms&"))
-                                psml="]".join(psml.split("&Me&"))
-                                psml="(".join(psml.split("&Ss&"))
-                                psml=")".join(psml.split("&Se&"))
-                                psml=";".join(psml.split("&sp&"))
-                                psml=":".join(psml.split("&is&"))
-                                psml="-".join(psml.split("&in&"))
-                                psml="!~*".join(psml.split("&-&"))
-                                psml="\n".join(psml.split("&end&"))
-                                psml="|".join(psml.split("&or&"))
-                                psml=" ".join(psml.split("&no&"))
-                                psml="#".join(psml.split("&ord&"))
-                                psml=">".join(psml.split("&voff&"))
-                                psml="<".join(psml.split("&von&"))
-                                psml="$".join(psml.split("&vuse&"))
-                                psml="`".join(psml.split("&cod&"))
+                                psml=PS2NS(psml)
                                 psml+=";!~*\nCommand(End)"
                                 result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran,werr=werr,no=no)
                                 if(type(result)!=dict):
@@ -1641,24 +1554,7 @@ PsmlInsertThrewError""")
                             if 1:
                                 psml=dats[elem.index("psml")]
                                 psml="\n".join(psml.split("\\n"))
-                                psml="{".join(psml.split("&Bs&"))
-                                psml="}".join(psml.split("&Be&"))
-                                psml="[".join(psml.split("&Ms&"))
-                                psml="]".join(psml.split("&Me&"))
-                                psml="(".join(psml.split("&Ss&"))
-                                psml=")".join(psml.split("&Se&"))
-                                psml=";".join(psml.split("&sp&"))
-                                psml=":".join(psml.split("&is&"))
-                                psml="-".join(psml.split("&in&"))
-                                psml="!~*".join(psml.split("&-&"))
-                                psml="\n".join(psml.split("&end&"))
-                                psml="|".join(psml.split("&or&"))
-                                psml=" ".join(psml.split("&no&"))
-                                psml="#".join(psml.split("&ord&"))
-                                psml=">".join(psml.split("&voff&"))
-                                psml="<".join(psml.split("&von&"))
-                                psml="$".join(psml.split("&vuse&"))
-                                psml="`".join(psml.split("&cod&"))
+                                psml=PS2NS(psml)
                                 psml+=";!~*\nCommand(End)"
                                 result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran,no=no,werr=werr)
                                 if(type(result)!=dict):
@@ -1743,30 +1639,10 @@ VariablesError: \033[91;1;4m{repr(i)}\033[0m never use in this scope""")
 VARIABLE \033[95;1m{i}\033[0m
     \033[93m{i}: {var[i]}\033[0m
 VariablesWarning: \033[95;1;4m{repr(i)}\033[0m never use in this scope [\033[95;1munused-variables\033[0m]""")
-    if not nobe and bran:
-        html=head+">\n"+html
-        html+="</html>"
     html="\n".join(html.split("\\n"))
-    html="{".join(html.split("&Bs&"))
-    html="}".join(html.split("&Be&"))
-    html="[".join(html.split("&Ms&"))
-    html="]".join(html.split("&Me&"))
-    html="(".join(html.split("&Ss&"))
-    html=")".join(html.split("&Se&"))
-    html=";".join(html.split("&sp&"))
-    html=":".join(html.split("&is&"))
-    html="-".join(html.split("&in&"))
-    html="!~*".join(html.split("&-&"))
-    html="\n".join(html.split("&end&"))
-    html="|".join(html.split("&or&"))
-    html=" ".join(html.split("&no&"))
-    html="#".join(html.split("&ord&"))
-    html=">".join(html.split("&voff&"))
-    html="<".join(html.split("&von&"))
-    html="$".join(html.split("&vuse&"))
-    html="`".join(html.split("&cod&"))
+    html=PS2NS(html)
     if bran:
-        pages[branch]=html
+        endpage(branch, html=html, head=head, nobe=nobe)
     return pages
 def __install__():
     import sys,shutil,os

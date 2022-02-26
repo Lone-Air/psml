@@ -1,3 +1,9 @@
+## 0.7 - 2022-02-26
+
+## Changed
+
+* Server function, paging function, delete page function, conversion between PSML string and normal string, and backslash escape character are all divided into separate functions as the API interface provided by the PSML compiler.
+
 ## 0.6.1.6 - 2022-02-26
 
 ### Fixed
