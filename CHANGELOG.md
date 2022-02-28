@@ -1,8 +1,14 @@
-## 0.7 1c - 2022-82-28
+## 0.7.1d - 2022-02-28
 
 ### Fixed
 
-- Fix some bugs
+* Fix some bugs
+
+## 0.7 1c - 2022-02-28
+
+### Fixed
+
+* Fix some bugs
 
 ## 0.7.1b - 2022-02-28
 
