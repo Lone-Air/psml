@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.7.1"
+__version__="0.7.1.1"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -1853,8 +1853,9 @@ __online__.__doc__="""Run a online compile web project server for psml"""
 if __name__=="__main__":
     try:
         from rlcompleter import*
+        import readline
     except:
-        sys.stderr.write("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline\n")
+        print("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline")
     import sys,os
     w2err=[]
     realargs=[]

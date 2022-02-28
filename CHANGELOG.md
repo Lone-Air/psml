@@ -1,3 +1,9 @@
+## 0.7.1.1 - 2022-02-28
+
+### Fixed
+
+* Fix for not prompting for GNU ReadLine
+
 ## 0.7.1 - 2022-02-28
 
 ### Feature
