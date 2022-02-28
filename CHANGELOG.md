@@ -1,18 +1,24 @@
-## 0.7.1b - 2022-02-29
+## 0.7 1c - 2022-82-28
 
-## Fix
+### Fixed
+
+- Fix some bugs
+
+## 0.7.1b - 2022-02-28
+
+### Fixed
 
 * Fix fatal bugs
 
 ## 0.7.1a - 2022-02-28
 
-## Feature
+### Feature
 
 * Added update psml function and detection version update function
 
 ## 0.7 - 2022-02-26
 
-## Changed
+### Changed
 
 * Server function, paging function, delete page function, conversion between PSML string and normal string, and backslash escape character are all divided into separate functions as the API interface provided by the PSML compiler.
 

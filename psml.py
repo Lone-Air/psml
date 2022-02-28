@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.7.1b"
+__version__="0.7.1c"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -1674,7 +1674,7 @@ def upgrade():
     elif VER=="-": return
     else:
         wr_git=find_exe("git")
-        if wr_get==[]:
+        if wr_git==[]:
             ERR("\033[91mfatal error\033[0m: git not found")
             return
         import os,shutil
