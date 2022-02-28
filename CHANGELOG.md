@@ -1,5 +1,10 @@
 ## 0.7.1 - 2022-02-28
 
+### Feature
+
+* '-upgrade' to upgrade psml
+* '-check-version' to check psml version
+
 ## 0.7.1d - 2022-02-28
 
 ### Fixed
