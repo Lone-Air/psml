@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.7.1d"
+__version__="0.7.1"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
