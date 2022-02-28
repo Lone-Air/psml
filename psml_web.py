@@ -6,10 +6,6 @@ from os import remove,path
 from beaker.middleware import *
 from beaker import *
 
-try:
-    os.remove(os.path.join(os.path.dirname(__file__),".last_tmp.py"))
-except:pass
-
 session_opts = {
     'session.type':'file',
     'session.cookei_expires':float("inf"),

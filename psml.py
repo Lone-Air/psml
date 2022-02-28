@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.7"
+__version__="0.7.1a"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -31,6 +31,9 @@ Options:
         -q -quiet       Block output of any NOTE
         -o -output *    Compilation results are output to '*' ('*' is a directory name)
         -mode=1|2|3|4   Set the compilation mode
+        -install        Install PSML to the directory where Python is located
+        -upgrade        Upgrade psml version
+        -check-version  Detect psml version update
         -h -help        Show help of psml
         -v -version     Show version of psml
 
@@ -40,7 +43,7 @@ Compile Mode:
              3: Run the preprocessor only (you can use the '-c' parameter directly)
              4: Compile without running the preprocessor
 
-                        \033[1m This compiler tool has a super \033[1;4;93mPlayability (XD)\033[0m
+                                                    \033[1m This compiler tool has a super \033[1;4;93mPlayability (XD)\033[0m
 
 Thanks for using.
 When you find bugs, you may report it to \033[92m{__author__}\033[0m\n""")
@@ -348,14 +351,14 @@ FileLoaderWarning: Duplicate reference to the same file '{n}' [\033[95;1mrepeate
                                     html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
-FileReaderError: Failed to read {repr(n)}"""
+FileReaderError: Cannot read {repr(n)}"""
                                     html+="</font></code>"
                                 
                                 else:
                                     ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
-FileReaderError: Failed to read {repr(n)}""")
+FileReaderError: Cannot read {repr(n)}""")
                                 return html
                         del codes[wh-dels]
                         read=read.split("\n")
@@ -405,14 +408,14 @@ ControlArgumentsError: Need 1 argument""")
                                 html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
-FileReaderError: Failed to read {repr(n)}"""
+FileReaderError: Cannot read {repr(n)}"""
                                 html+="</font></code>"
                                 
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
     \033[93m{dei}\033[0m
-FileReaderError: Failed to read {repr(n)}""")
+FileReaderError: Cannot read {repr(n)}""")
                             return html
                         del codes[wh-dels]
                         read=read.split("\n")
@@ -1284,7 +1287,8 @@ RunServerError: Python threw a fatal error""")
                                         return html
                             else:
                                 initialize_server()
-                                host=(stat:=cmd[2].split(":"))[0]
+                                stat=cmd[2].split(":")
+                                host=stat[0]
                                 port=stat[1]
                                 try:
                                     run_server(host, port)
@@ -1659,6 +1663,96 @@ def __install__():
     os.chmod(os.path.join(os.path.dirname(sys.executable),"psml"),0o777)
     os.chmod(os.path.join(os.path.dirname(sys.executable),"psmlweb"),0o777)
     return
+
+def upgrade():
+    import sys,os,shutil
+    VER=_check_ver()
+    if VER=="ERR!":
+        ERR("\033[91mUpgrade fail\033[0m")
+        return
+    elif VER=="-": return
+    else:
+        wr_git=find_exe("git")
+        if wr_get==[]:
+            ERR("\033[91mfatal error\033[0m: git not found")
+            return
+        import os,shutil
+        os.chdir("temp")
+        os.system(wr_git[0]+" clone git://github.com/Lone-Air/PSML psml")
+        try: os.chdir("psml")
+        except:
+            ERR("\033[91mfatal error\033[0m: unable to clone the repository of psml")
+            return
+        os.chdir("psml")
+        os.system(sys.executable+" install.py")
+        os.chdir("..")
+        shutil.rmtree("psml")
+        os.chdir("..")
+        print("\033[92msuccess\033[0m: successfully upgraded psml")
+
+def _check_ver():
+    import os, shutil
+    try: os.mkdir("temp")
+    except: pass
+    try: os.chdir("temp")
+    except:
+        ERR("\033[91mfatal error\033[0m: unable to switch working directory to 'temp/'")
+        return "ERR"
+    import urllib.request, ssl
+    req=urllib.request.Request("https://raw.github.com/Lone-Air/PSML/master/VERSION", header={"User-Agent": 'Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.5 (like Gecko) (Kubuntu)'})
+    context=ssl._create_unverified_context()
+    try:
+        _VER=urllib.request.urlopen(req, context=context)
+        VER=VER.read().decode("utf8")
+        if VER==VERSION:
+            print("\033[92mIt's the latest edition\033[0m")
+            os.chdir("..")
+            return "-"
+        else:
+            print("\033[93mNew Version: %s\033[0m"%VER)
+            os.chdir("..")
+            return VER
+    except:
+        print("\033[93mwarning\033[0m: Unable to get the version file from the raw.github.com, git will be used to get the repository to determine the version")
+        wr_git=find_name("git")
+        if wr_git==[]:
+            ERR("\033[91mfatal error\033[0m: git not found")
+            os.chdir("..")
+            return "ERR"
+        os.system(wr_git[0]+" clone git://github.com/Lone-Air/PSML psml")
+        try:
+            os.chdir("psml")
+        except:
+            ERR("\033[91mfatal error\033[0m: unable to clone the repository of psml")
+            os.chdir("..")
+            return "ERR"
+        VER=getcont("VERSION")
+        if VER==VERSION:
+            print("\033[92mIt's the latest edition\033[0m")
+            os.chdir("../..")
+            shutil.rmtree("psml")
+            return "-"
+        else:
+            print("\033[93mNew Version: %s\033[0m"%VER)
+            os.chdir("../..")
+            shutil.rmtree("psml")
+            return VER
+
+def getcont(file):
+    with open(file) as f:
+        Content=f.read()
+    return Content
+
+def find_exe(name):
+    import os
+    pth=os.getenv("PATH")
+    pth=pth.split(":" if os.name=="posix" else ";")
+    res=[]
+    for _pth in pth:
+        if os.path.exists(os.path.join(_pth,name if os.name=="posix" else name+".exe")):
+            res.append(os.path.join(_pth, name if os.name=="posix" else name+".exe"))
+    return res
+
 def __uninstall__():
     import os
     os.remove(__file__)
@@ -1784,6 +1878,16 @@ if __name__=="__main__":
                         _M=3
                     elif temp[0]=="quiet":
                         qit=True
+                    elif temp[0]=="upgrade":
+                        upgrade()
+                    elif temp[0]=="check-version":
+                        _check_ver()
+                    elif temp[0]=="install":
+                        if(os.path.dirname(__file__).split(os.sep)[-1]!="psml"):
+                            ERR("\033[91mfatal error\033[0m: must run it in the psml source directory")
+                            exit()
+                        __install__()
+                        exit()
                     elif temp[0].split("=")[0]=="keeponly":
                         keeponly='='.join(temp[0].split("=")[1:])
                         keeponly=keeponly.replace(" ",  "")
@@ -1818,6 +1922,16 @@ if __name__=="__main__":
                         qit=True
                     elif temp[0]=="c":
                         _M=3
+                    elif temp[0]=="upgrade":
+                        upgrade()
+                    elif temp[0]=="check-version":
+                        _check_ver()
+                    elif temp[0]=="install":
+                        if(os.path.dirname(__file__).split(os.sep)[-1]!="psml"):
+                            ERR("\033[91mfatal error\033[0m: must run it in the psml source directory")
+                            exit()
+                        __install__()
+                        exit()
                     elif temp[0].split("=")[0]=="keeponly":
                         keeponly='='.join(temp[0].split("=")[1:])
                         keeponly=keeponly.replace(" ",  "")

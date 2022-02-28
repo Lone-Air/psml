@@ -1,3 +1,9 @@
+## 0.7.1a - 2022-02-28
+
+## Feature
+
+* Added update psml function and detection version update function
+
 ## 0.7 - 2022-02-26
 
 ## Changed
