@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.7.1a"
+__version__="0.7.1b"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -1667,6 +1667,7 @@ def __install__():
 def upgrade():
     import sys,os,shutil
     VER=_check_ver()
+    VER=ignore(VER, "\n")
     if VER=="ERR!":
         ERR("\033[91mUpgrade fail\033[0m")
         return
@@ -1686,7 +1687,11 @@ def upgrade():
         os.chdir("psml")
         os.system(sys.executable+" install.py")
         os.chdir("..")
-        shutil.rmtree("psml")
+        while 1:
+            try:
+                shutil.rmtree("psml")
+                break
+            except:pass
         os.chdir("..")
         print("\033[92msuccess\033[0m: successfully upgraded psml")
 
@@ -1699,12 +1704,13 @@ def _check_ver():
         ERR("\033[91mfatal error\033[0m: unable to switch working directory to 'temp/'")
         return "ERR"
     import urllib.request, ssl
-    req=urllib.request.Request("https://raw.github.com/Lone-Air/PSML/master/VERSION", header={"User-Agent": 'Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.5 (like Gecko) (Kubuntu)'})
+    req=urllib.request.Request("https://raw.github.com/Lone-Air/PSML/master/VERSION", headers={"User-Agent": 'Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.5 (like Gecko) (Kubuntu)'})
     context=ssl._create_unverified_context()
     try:
         _VER=urllib.request.urlopen(req, context=context)
         VER=VER.read().decode("utf8")
-        if VER==VERSION:
+        VER=ignore(VER, "\n")
+        if VER==__version__:
             print("\033[92mIt's the latest edition\033[0m")
             os.chdir("..")
             return "-"
@@ -1714,7 +1720,7 @@ def _check_ver():
             return VER
     except:
         print("\033[93mwarning\033[0m: Unable to get the version file from the raw.github.com, git will be used to get the repository to determine the version")
-        wr_git=find_name("git")
+        wr_git=find_exe("git")
         if wr_git==[]:
             ERR("\033[91mfatal error\033[0m: git not found")
             os.chdir("..")
@@ -1727,15 +1733,26 @@ def _check_ver():
             os.chdir("..")
             return "ERR"
         VER=getcont("VERSION")
-        if VER==VERSION:
+        VER=ignore(VER, "\n")
+        if VER==__version__:
             print("\033[92mIt's the latest edition\033[0m")
-            os.chdir("../..")
-            shutil.rmtree("psml")
+            os.chdir("..")
+            while 1:
+                try:
+                    shutil.rmtree("psml")
+                    break
+                except: pass
+            os.chdir("..")
             return "-"
         else:
             print("\033[93mNew Version: %s\033[0m"%VER)
-            os.chdir("../..")
-            shutil.rmtree("psml")
+            os.chdir("..")
+            while 1:
+                try:
+                    shutil.rmtree("psml")
+                    break
+                except:pass
+            os.chdir("..")
             return VER
 
 def getcont(file):
@@ -1880,8 +1897,10 @@ if __name__=="__main__":
                         qit=True
                     elif temp[0]=="upgrade":
                         upgrade()
-                    elif temp[0]=="check-version":
+                        exit(0)
+                    elif '-'.join(temp[:2])=="check-version":
                         _check_ver()
+                        exit(0)
                     elif temp[0]=="install":
                         if(os.path.dirname(__file__).split(os.sep)[-1]!="psml"):
                             ERR("\033[91mfatal error\033[0m: must run it in the psml source directory")
@@ -1924,8 +1943,10 @@ if __name__=="__main__":
                         _M=3
                     elif temp[0]=="upgrade":
                         upgrade()
-                    elif temp[0]=="check-version":
+                        exit(0)
+                    elif '-'.join(temp[:2])=="check-version":
                         _check_ver()
+                        exit(0)
                     elif temp[0]=="install":
                         if(os.path.dirname(__file__).split(os.sep)[-1]!="psml"):
                             ERR("\033[91mfatal error\033[0m: must run it in the psml source directory")
