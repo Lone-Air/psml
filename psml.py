@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.7.2"
+__version__="0.7.3"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -32,6 +32,7 @@ Options:
         -o -output *    Compilation results are output to '*' ('*' is a directory name)
         -mode=1|2|3|4   Set the compilation mode
         -install        Install PSML to the directory where Python is located
+        -online         Start psml_web
         -upgrade        Upgrade psml version
         -check-version  Detect psml version update
         -man            Displays the PSML manual page
@@ -1800,7 +1801,11 @@ def __uninstall__():
     import os
     os.remove(__file__)
     os.remove(os.path.join(os.path.dirname(__file__),"psml_web.py"))
-    return
+    shared=os.path.join(os.path.join(os.path.join(os.path.join(shared, "share"),"man"), "man1"), "psml.1.gz")
+    try:
+        os.remove(shared)
+    except Exception:
+        ERR("\033[91merror\033[0m: unable to remove manual page of psml")   return
 def __online__():
     import os,sys
     os.system("%s %s"%(sys.executable,(os.path.join(os.path.dirname(__file__),"psml_web.py"))))
@@ -1892,7 +1897,10 @@ if __name__=="__main__":
     keeponly="all"
     save="NO!"
     OM=False
+    c=0
     for i in sys.argv:
+        c+=1
+        if c==1: continue
         if OM:
             if save!="NO!":
                 sys.stderr.write("\033[91merror\033[0m: You can only export to one directory\n")
@@ -1930,6 +1938,9 @@ if __name__=="__main__":
                         exit(0)
                     elif '-'.join(temp[:2])=="check-version":
                         _check_ver()
+                        exit(0)
+                    elif temp[0]=="online":
+                        __online__()
                         exit(0)
                     elif temp[0]=="install":
                         if(os.path.dirname(__file__).split(os.sep)[-1]!="psml"):
@@ -1979,6 +1990,9 @@ if __name__=="__main__":
                         exit(0)
                     elif '-'.join(temp[:2])=="check-version":
                         _check_ver()
+                        exit(0)
+                    elif temp[0]=="online":
+                        __online__()
                         exit(0)
                     elif temp[0]=="install":
                         if(os.path.dirname(__file__).split(os.sep)[-1]!="psml"):

@@ -1,3 +1,13 @@
+## 0.7.3 - 2022-03-03
+
+### Feature
+
+* Added online option to launch psml web editor
+
+### Fixed
+
+* Fix psml compiler referencing itself
+
 ## 0.7.2 - 2022-03-03
 
 ### Feature
