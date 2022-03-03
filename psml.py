@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.7.3"
+__version__="0.7.3.1"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -1805,7 +1805,9 @@ def __uninstall__():
     try:
         os.remove(shared)
     except Exception:
-        ERR("\033[91merror\033[0m: unable to remove manual page of psml")   return
+        ERR("\033[91merror\033[0m: unable to remove manual page of psml")
+    return
+
 def __online__():
     import os,sys
     os.system("%s %s"%(sys.executable,(os.path.join(os.path.dirname(__file__),"psml_web.py"))))

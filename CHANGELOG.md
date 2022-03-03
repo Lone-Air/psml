@@ -1,3 +1,9 @@
+## 0.7.3.1 - 2022-03-03
+
+### Fixed
+
+* fixed a fatal error
+
 ## 0.7.3 - 2022-03-03
 
 ### Feature
