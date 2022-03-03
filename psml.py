@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.7.1.1"
+__version__="0.7.2"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -34,6 +34,7 @@ Options:
         -install        Install PSML to the directory where Python is located
         -upgrade        Upgrade psml version
         -check-version  Detect psml version update
+        -man            Displays the PSML manual page
         -h -help        Show help of psml
         -v -version     Show version of psml
 
@@ -1648,6 +1649,14 @@ VariablesWarning: \033[95;1;4m{repr(i)}\033[0m never use in this scope [\033[95;
     if bran:
         endpage(branch, html=html, head=head, nobe=nobe)
     return pages
+
+def mkgz(f):
+    import gzip
+    with open(f, mode="rb") as _F:
+        CONTENT=gzip.compress(_F.read())
+    with open(f+".gz", mode="wb") as _F:
+        _F.write(CONTENT)
+
 def __install__():
     import sys,shutil,os
     path=sys.path.copy()
@@ -1662,6 +1671,17 @@ def __install__():
     shutil.copy(os.path.join(os.path.dirname(__file__),"psml_web.py"),os.path.join(os.path.dirname(sys.executable),"psmlweb"))
     os.chmod(os.path.join(os.path.dirname(sys.executable),"psml"),0o777)
     os.chmod(os.path.join(os.path.dirname(sys.executable),"psmlweb"),0o777)
+    shared=os.path.realpath(os.path.dirname(os.path.dirname(sys.executable)))
+    if shared=="/":
+        shared="/usr"
+    shared=os.path.join(os.path.join(os.path.join(shared, "share"),"man"), "man1")
+    try:
+        if not os.path.exists(shared): os.makedirs(shared)
+        shared=os.path.join(shared, "psml.1.gz")
+        mkgz("psml.1")
+        shutil.copyfile("psml.1.gz", shared)
+    except Exception:
+        ERR("\033[91merror\033[0m: unable to install manual page of psml")
     return
 
 def upgrade():
@@ -1758,6 +1778,13 @@ def getcont(file):
     with open(file) as f:
         Content=f.read()
     return Content
+
+def showman():
+    wr_man=find_exe("man")
+    if wr_man==[]:
+        ERR("\033[91mfatal error\033[0m: man not found")
+        return
+    os.system(wr_man[0]+" psml")
 
 def find_exe(name):
     import os
@@ -1895,6 +1922,9 @@ if __name__=="__main__":
                         _M=3
                     elif temp[0]=="quiet":
                         qit=True
+                    elif temp[0]=="man":
+                        showman()
+                        exit(0)
                     elif temp[0]=="upgrade":
                         upgrade()
                         exit(0)
@@ -1941,6 +1971,9 @@ if __name__=="__main__":
                         qit=True
                     elif temp[0]=="c":
                         _M=3
+                    elif temp[0]=="man":
+                        showman()
+                        exit(0)
                     elif temp[0]=="upgrade":
                         upgrade()
                         exit(0)

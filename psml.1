@@ -1,0 +1,63 @@
+.TH PSML "1" "March 2022" "LMFS PSML Compiler" "User Command"
+.SH NAME
+PSML \- manual page for LMFS PSML Compiler
+.SH SYNOPSIS
+.B psml
+\fI\,<files\/\fR...\fI\,> \/\fR[\fI\,targets\/\fR...]
+.SH DESCRIPTION
+This is LMFS\-PSML Compiler. It has a built\-in staging server and can compile one psml file into many usable HTML pages.
+It can reduce some of the development steps for you, so that you can complete the front\-end development faster.
+It is free(libre) software, open source under the GPL v2.0 license.
+.SH OPTIONS
+.TP
+\fB\-Werror\-\fR*
+Use this parameter to have PSML, when outputting the corresponding warning, convert it to a "Force ERROR" output and end the compilation with an error
+.TP
+\fB\-no\-\fR*
+Use this option to make PSML output an "Ignored" (\-quiet mode will not output) when PSML encounters a command or element related to the '*' section when compiling the page. Example\: psml \-no\-server #Using this, PSML will ignore all server related parts
+.TP
+\fB\-keeponly=\fR*
+After compiling a PSML page, with this option, the PSML compiler decides which pages to keep (all if '*' is 'all')
+.TP
+\fB\-c\fR \fB\-compile\fR
+Preprocess only, and then output the preprocessed content. The effect is equivalent to \-mode=3
+.TP
+\fB\-q\fR \fB\-quiet\fR
+With this parameter, the PSML compiler will not output any 'NOTE'
+.TP
+\fB\-o\fR \fB\-output\fR *
+After compiling, the PSML compiler will output the compiled content to the bottom folder given by the '*' section (if it does not exist, it will be created automatically) (if the compilation mode is 3, it will output <reserved page branch name> + .compiled.psml to the '*' folder)
+.TP
+\fB\-mode\fR=\fI\,1\/\fR|2|3|4
+Adjust the compile mode at compile times (Please refer to 'COMPILE MODE' paragraph for explanation of compilation mode)
+.TP
+\fB\-install\fR
+When the root directory of the currently running psml compiler is the psml source code directory, psml will automatically install the PSML compiler to the directory where the Python interpreter is located (under Linux, it may be necessary to operate under the root user)
+.TP
+\fB\-upgrade\fR
+Automatically detects the PSML compiler version and automatically updates to the latest version if a new version exists
+.TP
+\fB\-check\-version\fR
+Detect whether a new release of PSML is available
+.TP
+\fB\-man\fR
+Show this manual page
+.TP
+\fB\-h\fR \fB\-help\fR
+Display PSML Compiler Help
+.TP
+\fB\-v\fR \fB\-version\fR
+Displays the current PSML compiler version
+
+.SH COMPILE MODE
+\fB1\: \fR
+In the normal compilation mode, the standard output is performed, and the compilation process is as follows: preprocessing > syntax analysis > internal element analysis > page generation > page saving
+.TP
+\fB2\: \fR
+Webpage embedded compilation mode, which does not output any NOTE, WARNING (except the Werror part) and IGNORED, outputs the error as HTML page code format, and also carries out the complete compilation process
+.TP
+\fB3\: \fR
+Pre-processing mode, in which only the pre-processing runs, and the compiler will exit and output the pre-processed content after the processing is completed
+.TP
+\fB4\: \fR
+This mode will only run the processor after the original preprocessor runs, and then the standard output (if your code is not preprocessed and does not meet the strict syntax requirements of the standard PSML, do not use this mode at your own risk)

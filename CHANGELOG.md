@@ -1,3 +1,9 @@
+## 0.7.2 - 2022-03-03
+
+### Feature
+
+* Added manual page for psml for reference
+
 ## 0.7.1.1 - 2022-02-28
 
 ### Fixed
