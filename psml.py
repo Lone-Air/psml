@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.7.3.2"
+__version__="0.7.3.3"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -1810,7 +1810,7 @@ def __uninstall__():
 
 def __online__():
     import os,sys
-    if os.path.exists(os.path.join(os.path.dirname(__file__),"psml_web.py"):
+    if os.path.exists(os.path.join(os.path.dirname(__file__),"psml_web.py")):
         os.system("%s %s"%(sys.executable,(os.path.join(os.path.dirname(__file__),"psml_web.py"))))
     elif (wr_psmlweb:=find_exe("psmlweb"))!=[]:
         os.system("%s %s"%(sys.executable,wr_psmlweb[0]))
