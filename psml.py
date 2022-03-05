@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.7.3.3"
+__version__="0.7.4"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -14,6 +14,7 @@ html=""
 pages={}
 pages_c=0
 Routes=[]
+sc="javascript"
 
 def _P_Help():
     sys.stderr.write(f"""LMFS 2021-2022 (C) PSML Compiler-Version: \033[92m{__version__}\033[0m
@@ -27,6 +28,8 @@ Options:
         -Werror-*       Make this warning an error for the psml compiler task
         -no-*           Causes the psml interpreter to ignore the command
         -keeponly=*     Only the page is output after compilation
+        -script=*       Set the language of the script (default: javascript)
+        -print=*        Print the results of the compilation
         -c -compile     Only pretreatment psml code (same effect as '-mode=3')
         -q -quiet       Block output of any NOTE
         -o -output *    Compilation results are output to '*' ('*' is a directory name)
@@ -49,6 +52,10 @@ Compile Mode:
 
 Thanks for using.
 When you find bugs, you may report it to \033[92m{__author__}\033[0m\n""")
+
+def change_script(new):
+    global sc
+    sc=new
 
 def initialize_server():
     global App, Routes
@@ -207,7 +214,7 @@ def fcompile(path,string,mode=1,werr=[],no=[],quiet=False,keeponly="all"):
             f.write(html)
     return
 def compile(string,mode=1,varpre={},nobe=0,werr=[],brc="index",brc_=1,no=[],quiet=False):
-    global html, pages, pages_c
+    global html, pages, pages_c, sc
     routes=0
     html=""
     codes=string
@@ -267,7 +274,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlsError: Only 1 control command"""
                         html+="</font></code>"
-                        
+
                     else:
                         ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -281,7 +288,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlsError: Need 1 control command"""
                         html+="</font></code>"
-                        
+
                     else:
                         ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -301,7 +308,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -315,7 +322,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -355,7 +362,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 FileReaderError: Cannot read {repr(n)}"""
                                     html+="</font></code>"
-                                
+
                                 else:
                                     ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -381,7 +388,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -395,7 +402,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -412,7 +419,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 FileReaderError: Cannot read {repr(n)}"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -438,7 +445,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -452,7 +459,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -478,7 +485,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -492,7 +499,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -507,7 +514,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 LookUpError: Unknown version {n}"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -541,7 +548,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -555,7 +562,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -581,7 +588,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -595,7 +602,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -621,7 +628,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -635,7 +642,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -662,7 +669,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -676,7 +683,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -703,7 +710,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Only 1 argument need"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -719,7 +726,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -735,7 +742,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Time must be a number"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -762,7 +769,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlArgumentsError: Need 1 argument"""
                                 html+="</font></code>"
-                                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -790,7 +797,7 @@ MODULE <font color="green">{wh-dels+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(dei)}</font><br><font color="red">
 ControlNameError: Unknown key {repr(v)}"""
                         html+="</font></code>"
-                        
+
                     else:
                         ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh-dels+1}\033[0m
@@ -882,7 +889,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 SyntaxError: Invalid Syntax (Element only 1)"""
                     html+="</font></code>"
-                    
+
                 else:
                     ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -910,7 +917,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 SyntaxError: Invalid Syntax (Type of element only one or zero)"""
                     html+="</font></code>"
-                    
+
                 else:
                     ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -925,7 +932,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ReadyCompilingError: The length of types isn't equal to the length of elements"""
                     html+="</font></code>"
-                    
+
                 else:
                     ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1006,7 +1013,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 VariableError: {repr(VARFR)} was not declared in this scope"""
                                 html+="</font></code>"
-                    
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1024,7 +1031,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ELEMENT.DATAS.NAMEERROR: LENGTH OF DATA HAS SMALLER THAN 1"""
                             html+="</font></code>"
-                            
+
                         else:
                             ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1089,10 +1096,15 @@ ELEMENT.DATAS.NAMEERROR: LENGTH OF DATA HAS SMALLER THAN 1""")
                     elif count=='script':
                         if not "inner" in elem:
                             elem.append("inner")
+                        if tpe[ele.index(defcnt)] not in ("", "/"):
+                            _SC=sc
+                            sc=tpe[ele.index(defcnt)]
                         script="\n".join(data)
-                        dats.append(f"""<script language="javascript">
+                        dats.append(f"""<script language={repr(sc)}>
 {script}
 </script>""")
+                        if tpe[ele.index(defcnt)] not in ("", "/"):
+                            sc=_SC
                         break
                     elif count=='java':
                         if not "inner" in elem:
@@ -1127,9 +1139,9 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 PythonCodeExecError: Python threw a fatal error"""
                                 html+="</font></code>"
-                
+
                             else:
-                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 PythonCodeExecError: Python threw a fatal error""")
@@ -1161,7 +1173,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 VariableError: {repr(VARFR)} was not declared in this scope"""
                                         html+="</font></code>"
-                    
+
                                     else:
                                         ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1192,7 +1204,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 RouteError: Cannot get the route"""
                                     html+="</font></code>"
-                        
+
                                 else:
                                     ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1220,9 +1232,9 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 RouteError: Python threw a fatal error"""
                                     html+="</font></code>"
-                    
+
                                 else:
-                                     ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
+                                    ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 RouteError: Python threw a fatal error""")
@@ -1239,7 +1251,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 CommandError: No command got"""
                             html+="</font></code>"
-                
+
                         else:
                             ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1254,9 +1266,9 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ArgumentError: Argument weren't enough"""
                                 html+="</font></code>"
-                
+
                             else:
-                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ArgumentError: Argument weren't enough""")
@@ -1280,7 +1292,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 RunServerError: Python threw a fatal error"""
                                         html+="</font></code>"
-                
+
                                     else:
                                         ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1302,7 +1314,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 RunServerError: Python threw a fatal error"""
                                         html+="</font></code>"
-                
+
                                     else:
                                         ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1316,7 +1328,38 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ArgumentError: No such argument"""
                                 html+="</font></code>"
-                    
+
+                            else:
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+ArgumentError: No such argument""")
+                            return html
+                    elif cmd[0].lower()=="set":
+                        if len(cmd)<3:
+                            if mode==2:
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+ArgumentError: Arguments weren't enough (need 2)"""
+                                html+="</font></code>"
+
+                            else:
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+ArgumentError: Arguments weren't enough (need 2)""")
+                            return html
+                        if cmd[1].lower()=="script":
+                            change_script(cmd[2])
+                        else:
+                            if mode==2:
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+ArgumentError: No such argument"""
+                                html+="</font></code>"
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1331,7 +1374,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ArgumentError: Arguments weren't enough"""
                                 html+="</font></code>"
-                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1353,12 +1396,13 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ArgumentError: No such argument"""
                                 html+="</font></code>"
-                    
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ArgumentError: No such argument""")
+                            return html
                     elif cmd[0].lower()=="del":
                         if len(cmd)<2:
                             if mode==2:
@@ -1367,7 +1411,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ArgumentError: Arguments weren't enough"""
                                 html+="</font></code>"
-                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1381,7 +1425,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ArgumentError: Arguments weren't enough"""
                                     html+="</font></code>"
-                    
+
                                 else:
                                     ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1396,7 +1440,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 DeletePageError: Nonexistent page <text color='purple'><b><u>'{cmd[2]}'</u></b></text>"""
                                     html+="</font></code>"
-                    
+
                                 else:
                                     ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1409,7 +1453,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ArgumentError: No such argument"""
                                 html+="</font></code>"
-                    
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1424,7 +1468,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ArgumentError: Arguments weren't enough"""
                                 html+="</font></code>"
-                
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1448,7 +1492,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ArgumentError: No such argument"""
                                 html+="</font></code>"
-                    
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1463,7 +1507,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 BranchError: No branch"""
                                 html+="</font></code>"
-                    
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1483,7 +1527,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ArgumentError: No argument"""
                                 html+="</font></code>"
-                    
+
                             else:
                                 ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1497,7 +1541,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 CommandError: No such command"""
                             html+="</font></code>"
-                    
+
                         else:
                             ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1522,7 +1566,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 PsmlInsertThrewError"""
                                         html+="</font></code>"
-                    
+
                                     else:
                                         ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1533,7 +1577,7 @@ PsmlInsertThrewError""")
                                     old_html+=">"+result["INSERT"]
                                 html=old_html
                             else:
-                            #if dats[elem.index("end")].lower()=="true":
+                                #if dats[elem.index("end")].lower()=="true":
                                 psml=dats[elem.index("psml")]
                                 psml="\n".join(psml.split("\\n"))
                                 psml=PS2NS(psml)
@@ -1546,7 +1590,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 PsmlInsertThrewError"""
                                         html+="</font></code>"
-                    
+
                                     else:
                                         ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1570,7 +1614,7 @@ MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 PsmlInsertThrewError"""
                                         html+="</font></code>"
-                    
+
                                     else:
                                         ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
@@ -1819,11 +1863,11 @@ def __online__():
     return
 
 compile.__doc__="""This is help on psml syntax
-    
+
 string: code of psml-page
     ------
     Syntax:
-                    
+
         Element(type|/){
                     property:value
 
@@ -1854,12 +1898,12 @@ string: code of psml-page
                 }|(If it isn't the last element, you can write '!~*' before '}'(You don't have to write, unless it's an element with no type or attribute))|
 ------
     Annotation:
-                    
+
         |Annotation Information|
         /> Annotation Information
 ------
     Escape Identifier:
-            
+
         &Bs&={
         &Be&=}
         &Ms&=[
@@ -1870,8 +1914,8 @@ string: code of psml-page
         &end&=\\n
         &-&=!~*
         &in&=-
-        &is&=:   
-        &no&=<space> 
+        &is&=:
+        &no&=<space>
         &ord&=#
         &von&=<
         &voff&=>
@@ -1879,7 +1923,7 @@ string: code of psml-page
         &cod&=/
 ------
     Compile Programming language:
-            
+
         html(Hypertext Markup Language)
 """
 
@@ -1905,6 +1949,8 @@ if __name__=="__main__":
     save="NO!"
     OM=False
     c=0
+    justp="all"
+    justp_stat=0
     for i in sys.argv:
         c+=1
         if c==1: continue
@@ -1950,7 +1996,7 @@ if __name__=="__main__":
                         __online__()
                         exit(0)
                     elif temp[0]=="install":
-                        if(os.path.dirname(__file__).split(os.sep)[-1]!="psml"):
+                        if(os.path.realpath(os.path.dirname(__file__)).split(os.sep)[-1]!="psml"):
                             ERR("\033[91mfatal error\033[0m: must run it in the psml source directory")
                             exit()
                         __install__()
@@ -1961,6 +2007,18 @@ if __name__=="__main__":
                         keeponly=keeponly.replace("\t", "")
                         keeponly=keeponly.split(",")
                         if "all" in keeponly: keeponly="all"
+                    elif temp[0].split("=")[0]=="print":
+                        justp='='.join(temp[0].split("=")[1:])
+                        justp=justp.replace(" ",  "")
+                        justp=justp.replace("\t", "")
+                        justp=justp.split(",")
+                        if "all" in justp: justp="all"
+                        justp_stat=1
+                    elif temp[0].split("=")[0]=="script":
+                        _sc='='.join(temp[0].split("=")[1:])
+                        _sc=_sc.replace(" ",  "")
+                        _sc=_sc.replace("\t", "")
+                        change_script(_sc)
                     elif temp[0].split("=")[0]=="mode":
                         _M='='.join(temp[0].split("=")[1:])
                         _M=_M.replace(" ",  "")
@@ -2002,7 +2060,7 @@ if __name__=="__main__":
                         __online__()
                         exit(0)
                     elif temp[0]=="install":
-                        if(os.path.dirname(__file__).split(os.sep)[-1]!="psml"):
+                        if(os.path.realpath(os.path.dirname(__file__)).split(os.sep)[-1]!="psml"):
                             ERR("\033[91mfatal error\033[0m: must run it in the psml source directory")
                             exit()
                         __install__()
@@ -2013,6 +2071,18 @@ if __name__=="__main__":
                         keeponly=keeponly.replace("\t", "")
                         keeponly=keeponly.split(",")
                         if "all" in keeponly: keeponly="all"
+                    elif temp[0].split("=")[0]=="print":
+                        justp='='.join(temp[0].split("=")[1:])
+                        justp=justp.replace(" ",  "")
+                        justp=justp.replace("\t", "")
+                        justp=justp.split(",")
+                        if "all" in justp: justp="all"
+                        justp_stat=1
+                    elif temp[0].split("=")[0]=="script":
+                        _sc='='.join(temp[0].split("=")[1:])
+                        _sc=_sc.replace(" ",  "")
+                        _sc=_sc.replace("\t", "")
+                        change_script(_sc)
                     elif temp[0].split("=")[0]=="mode":
                         _M='='.join(temp[0].split("=")[1:])
                         _M=_M.replace(" ",  "")
@@ -2050,7 +2120,7 @@ if __name__=="__main__":
         else:
             realargs.append(i)
     sys.argv=realargs.copy()
-    if(sys.argv==[__file__]):
+    if(sys.argv==[]):
         code=""
         while(1):
             try:
@@ -2060,20 +2130,26 @@ if __name__=="__main__":
                 if save=="NO!":
                     PG=compile(code,werr=w2err,mode=_M,no=noc,quiet=qit)
                     if keeponly!="all":
-                        if _M==3: sys.exit(PG)
-                        elif type(PG)!=dict: sys.exit(PG)
-                        else:
-                            NPG={}
-                            for P in keeponly:
-                                if P in PG:
-                                    NPG[P]=PG[P]
-                                else:
-                                    sys.stderr.write(f"\033[91merror\033[0m: {repr(P)} isn't in the pages\n")
-                            PG=NPG.copy()
-                            sys.stdout.write(str(PG)+"\n")
-                        sys.exit()
+                        NPG={}
+                        for P in keeponly:
+                            if P in PG:
+                                NPG[P]=PG[P]
+                            else:
+                                sys.stderr.write(f"\033[91merror\033[0m: {repr(P)} isn't in the pages\n")
+                        PG=NPG.copy()
+                    if not justp_stat:
+                        sys.stdout.write(str(PG)+"\n")
                     else:
-                        sys.exit(PG)
+                        if justp=="all":
+                            for i in PG.keys():
+                                print(PG[i])
+                        else:
+                            for i in justp:
+                                if i in PG.keys():
+                                    print(PG[i])
+                                else:
+                                    ERR("\033[91mfatal error\033[0m: '%s' not in branch list"%i)
+                    sys.exit()
                 else:
                     try:
                         fcompile(save,code,mode=_M,no=noc,quiet=qit,keeponly=keeponly)
@@ -2111,10 +2187,32 @@ if __name__=="__main__":
                                         else:
                                             sys.stderr.write(f"\033[91merror\033[0m: {repr(P)} isn't in the pages\n")
                                     ret=Nret.copy()
-                                    sys.stdout.write(str(ret)+"\n")
+                                    if not justp_stat:
+                                        sys.stdout.write(str(ret)+"\n")
+                                    else:
+                                        if justp=="all":
+                                            for i in ret.keys():
+                                                print(ret[i])
+                                        else:
+                                            for i in justp:
+                                                if i in ret.keys():
+                                                    print(ret[i])
+                                                else:
+                                                    ERR("\033[91mfatal error\033[0m: '%s' not in branch list"%i)
                             else:
                                 if type(ret)==dict:
-                                    sys.stdout.write(str(ret)+"\n")
+                                    if not justp_stat:
+                                        sys.stdout.write(str(ret)+"\n")
+                                    else:
+                                        if justp=="all":
+                                            for i in ret.keys():
+                                                print(ret[i])
+                                        else:
+                                            for i in justp:
+                                                if i in ret.keys():
+                                                    print(ret[i])
+                                                else:
+                                                    ERR("\033[91mfatal error\033[0m: '%s' not in branch list"%i)
                                 else:
                                     sys.stdout.write(ret+"\n")
                     except Exception:

@@ -1,0 +1,4 @@
+function: change_script
+args: new: A string, It is the value of the language attribute of the new script element.
+
+Set the content of the language attribute when the script element appears, which is javascript by default

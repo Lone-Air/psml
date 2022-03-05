@@ -1,3 +1,14 @@
+## 0.7.4 - 2022-03-05
+
+### Feature
+
+* Added '-print=*' option
+* Add the function of script selection language (the foreground can use -script = * to set (* is the language name))
+
+### Fixed
+
+* Fix install does not recognize directories
+
 ## 0.7.3.3 - 2022-03-04
 
 ### Fixed

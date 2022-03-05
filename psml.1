@@ -19,6 +19,12 @@ Use this option to make PSML output an "Ignored" (\-quiet mode will not output) 
 \fB\-keeponly=\fR*
 After compiling a PSML page, with this option, the PSML compiler decides which pages to keep (all if '*' is 'all')
 .TP
+\fB\-script=\fR*
+Set the content of the language attribute when the script element appears, which is javascript by default
+.TP
+\fB\-print=\fR*
+This option is used to print out the specified compilation result (print all when '*' is' all ', and return dict when not used)
+.TP
 \fB\-c\fR \fB\-compile\fR
 Preprocess only, and then output the preprocessed content. The effect is equivalent to \-mode=3
 .TP
