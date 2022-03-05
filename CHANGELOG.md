@@ -1,3 +1,13 @@
+## 0.7.5 - 2022-03-05
+
+### Feature
+
+* Added the set nobegin command, which is used to close the beginning and end of the compilation output page.
+
+### Changed
+
+* Remove the use of ':=' syntax for compatibility with older versions of python
+
 ## 0.7.4 - 2022-03-05
 
 ### Feature

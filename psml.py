@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.7.4"
+__version__="0.7.5"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -1352,6 +1352,11 @@ ArgumentError: Arguments weren't enough (need 2)""")
                             return html
                         if cmd[1].lower()=="script":
                             change_script(cmd[2])
+                        elif cmd[1].lower()=="nobegin":
+                            if cmd[2].lower()=="yes":
+                                nobe=1
+                            else:
+                                nobe=0
                         else:
                             if mode==2:
                                 html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
@@ -1854,9 +1859,10 @@ def __uninstall__():
 
 def __online__():
     import os,sys
+    wr_psmlweb=find_exe("psmlweb")
     if os.path.exists(os.path.join(os.path.dirname(__file__),"psml_web.py")):
         os.system("%s %s"%(sys.executable,(os.path.join(os.path.dirname(__file__),"psml_web.py"))))
-    elif (wr_psmlweb:=find_exe("psmlweb"))!=[]:
+    elif wr_psmlweb!=[]:
         os.system("%s %s"%(sys.executable,wr_psmlweb[0]))
     else:
         ERR("\033[91mfatal error\033[0m: psmlweb not found")
