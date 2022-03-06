@@ -1,8 +1,14 @@
-## 0.8.1.1 - 2022-03-06
+## 0.8.1.3 - 2022-03-06
 
 ## Fixed
 
-* Fixex a fatal error in psml.py
+* Fixed a fatal error in psml.py
+
+## 0.8.1.2 - 2022-03-06
+
+## Fixed
+
+* Fixed a fatal error in psml.py
 
 ## 0.8.1.1 - 2022-03-06
 

@@ -2055,7 +2055,7 @@ def _start():
                         __install__()
                         exit()
                     elif temp[0]=="uninstall":
-                        uninstall()
+                        __uninstall__()
                         exit(0)
                     elif temp[0].split("=")[0]=="keeponly":
                         keeponly='='.join(temp[0].split("=")[1:])
@@ -2144,7 +2144,7 @@ def _start():
                         __install__()
                         exit()
                     elif temp[0]=="uninstall":
-                        uninstall()
+                        __uninstall__()
                         exit(0)
                     elif temp[0].split("=")[0]=="keeponly":
                         keeponly='='.join(temp[0].split("=")[1:])
