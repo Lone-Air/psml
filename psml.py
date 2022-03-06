@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.8.1.2"
+__version__="0.8.1.4"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -1889,7 +1889,7 @@ def find_exe(name):
     return res
 
 def __uninstall__():
-    import os
+    import os,sys
     try:
         os.remove(__file__)
         os.remove(os.path.join(os.path.dirname(__file__),"psmlweb"))
