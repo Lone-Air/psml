@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.8.1.5"
+__version__="0.8.1.6"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -2053,7 +2053,7 @@ def _start():
                         __online__()
                         exit(0)
                     elif temp[0]=="install":
-                        if(os.path.realpath(os.path.dirname(__file__)).split(os.sep)[-1]!="psml"):
+                        if(os.path.realpath(os.path.dirname(__file__)).split(os.sep)[-1] not in ("psml", "psml-master")):
                             ERR("\033[91mfatal error\033[0m: must run it in the psml source directory")
                             exit()
                         __install__()
@@ -2142,7 +2142,7 @@ def _start():
                         __online__()
                         exit(0)
                     elif temp[0]=="install":
-                        if(os.path.realpath(os.path.dirname(__file__)).split(os.sep)[-1]!="psml"):
+                        if(os.path.realpath(os.path.dirname(__file__)).split(os.sep)[-1] not in ("psml", "psml-master")):
                             ERR("\033[91mfatal error\033[0m: must run it in the psml source directory")
                             exit()
                         __install__()

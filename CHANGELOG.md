@@ -1,5 +1,11 @@
 ## 0.8.1.5 - 2022-03-06
 
+### Changed
+
+* The installation now recognizes the psml-master directory
+
+## 0.8.1.5 - 2022-03-06
+
 ### Fixed
 
 * Fixed a fatal error in psml.py
