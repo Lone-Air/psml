@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.8.1.4"
+__version__="0.8.1.5"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -1891,6 +1891,10 @@ def find_exe(name):
 def __uninstall__():
     import os,sys
     try:
+        path=sys.path.copy()
+        for i in path:
+            if len(i.split(".zip"))>1:
+                del path[path.index(i)]
         os.remove(__file__)
         os.remove(os.path.join(os.path.dirname(__file__),"psmlweb"))
         shared=os.path.realpath(os.path.dirname(os.path.dirname(sys.executable)))
