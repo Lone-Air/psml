@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.8.1"
+__version__="0.8.1.1"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -1897,10 +1897,9 @@ def __uninstall__():
         shared=os.path.join(os.path.join(os.path.join(os.path.join(shared, "share"),"man"), "man1"), "psml.1.gz")
         os.remove(os.path.join(path[1],"PSML.py"))
         os.remove(os.path.join(path[1],"psml_web.py"))
-    try:
         os.remove(shared)
     except Exception:
-        ERR("\033[91merror\033[0m: unable to remove manual page of psml")
+        ERR("\033[91merror\033[0m: uninstall failed")
     return
 
 def __online__():
