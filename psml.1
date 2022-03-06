@@ -10,6 +10,9 @@ It can reduce some of the development steps for you, so that you can complete th
 It is free(libre) software, open source under the GPL v2.0 license.
 .SH OPTIONS
 .TP
+\fB\-\-\fR
+With this option, all options that follow are treated as file names
+.TP
 \fB\-Werror\-\fR*
 Use this parameter to have PSML, when outputting the corresponding warning, convert it to a "Force ERROR" output and end the compilation with an error
 .TP
@@ -22,8 +25,14 @@ After compiling a PSML page, with this option, the PSML compiler decides which p
 \fB\-script=\fR*
 Set the content of the language attribute when the script element appears, which is javascript by default
 .TP
+\fB\-style=\fR*
+Sets the format used by the page style. The default is 'text/css'
+.TP
 \fB\-print=\fR*
 This option is used to print out the specified compilation result (print all when '*' is' all ', and return dict when not used)
+.TP
+\fB\-D\fR*\fB=\fR*
+After using this options, a variable with the name of the first * and the content of the second * will be automatically defined, and the type is const
 .TP
 \fB\-c\fR \fB\-compile\fR
 Preprocess only, and then output the preprocessed content. The effect is equivalent to \-mode=3

@@ -1,0 +1,4 @@
+function: change_script
+args: new: A string, It is the value of the format of the new style element.
+
+Set the format used for the style element. In general, 'text/css' is the default.

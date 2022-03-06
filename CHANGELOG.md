@@ -1,3 +1,16 @@
+## 0.8 - 2022-03-06
+
+### Feature
+
+* Added a variable type that cannot be changed (syntax: const variable_name: value)
+* Added -D*=* to predefine a const variable
+* All options after the '--' option are treated as file names
+* Add the function of style selection format (use -style=*, default is 'text/css')
+
+### Changed
+
+* Run the psml program directly, and move the front-end parameter processing to the _start function
+
 ## 0.7.5 - 2022-03-05
 
 ### Feature

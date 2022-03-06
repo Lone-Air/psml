@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.7.5"
+__version__="0.8"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -15,6 +15,7 @@ pages={}
 pages_c=0
 Routes=[]
 sc="javascript"
+st="text/css"
 
 def _P_Help():
     sys.stderr.write(f"""LMFS 2021-2022 (C) PSML Compiler-Version: \033[92m{__version__}\033[0m
@@ -29,7 +30,9 @@ Options:
         -no-*           Causes the psml interpreter to ignore the command
         -keeponly=*     Only the page is output after compilation
         -script=*       Set the language of the script (default: javascript)
+        -style=*        Set the format of style (default: text/css)
         -print=*        Print the results of the compilation
+        -D*=*           Define variables in advance
         -c -compile     Only pretreatment psml code (same effect as '-mode=3')
         -q -quiet       Block output of any NOTE
         -o -output *    Compilation results are output to '*' ('*' is a directory name)
@@ -38,7 +41,7 @@ Options:
         -online         Start psml_web
         -upgrade        Upgrade psml version
         -check-version  Detect psml version update
-        -man            Displays the PSML manual page
+        -man            Displays the PSML manual pages
         -h -help        Show help of psml
         -v -version     Show version of psml
 
@@ -56,6 +59,10 @@ When you find bugs, you may report it to \033[92m{__author__}\033[0m\n""")
 def change_script(new):
     global sc
     sc=new
+
+def change_style(new):
+    global st
+    st=new
 
 def initialize_server():
     global App, Routes
@@ -190,8 +197,8 @@ def tohtml(code):
     code="&lt;".join(code.split("<"))
     code="&gt;".join(code.split(">"))
     return code
-def fcompile(path,string,mode=1,werr=[],no=[],quiet=False,keeponly="all"):
-    html=compile(string,mode=mode,werr=werr,no=no,quiet=quiet)
+def fcompile(path,string,mode=1,werr=[],no=[],quiet=False,keeponly="all",varpre={}):
+    html=compile(string,mode=mode,werr=werr,no=no,quiet=quiet,varpre=varpre)
     if mode!=3:
         try:
             os.mkdir(path)
@@ -214,7 +221,7 @@ def fcompile(path,string,mode=1,werr=[],no=[],quiet=False,keeponly="all"):
             f.write(html)
     return
 def compile(string,mode=1,varpre={},nobe=0,werr=[],brc="index",brc_=1,no=[],quiet=False):
-    global html, pages, pages_c, sc
+    global html, pages, pages_c, sc, st
     routes=0
     html=""
     codes=string
@@ -1004,7 +1011,7 @@ Element.dat: No data get""")
                     VARF=findall("\$\<(.*?)\>",tmp)
                     for VARFR in VARF:
                         if(VARFR) in var.keys():
-                            tmp=var[VARFR].join(tmp.split(f"$<{VARFR}>"))
+                            tmp=var[VARFR]["value"].join(tmp.split(f"$<{VARFR}>"))
                             used.append(VARFR)
                         else:
                             if mode==2:
@@ -1088,10 +1095,15 @@ ELEMENT.DATAS.NAMEERROR: LENGTH OF DATA HAS SMALLER THAN 1""")
                     elif count=='style':
                         if not "inner" in elem:
                             elem.append("inner")
+                        if tpe[ele.index(defcnt)] not in ("", "/"):
+                            _ST=st
+                            st=tpe[ele.index(defcnt)]
                         style="\n".join(data)
-                        dats.append(f"""<style type='text/css'>
+                        dats.append(f"""<style type={repr(st)}>
 {style}
 </style>""")
+                        if tpe[ele.index(defcnt)] not in ("", "/"):
+                            st=_ST
                         break
                     elif count=='script':
                         if not "inner" in elem:
@@ -1158,14 +1170,15 @@ PythonCodeExecError: Python threw a fatal error""")
                             VARV=":".join(VAR.split(":")[1:])
                             VARV="".join(VARV.split(" "))
                             VARV="".join(VARV.split("\t"))
-                            VARN="".join(VARN.split(" "))
-                            VARN="".join(VARN.split("\t"))
+                            VARN=VARN.strip(" ")
+                            VARN=VARN.strip("\t")
+                            VARN=ignore(VARN, "\t")
                             if("".join("".join(VARN.split(" ")).split("\t"))==""):
                                 continue
                             VARFD=findall(r"\$\<(.*?)\>",VARV)
                             for VARFR in VARFD:
                                 if(VARFR in list(var.keys())):
-                                    VARV=var[VARFR].join(VARV.split(f"$<{VARFR}>"))
+                                    VARV=var[VARFR]["value"].join(VARV.split(f"$<{VARFR}>"))
                                 else:
                                     if mode==2:
                                         html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
@@ -1180,7 +1193,32 @@ MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 VariableError: \033[91;1;4m{repr(VARFR)}\033[0m was not declared in this scope""")
                                     return html
-                            var[VARN]=VARV
+                            VARN=VARN.split(" ")
+                            VTYPE="normal"
+                            if(len(VARN)>1):
+                                if(VARN[0]=="const"):
+                                    VTYPE="const"
+                                    del VARN[0]
+                            VARN=" ".join(VARN)
+                            if VARN not in var.keys():
+                                var[VARN]={"value": VARV, "type": VTYPE}
+                            else:
+                                if var[VARN]["type"]=="normal":
+                                    var[VARN]["value"]=VARV
+                                else:
+                                    if mode==2:
+                                        html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+TypeError: {repr(VARN)} was a constant variable"""
+                                        html+="</font></code>"
+
+                                    else:
+                                        ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+TypeError: \033[91;1;4m{repr(VARN)}\033[0m was a constant variable""")
+                                    return html
                         break
                     elif count=="route":
                         if "server" in no:
@@ -1352,7 +1390,9 @@ ArgumentError: Arguments weren't enough (need 2)""")
                             return html
                         if cmd[1].lower()=="script":
                             change_script(cmd[2])
-                        elif cmd[1].lower()=="nobegin":
+                        elif cmd[1].lower()=="style":
+                            change_style(cmd[2])
+                        if cmd[1].lower()=="nobegin":
                             if cmd[2].lower()=="yes":
                                 nobe=1
                             else:
@@ -1675,6 +1715,7 @@ MODULE \033[95;1m{wh+1}\033[0m
 Element.dats: No data get""")
     for i in var.keys():
         if(i not in used):
+            if i=="psmlver": continue
             if "unused-variables" in werr:
                 if mode==2:
                     html+=f"""<code>PSML RAIED <font color="red">A FORCE ERROR</font><br>
@@ -1939,12 +1980,7 @@ __install__.__doc__="""Copy this .py file to python libraries install directory"
 __uninstall__.__doc__="""Remove this .py file from python libraries install direcotry"""
 __online__.__doc__="""Run a online compile web project server for psml"""
 
-if __name__=="__main__":
-    try:
-        from rlcompleter import*
-        import readline
-    except:
-        print("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline")
+def _start():
     import sys,os
     w2err=[]
     realargs=[]
@@ -1957,9 +1993,14 @@ if __name__=="__main__":
     c=0
     justp="all"
     justp_stat=0
+    p_var={"psmlver": {"value": __version__, "type": "const"}}
+    ffile=0
     for i in sys.argv:
         c+=1
         if c==1: continue
+        if ffile:
+            realargs.append(i)
+            continue
         if OM:
             if save!="NO!":
                 sys.stderr.write("\033[91merror\033[0m: You can only export to one directory\n")
@@ -1970,6 +2011,8 @@ if __name__=="__main__":
         if(i=="-h" or i=="--help" or i=="-help"):
             _P_Help()
             exit()
+        elif(i=="--"):
+            ffile=1
         elif(i=="-v" or i=="--version" or i=="-version"):
             sys.stderr.write("LMFS PSML Compiler %s\n"%__version__)
             exit()
@@ -2025,6 +2068,28 @@ if __name__=="__main__":
                         _sc=_sc.replace(" ",  "")
                         _sc=_sc.replace("\t", "")
                         change_script(_sc)
+                    elif temp[0].split("=")[0]=="style":
+                        _st='='.join(temp[0].split("=")[1:])
+                        _st=_st.replace(" ",  "")
+                        _st=_st.replace("\t", "")
+                        change_style(_st)
+                    elif temp[0][:1]=="D":
+                        _INN=temp[0][1:]
+                        _INN=_INN.split("=")
+                        if(len(_INN)<2):
+                            ERR("\033[91merror\033[0m: invaild variable syntax")
+                            continue
+                        n=_INN[0]
+                        v="=".join(_INN[1:])
+                        n=ignore(n, " ")
+                        n=ignore(n, "\t")
+                        if n=="":
+                            ERR("\033[91merror\033[0m: variable name cannot be empty")
+                            continue
+                        if(n in p_var.keys()):
+                            ERR("\033[91merror\033[0m: cannot change a constant that already exists")
+                            continue
+                        p_var[n]={"value": v, "type": "const"}
                     elif temp[0].split("=")[0]=="mode":
                         _M='='.join(temp[0].split("=")[1:])
                         _M=_M.replace(" ",  "")
@@ -2089,6 +2154,28 @@ if __name__=="__main__":
                         _sc=_sc.replace(" ",  "")
                         _sc=_sc.replace("\t", "")
                         change_script(_sc)
+                    elif temp[0].split("=")[0]=="style":
+                        _st='='.join(temp[0].split("=")[1:])
+                        _st=_st.replace(" ",  "")
+                        _st=_st.replace("\t", "")
+                        change_style(_st)
+                    elif temp[0][:1]=="D":
+                        _INN=temp[0][1:]
+                        _INN=_INN.split("=")
+                        if(len(_INN)<2):
+                            ERR("\033[91merror\033[0m: invaild variable syntax")
+                            continue
+                        n=_INN[0]
+                        v="=".join(_INN[1:])
+                        n=ignore(n, " ")
+                        n=ignore(n, "\t")
+                        if n=="":
+                            ERR("\033[91merror\033[0m: variable name cannot be empty")
+                            continue
+                        if(n in p_var.keys()):
+                            ERR("\033[91merror\033[0m: cannot change a constant that already exists")
+                            continue
+                        p_var[n]={"value": v, "type": "const"}
                     elif temp[0].split("=")[0]=="mode":
                         _M='='.join(temp[0].split("=")[1:])
                         _M=_M.replace(" ",  "")
@@ -2134,7 +2221,7 @@ if __name__=="__main__":
             except EOFError:
                 print("\r",end="",flush=1)
                 if save=="NO!":
-                    PG=compile(code,werr=w2err,mode=_M,no=noc,quiet=qit)
+                    PG=compile(code,werr=w2err,mode=_M,no=noc,quiet=qit,varpre=p_var)
                     if keeponly!="all":
                         NPG={}
                         for P in keeponly:
@@ -2180,7 +2267,7 @@ if __name__=="__main__":
                         sys.stderr.write("\033[91mfatal error\033[0m: cannot read '%s'\n"%PSMLC)
                         sys.exit()
                     try:
-                        ret=compile(code, werr=w2err,mode=_M,no=noc,quiet=qit)
+                        ret=compile(code, werr=w2err,mode=_M,no=noc,quiet=qit,varpre=p_var)
                         if ret!=None:
                             if keeponly!="all" and _M!=3:
                                 if type(ret)!=dict:
@@ -2243,7 +2330,7 @@ if __name__=="__main__":
                         sys.stderr.write("\033[91mfatal error\033[0m: cannot read '%s'"%(PSMLC))
                         sys.exit()
                     try:
-                        fcompile(save,code,mode=_M,no=noc,quiet=qit,keeponly=keeponly)
+                        fcompile(save,code,mode=_M,no=noc,quiet=qit,keeponly=keeponly,varpre=p_var)
                     except Exception:
                         traceback.print_exc()
                         sys.stderr.write("\033[91mfatal error\033[0m: an error occurred while compiling\n")
@@ -2254,3 +2341,12 @@ if __name__=="__main__":
             else:
                 sys.stderr.write("\033[91mfatal error\033[0m: no such file or directory '%s'\n"%PSMLC)
                 sys.exit()
+
+if __name__=="__main__":
+    try:
+        from rlcompleter import *
+        import readline
+    except:
+        print("\033[95;1mWarning\033[0m: Your python unsupport GNU Readline")
+    _start()
+    exit()

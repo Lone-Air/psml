@@ -6,5 +6,6 @@ args: path:     A string. The name of the folder to output the compiled content
       no:       A list. If the number of the command received by the Command built-in element of PSML is included in this parameter, the PSML compiler ignores it
       quiet:    A boolean. When it is True, the PSML compiler will not output any NOTE
       keeponly: A list. It specifies as long as the page branches remain.
+      varpre:   A dictionary. Its contents are automatically added to the variable reference table before compilation begins
 
 Directs the output of the compile function to a directory (the path specified by the path parameter)
