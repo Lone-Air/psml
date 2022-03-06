@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.8.1.1"
+__version__="0.8.1.2"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -2215,7 +2215,7 @@ def _start():
                         qit=True
                     elif temp[0]=="o":
                         OM=True
-                    elif temo[0]=="u":
+                    elif temp[0]=="u":
                         upgrade()
                         exit(0)
                     else:
