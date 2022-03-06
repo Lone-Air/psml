@@ -1,4 +1,10 @@
-## 0.8.1.5 - 2022-03-06
+## 0.8.1.7 - 2022-03-06
+
+### Feature
+
+* Uninstall and install additional tips, uninstall more secure
+
+## 0.8.1.6 - 2022-03-06
 
 ### Changed
 
@@ -192,7 +198,7 @@ changed: Change all raised in the psml error text to throws.
 
 #  (2022-02-21)
 
-fiz: Fix element error generation problem in '4' mode.
+fix: Fix element error generation problem in '4' mode.
 
 #  (2022-02-21)
 

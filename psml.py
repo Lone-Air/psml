@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.8.1.6"
+__version__="0.8.1.7"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -1773,7 +1773,8 @@ def __install__():
         mkgz("psml.1")
         shutil.copyfile("psml.1.gz", shared)
     except Exception:
-        ERR("\033[91merror\033[0m: unable to install manual page of psml")
+        ERR("\033[95mwarning\033[0m: unable to install manual page of psml")
+    print("\033[92mInstall successfully")
     return
 
 def upgrade():
@@ -1891,6 +1892,14 @@ def find_exe(name):
 def __uninstall__():
     import os,sys
     try:
+        INFO=input("Do you really want to uninstall PSML? Enter 'Yes, do as I say' to uninstall\n[? ")
+        if INFO!="Yes, do as I say":
+            ERR("Cencel")
+            return
+    except:
+        ERR("Cancel")
+        return
+    try:
         path=sys.path.copy()
         for i in path:
             if len(i.split(".zip"))>1:
@@ -1902,6 +1911,7 @@ def __uninstall__():
         os.remove(os.path.join(path[1],"PSML.py"))
         os.remove(os.path.join(path[1],"psml_web.py"))
         os.remove(shared)
+        print("\033[91mUninstall successfully\033[0m")
     except Exception:
         ERR("\033[91merror\033[0m: uninstall failed")
     return
