@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.8"
+__version__="0.8.1"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -26,24 +26,25 @@ It can reduce some of the development steps for you, so that you can complete th
 It is free(libre) software, open source under the GPL v2.0 license.
 
 Options:
-        -Werror-*       Make this warning an error for the psml compiler task
-        -no-*           Causes the psml interpreter to ignore the command
-        -keeponly=*     Only the page is output after compilation
-        -script=*       Set the language of the script (default: javascript)
-        -style=*        Set the format of style (default: text/css)
-        -print=*        Print the results of the compilation
-        -D*=*           Define variables in advance
-        -c -compile     Only pretreatment psml code (same effect as '-mode=3')
-        -q -quiet       Block output of any NOTE
-        -o -output *    Compilation results are output to '*' ('*' is a directory name)
-        -mode=1|2|3|4   Set the compilation mode
-        -install        Install PSML to the directory where Python is located
-        -online         Start psml_web
-        -upgrade        Upgrade psml version
-        -check-version  Detect psml version update
-        -man            Displays the PSML manual pages
-        -h -help        Show help of psml
-        -v -version     Show version of psml
+        -Werror-*           Make this warning an error for the psml compiler task
+        -no-*               Causes the psml interpreter to ignore the command
+        -keeponly=*         Only the page is output after compilation
+        -script=*           Set the language of the script (default: javascript)
+        -style=*            Set the format of style (default: text/css)
+        -print=*            Print the results of the compilation
+        -D*=*               Define variables in advance
+        -c -compile         Only pretreatment psml code (same effect as '-mode=3')
+        -q -quiet           Block output of any NOTE
+        -o -output *        Compilation results are output to '*' ('*' is a directory name)
+        -mode=1|2|3|4       Set the compilation mode
+        -install            Install PSML to the directory where Python is located
+        -uninstall          uninstall psml
+        -online             Start psml_web
+        -u -upgrade         Upgrade psml version
+        -cv -check-version  Detect psml version update
+        -man                Displays the PSML manual pages
+        -h -help            Show help of psml
+        -v -version         Show version of psml
 
 Compile Mode:
              1: Normal compile mode
@@ -1821,7 +1822,7 @@ def _check_ver():
         VER=VER.read().decode("utf8")
         VER=ignore(VER, "\n")
         if VER==__version__:
-            print("\033[92mIt's the latest edition\033[0m")
+            print("\033[92mIt's the latest version\033[0m")
             os.chdir("..")
             return "-"
         else:
@@ -1889,9 +1890,13 @@ def find_exe(name):
 
 def __uninstall__():
     import os
-    os.remove(__file__)
-    os.remove(os.path.join(os.path.dirname(__file__),"psml_web.py"))
-    shared=os.path.join(os.path.join(os.path.join(os.path.join(shared, "share"),"man"), "man1"), "psml.1.gz")
+    try:
+        os.remove(__file__)
+        os.remove(os.path.join(os.path.dirname(__file__),"psmlweb"))
+        shared=os.path.realpath(os.path.dirname(os.path.dirname(sys.executable)))
+        shared=os.path.join(os.path.join(os.path.join(os.path.join(shared, "share"),"man"), "man1"), "psml.1.gz")
+        os.remove(os.path.join(path[1],"PSML.py"))
+        os.remove(os.path.join(path[1],"psml_web.py"))
     try:
         os.remove(shared)
     except Exception:
@@ -2035,10 +2040,10 @@ def _start():
                     elif temp[0]=="man":
                         showman()
                         exit(0)
-                    elif temp[0]=="upgrade":
+                    elif temp[0]=="upgrade" or temp[0]=="u":
                         upgrade()
                         exit(0)
-                    elif '-'.join(temp[:2])=="check-version":
+                    elif '-'.join(temp[:2])=="check-version" or temp[0]=="cv" :
                         _check_ver()
                         exit(0)
                     elif temp[0]=="online":
@@ -2050,6 +2055,9 @@ def _start():
                             exit()
                         __install__()
                         exit()
+                    elif temp[0]=="uninstall":
+                        uninstall()
+                        exit(0)
                     elif temp[0].split("=")[0]=="keeponly":
                         keeponly='='.join(temp[0].split("=")[1:])
                         keeponly=keeponly.replace(" ",  "")
@@ -2121,10 +2129,10 @@ def _start():
                     elif temp[0]=="man":
                         showman()
                         exit(0)
-                    elif temp[0]=="upgrade":
+                    elif temp[0]=="upgrade" or temp[0]=="u":
                         upgrade()
                         exit(0)
-                    elif '-'.join(temp[:2])=="check-version":
+                    elif '-'.join(temp[:2])=="check-version" or temp[0]=="cv":
                         _check_ver()
                         exit(0)
                     elif temp[0]=="online":
@@ -2136,6 +2144,9 @@ def _start():
                             exit()
                         __install__()
                         exit()
+                    elif temp[0]=="uninstall":
+                        uninstall()
+                        exit(0)
                     elif temp[0].split("=")[0]=="keeponly":
                         keeponly='='.join(temp[0].split("=")[1:])
                         keeponly=keeponly.replace(" ",  "")
@@ -2205,6 +2216,9 @@ def _start():
                         qit=True
                     elif temp[0]=="o":
                         OM=True
+                    elif temo[0]=="u":
+                        upgrade()
+                        exit(0)
                     else:
                         sys.stderr.write(f"\033[91mfatal error\033[0m: unrecognized option (-): {repr(temp[0])}\n")
                         sys.exit()

@@ -1,3 +1,13 @@
+## 0.8.1 - 2022-03-06
+
+### Feature
+
+* Added '-uninstall' to uninstall psml
+
+### Fixed
+
+* Fixed some text details
+
 ## 0.8 - 2022-03-06
 
 ### Feature
