@@ -1,3 +1,13 @@
+## 1.0 - 2022-03-08
+
+### Removed
+
+* Preprocessing command (command element instead)
+
+### Refactored
+
+* The psml.py is no longer copied directly to psml as the psml compiler command (the same applies to psmlweb)
+
 ## 0.8.2 - 2022-03-08
 
 ### Changed

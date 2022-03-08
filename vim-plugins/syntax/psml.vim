@@ -25,7 +25,6 @@ syn region psmlSYM start=/&/ end=/&/ skip=/\\&/
 syn region psmlSTR start=/\[/ end=/\]/ skip=/\\\]/
 syn region psmlELEMENT start=/(.*?):/ end=/:/ skip=/\\:/
 syn region psmlATT start=/|/ end=/|/ skip=/\\|/
-syn region psmlPCOM start=/#/ end=/\n/ skip=/\\>/
 syn region psmlPVAR start=/\$</ end=/>/ 
 syn region psmlEType start=/(/ end=/)/
 syn region psmlLATT start=/\/>/ end=/\n/
@@ -40,7 +39,6 @@ hi psmlSTR guifg=#778500
 hi psmlELEMENT guifg=#1fcc2d
 hi psmlATT guifg=#474747
 hi psmlLATT guifg=#474747
-hi psmlPCOM guifg=#37bf84
 hi psmlPVAR guifg=#00ffff
 hi psmlEType guifg=#2a87a3
 hi psmlSpecialStm guifg=#ff7700
