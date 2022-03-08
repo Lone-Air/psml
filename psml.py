@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="0.8.1.7"
+__version__="0.8.2"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -52,7 +52,7 @@ Compile Mode:
              3: Run the preprocessor only (you can use the '-c' parameter directly)
              4: Compile without running the preprocessor
 
-                                                    \033[1m This compiler tool has a super \033[1;4;93mPlayability (XD)\033[0m
+                                                                       \033[1m This compiler tool has a super \033[1;4;93mPlayability (XD)\033[0m
 
 Thanks for using.
 When you find bugs, you may report it to \033[92m{__author__}\033[0m\n""")
@@ -379,7 +379,6 @@ FileReaderError: Cannot read {repr(n)}""")
                                 return html
                         del codes[wh-dels]
                         read=read.split("\n")
-                        read=["|INSERT|",*read]
                         cpd=0
                         for ist in read:
                             if "".join("".join(ist.split(" ")).split("\t"))=="":
@@ -436,7 +435,7 @@ FileReaderError: Cannot read {repr(n)}""")
                             return html
                         del codes[wh-dels]
                         read=read.split("\n")
-                        read=["|INSERT PHP|","php{","[",*read,"]","}"]
+                        read=["php{","[",*read,"]","}"]
                         cpd=0
                         for ist in read:
                             if "".join("".join(ist.split(" ")).split("\t"))=="":
@@ -476,7 +475,7 @@ ControlArgumentsError: Need 1 argument""")
                             return html
                         n=",".join(n)
                         del codes[wh-dels]
-                        read=["|JavaScript|","html","{","[<script language='javascript' src="+repr(n)+">]","}"]
+                        read=["html","{","[<script language='javascript' src="+repr(n)+">]","}"]
                         cpd=0
                         for ist in read:
                             if "".join("".join(ist.split(" ")).split("\t"))=="":
@@ -540,7 +539,7 @@ LookUpError: Unknown version {n}""")
                             ins="""html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
 """
-                        read=["|DOCUMENT TYPE OF HTML|","doc","{",ins,"}"]
+                        read=["doc","{",ins,"}"]
                         for ist in read:
                             if "".join("".join(ist.split(" ")).split("\t"))=="":
                                 continue
@@ -579,7 +578,7 @@ ControlArgumentsError: Need 1 argument""")
                             return html
                         n=",".join(n)
                         del codes[wh-dels]
-                        read=["|CSS|","html","{","[<link rel='stylesheet' type='text/css' href="+repr(n)+">]","}"]
+                        read=["html","{","[<link rel='stylesheet' type='text/css' href="+repr(n)+">]","}"]
                         cpd=0
                         for ist in read:
                             if "".join("".join(ist.split(" ")).split("\t"))=="":
@@ -619,7 +618,7 @@ ControlArgumentsError: Need 1 argument""")
                             return html
                         n=",".join(n)
                         del codes[wh-dels]
-                        read=["|ICO|","html","{","[<link rel='Shortcut Icon' type='image/x-icon' href="+repr(n)+">]","}"]
+                        read=["html","{","[<link rel='Shortcut Icon' type='image/x-icon' href="+repr(n)+">]","}"]
                         cpd=0
                         for ist in read:
                             if "".join("".join(ist.split(" ")).split("\t"))=="":
@@ -660,7 +659,6 @@ ControlArgumentsError: Need 1 argument""")
                         n=",".join(n)
                         del codes[wh-dels]
                         read=["title","{",f"    inner:[{n}]","    end:true","}"]
-                        read=["|HTML TITLE|",*read]
                         cpd=0
                         for ist in read:
                             if "".join("".join(ist.split(" ")).split("\t"))=="":
@@ -701,7 +699,6 @@ ControlArgumentsError: Need 1 argument""")
                         n=",".join(n)
                         del codes[wh-dels]
                         read=["meta","{",f"    charset:[{n}]","}"]
-                        read=["|HTML ENCODING|",*read]
                         cpd=0
                         for ist in read:
                             if "".join("".join(ist.split(" ")).split("\t"))=="":
@@ -758,7 +755,6 @@ MODULE \033[95;1m{wh-dels+1}\033[0m
 ControlArgumentsError: Time must be a number""")
                         del codes[wh-dels]
                         read=["meta","{","    http-equiv:refresh",f"    content:[{n[1]};url={n[0]}]","}"]
-                        read=["|GOTO|",*read]
                         cpd=0
                         for ist in read:
                             if "".join("".join(ist.split(" ")).split("\t"))=="":
@@ -789,7 +785,6 @@ ControlArgumentsError: Need 1 argument""")
                         n=",".join(n)
                         del codes[wh-dels]
                         read=["meta","{",f"    name:[{kb}]",f"    content:[{n}]","}"]
-                        read=["|DESCRIBE|",*read]
                         cpd=0
                         for ist in read:
                             if "".join("".join(ist.split(" ")).split("\t"))=="":
@@ -815,6 +810,7 @@ ControlNameError: Unknown key {repr(v)}""")
         wh+=1
     dels=0
     wh=0
+    cpd=0
     for obj in codes:
         if mode==4: break
         if len(obj)>=2:

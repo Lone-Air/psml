@@ -1,3 +1,9 @@
+## 0.8.2 - 2022-03-08
+
+### Changed
+
+* Remove comments added by preprocessing command
+
 ## 0.8.1.7 - 2022-03-06
 
 ### Feature
