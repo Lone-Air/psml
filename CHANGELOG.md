@@ -1,3 +1,9 @@
+## 1.0.1 - 2022-03-09
+
+### Fixed
+
+* Fix alload unable to recurse
+
 ## 1.0 - 2022-03-08
 
 ### Removed

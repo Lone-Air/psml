@@ -8,5 +8,6 @@ args: strings: A string. PSML code
       brc_:    An integer. This parameter specifies whether a page branch exists at the start of compilation.
       no:      A list. If the number of the command received by the Command built-in element of PSML is included in this parameter, the PSML compiler ignores it
       quiet:   A boolean. When it is True, the PSML compiler will not output any NOTE
+      al_:     A list. The files it contains will no longer be insertable
 
 This function is the main part of the PSML compiler

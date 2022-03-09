@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="1.0"
+__version__="1.0.1"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -221,7 +221,7 @@ def fcompile(path,string,mode=1,werr=[],no=[],quiet=False,keeponly="all",varpre=
         with open(path+".compiled.psml", "w") as f:
             f.write(html)
     return
-def compile(string,mode=1,varpre={},nobe=0,werr=[],brc="index",brc_=1,no=[],quiet=False):
+def compile(string,mode=1,varpre={},nobe=0,werr=[],brc="index",brc_=1,no=[],quiet=False, al_=[]):
     global html, pages, pages_c, sc, st
     routes=0
     html=""
@@ -239,7 +239,7 @@ def compile(string,mode=1,varpre={},nobe=0,werr=[],brc="index",brc_=1,no=[],quie
     idx=0
     del_=0
     codes_=codes.copy()
-    alload=[]
+    alload=al_.copy()
     if mode!=4:
         for i in codes_:
             i=sub("\t","",i)
@@ -1097,7 +1097,7 @@ UnableToReadFile""")
                                         return html
                                     oh=html
                                     psml=_IN+";!~*\nCommand(End)"
-                                    res=compile(psml, mode=mode, varpre=var, nobe=1, brc="INSERT", brc_=bran, werr=werr, no=no)
+                                    res=compile(psml, mode=mode, varpre=var, nobe=1, brc="INSERT", brc_=bran, werr=werr, no=no, al_=alload.copy())
                                     html=oh+res["INSERT"]
                                 else:
                                     if mode==2:
@@ -1288,7 +1288,7 @@ ArgumentError: Arguments weren't enough""")
                                 psml="\n".join(psml.split("\\n"))
                                 psml=PS2NS(psml)
                                 psml+=";!~*\nCommand(End)"
-                                result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran,werr=werr,no=no)
+                                result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran,werr=werr,no=no,al_=alload)
                                 if(type(result)!=dict):
                                     if mode==2:
                                         html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
@@ -1312,7 +1312,7 @@ PsmlInsertThrewError""")
                                 psml="\n".join(psml.split("\\n"))
                                 psml=PS2NS(psml)
                                 psml+=";!~*\nCommand(End)"
-                                result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran,werr=werr,no=no)
+                                result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran,werr=werr,no=no,al_=alload)
                                 if(type(result)!=dict):
                                     if mode==2:
                                         html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
@@ -1336,7 +1336,7 @@ PsmlInsertThrewError""")
                                 psml="\n".join(psml.split("\\n"))
                                 psml=PS2NS(psml)
                                 psml+=";!~*\nCommand(End)"
-                                result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran,no=no,werr=werr)
+                                result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran,no=no,werr=werr,al_=alload)
                                 if(type(result)!=dict):
                                     if mode==2:
                                         html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
