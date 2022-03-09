@@ -1,4 +1,4 @@
-#html<5>
+command(html 5);
 input(button){
     value:abc
     br:true
@@ -28,9 +28,11 @@ a{
     word-wrap:true
 }
 style{
-    button&Bs&
+[
+    button{
         color:red
-    &Be&
+    }
+]
 }
 html{
 <button id="a">press me</button><br>
@@ -39,8 +41,4 @@ script{
 [    var a=document.getElementById("a")
     a.innerHTML="<font color=\"blue\">hello</font>"]
 }
-|
- This is an Annotation
- Tip:
-    &Bs&={ &Be&=}  &Ms&=[ &Me&=] &Ss&=( &Se&=) &sp&=; &or&=Annotation_identifier &end&=\n &-&=!~* &in&=- &is&=: &no&=<space> &ord&=# &voff&=> &von&=< &vuse&=$ &cod&=/
-|
+

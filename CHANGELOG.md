@@ -1,3 +1,9 @@
+## 1.0.2 - 2022-03-09
+
+### Changed
+
+* Change all hard coding to prevent repetition of English words
+
 ## 1.0.1 - 2022-03-09
 
 ### Fixed

@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="1.0.1"
+__version__="1.0.2"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -112,66 +112,66 @@ def ERR(text):
 
 def PS2NS(psml):
     psml="\n".join(psml.split("\\n"))
-    psml="{".join(psml.split("&Bs&"))
-    psml="}".join(psml.split("&Be&"))
-    psml="[".join(psml.split("&Ms&"))
-    psml="]".join(psml.split("&Me&"))
-    psml="(".join(psml.split("&Ss&"))
-    psml=")".join(psml.split("&Se&"))
-    psml=";".join(psml.split("&sp&"))
-    psml=":".join(psml.split("&is&"))
-    psml="-".join(psml.split("&in&"))
-    psml="!~*".join(psml.split("&-&"))
-    psml="\n".join(psml.split("&end&"))
-    psml="|".join(psml.split("&or&"))
-    psml=" ".join(psml.split("&no&"))
-    psml="#".join(psml.split("&ord&"))
-    psml=">".join(psml.split("&voff&"))
-    psml="<".join(psml.split("&von&"))
-    psml="$".join(psml.split("&vuse&"))
-    psml="/".join(psml.split("&cod&"))
+    psml="{".join(psml.split("&BBBBBBBBKKKUKNISSSs&"))
+    psml="}".join(psml.split("&BBBBBBBBKKKUKNISSSe&"))
+    psml="[".join(psml.split("&MMMMMMMMKKKKUKNISSSs&"))
+    psml="]".join(psml.split("&MMMMMMMMKKKKUKNISSSe&"))
+    psml="(".join(psml.split("&SSSSUKNEEEEs&"))
+    psml=")".join(psml.split("&SSSSUKNEEEEe&"))
+    psml=";".join(psml.split("&SSSSUKNEEEEp&"))
+    psml=":".join(psml.split("&INNNISSSNNXTTTT&"))
+    psml="-".join(psml.split("&HHHSSSPINNNUKN&"))
+    psml="!~*".join(psml.split("&THSSENDDDD&"))
+    psml="\n".join(psml.split("&BBBBBBBBKKKUKNISSSLKLNEUNXXXXX&"))
+    psml="|".join(psml.split("&ANNNIDDDNTTTER&"))
+    psml=" ".join(psml.split("&NOTHHHH&"))
+    psml="#".join(psml.split("&ORDJJJJ&"))
+    psml=">".join(psml.split("&VAROFFFFF&"))
+    psml="<".join(psml.split("&VARONNNN&"))
+    psml="$".join(psml.split("&VARUSEEEDDD&"))
+    psml="/".join(psml.split("&CODDDSPPP&"))
     return psml
 
 def NS2PS(NS, mode=1):
     if mode==1:
         i=NS
-        i="&Bs&".join(i.split("{"))
-        i="&Be&".join(i.split("}"))
-        i="&Ms&".join(i.split("["))
-        i="&Me&".join(i.split("]"))
-        i="&Se&".join(i.split(")"))
-        i="&Ss&".join(i.split("("))
-        i="&sp&".join(i.split(";"))
-        i="&is&".join(i.split(":"))
-        i="&in&".join(i.split("-"))
-        i="&-&".join(i.split("!~*"))
-        i="&end&".join(i.split("\n"))
-        i="&or&".join(i.split("|"))
-        i="&no&".join(i.split(" "))
-        i="&ord&".join(i.split("#"))
-        i="&voff&".join(i.split(">"))
-        i="&von&".join(i.split("<"))
-        i="&vuse&".join(i.split("$"))
-        i="&cod&".join(i.split("`"))
+        i="&BBBBBBBBKKKUKNISSSs&".join(i.split("{"))
+        i="&BBBBBBBBKKKUKNISSSe&".join(i.split("}"))
+        i="&MMMMMMMMKKKKUKNISSSs&".join(i.split("["))
+        i="&MMMMMMMMKKKKUKNISSSe&".join(i.split("]"))
+        i="&SSSSUKNEEEEe&".join(i.split(")"))
+        i="&SSSSUKNEEEEs&".join(i.split("("))
+        i="&SSSSUKNEEEEp&".join(i.split(";"))
+        i="&INNNISSSNNXTTTT&".join(i.split(":"))
+        i="&HHHSSSPINNNUKN&".join(i.split("-"))
+        i="&THSSENDDDD&".join(i.split("!~*"))
+        i="&BBBBBBBBKKKUKNISSSLKLNEUNXXXXX&".join(i.split("\n"))
+        i="&ANNNIDDDNTTTER&".join(i.split("|"))
+        i="&NOTHHHH&".join(i.split(" "))
+        i="&ORDJJJJ&".join(i.split("#"))
+        i="&VAROFFFFF&".join(i.split(">"))
+        i="&VARONNNN&".join(i.split("<"))
+        i="&VARUSEEEDDD&".join(i.split("$"))
+        i="&CODDDSPPP&".join(i.split("`"))
         NS=i
     if mode==2:
         codes=NS
-        codes="&Bs&".join(codes.split("\\{"))
-        codes="&Be&".join(codes.split("\\}"))
-        codes="&Ms&".join(codes.split("\\["))
-        codes="&Me&".join(codes.split("\\]"))
-        codes="&Se&".join(codes.split("\\)"))
-        codes="&Ss&".join(codes.split("\\("))
-        codes="&sp&".join(codes.split("\\;"))
-        codes="&is&".join(codes.split("\\:"))
-        codes="&in&".join(codes.split("\\-"))
-        codes="&or&".join(codes.split("\\|"))
-        codes="&no&".join(codes.split("\\ "))
-        codes="&ord&".join(codes.split("\\#"))
-        codes="&voff&".join(codes.split("\\>"))
-        codes="&von&".join(codes.split("\\<"))
-        codes="&vuse&".join(codes.split("\\$"))
-        codes="&cod&".join(codes.split("\\`"))
+        codes="&BBBBBBBBKKKUKNISSSs&".join(codes.split("\\{"))
+        codes="&BBBBBBBBKKKUKNISSSe&".join(codes.split("\\}"))
+        codes="&MMMMMMMMKKKKUKNISSSs&".join(codes.split("\\["))
+        codes="&MMMMMMMMKKKKUKNISSSe&".join(codes.split("\\]"))
+        codes="&SSSSUKNEEEEe&".join(codes.split("\\)"))
+        codes="&SSSSUKNEEEEs&".join(codes.split("\\("))
+        codes="&SSSSUKNEEEEp&".join(codes.split("\\;"))
+        codes="&INNNISSSNNXTTTT&".join(codes.split("\\:"))
+        codes="&HHHSSSPINNNUKN&".join(codes.split("\\-"))
+        codes="&ANNNIDDDNTTTER&".join(codes.split("\\|"))
+        codes="&NOTHHHH&".join(codes.split("\\ "))
+        codes="&ORDJJJJ&".join(codes.split("\\#"))
+        codes="&VAROFFFFF&".join(codes.split("\\>"))
+        codes="&VARONNNN&".join(codes.split("\\<"))
+        codes="&VARUSEEEDDD&".join(codes.split("\\$"))
+        codes="&CODDDSPPP&".join(codes.split("\\`"))
         NS=codes
     return NS
 
@@ -1390,7 +1390,7 @@ PsmlInsertThrewError""")
                         html+="<br/>\n"
                 if "word-wrap" in elem:
                     if dats[elem.index("word-wrap")].lower()=="true":
-                        html+="&end&"
+                        html+="&BBBBBBBBKKKUKNISSSLKLNEUNXXXXX&"
             else:
                 html+=">\n"
                 if mode==1 and not quiet:
@@ -1656,23 +1656,24 @@ string: code of psml-page
 ------
     Escape Identifier:
 
-        &Bs&={
-        &Be&=}
-        &Ms&=[
-        &Ss&=(
-        &Se&=)
-        &sp&=;
-        &or&=Annotation_identifier
-        &end&=\\n
-        &-&=!~*
-        &in&=-
-        &is&=:
-        &no&=<space>
-        &ord&=#
-        &von&=<
-        &voff&=>
-        &vuse&=$
-        &cod&=/
+        &BBBBBBBBKKKUKNISSSs&={
+        &BBBBBBBBKKKUKNISSSe&=}
+        &MMMMMMMMKKKKUKNISSSs&=[
+        &MMMMMMMMKKKKUKNISSSe&=]
+        &SSSSUKNEEEEs&=(
+        &SSSSUKNEEEEe&=)
+        &SSSSUKNEEEEp&=;
+        &ANNNIDDDNTTTER&=Annotation_identifier
+        &BBBBBBBBKKKUKNISSSLKLNEUNXXXXX&=\\n
+        &THSSENDDDD&=!~*
+        &HHHSSSPINNNUKN&=-
+        &INNNISSSNNXTTTT&=:
+        &NOTHHHH&=<space>
+        &ORDJJJJ&=#
+        &VARONNNN&=<
+        &VAROFFFFF&=>
+        &VARUSEEEDDD&=$
+        &CODDDSPPP&=/
 ------
     Compile Programming language:
 
