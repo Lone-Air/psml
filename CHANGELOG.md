@@ -1,3 +1,9 @@
+## 1.0.3 - 2022-03-10
+
+### Feature
+
+* Added insert plain text file command: instext
+
 ## 1.0.2 - 2022-03-09
 
 ### Changed

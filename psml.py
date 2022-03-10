@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="1.0.2"
+__version__="1.0.3"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -376,35 +376,33 @@ SyntaxError: Invalid Syntax (Element only 1)""")
         if len(tpe)<1:
             tpe.append("/")
         elif len(tpe)>1:
-            if 1:
-                if mode==2:
-                    html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
+            if mode==2:
+                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 SyntaxError: Invalid Syntax (Type of element only one or zero)"""
-                    html+="</font></code>"
+                html+="</font></code>"
 
-                else:
-                    ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
+            else:
+                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 SyntaxError: Invalid Syntax (Type of element only one or zero)""")
             return html
         if len(tpe)!=len(ele):
-            if 1:
-                if mode==2:
-                    html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
+            if mode==2:
+                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 ReadyCompilingError: The length of types isn't equal to the length of elements"""
-                    html+="</font></code>"
+                html+="</font></code>"
 
-                else:
-                    ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
+            else:
+                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ReadyCompilingError: The length of types isn't equal to the length of elements""")
-                return html
+            return html
         butn=("script", "style", "html", "java", "php", "doc", "var", "begin", "route", "command")
         special=("begin", "route")
         noarg=("command",)
@@ -1038,6 +1036,56 @@ MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ArgumentError: No argument""")
                             return html
+                    elif cmd[0].lower()=="instext":
+                        if len(cmd)<2:
+                            if mode==2:
+                                html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+ArgumentError: Arguments weren't enough"""
+                                html+="</font></code>"
+
+                            else:
+                                ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+ArgumentError: Arguments weren't enough""")
+                            return html
+                        else:
+                            fn=' '.join(cmd[1:])
+                            n=fn
+                            if os.path.exists(fn):
+                                try:
+                                    _IN=getcont(fn)
+                                except:
+                                    if mode==2:
+                                        html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+UnableToReadFile"""
+                                        html+="</font></code>"
+
+                                    else:
+                                        ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+UnableToReadFile""")
+                                    return html
+                                html+=_IN
+                            else:
+                                if mode==2:
+                                    html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+FileNotFoundError: {repr(fn)} no such file"""
+                                    html+="</font></code>"
+
+                                else:
+                                    ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+FileNotFoundError: {repr(fn)} no such file""")
+                                return html
                     elif cmd[0].lower()=="insert":
                         if len(cmd)<2:
                             if mode==2:
@@ -1178,39 +1226,38 @@ ArgumentError: Arguments weren't enough""")
                         else:
                             fn=' '.join(cmd[1:])
                             n=fn
-                            if 1:
-                                if os.path.exists(fn):
-                                    try:
-                                        _IN=getcont(fn)
-                                    except:
-                                        if mode==2:
-                                            html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
-MODULE <font color="green">{wh+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
-UnableToReadFile"""
-                                            html+="</font></code>"
-
-                                        else:
-                                            ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
-MODULE \033[95;1m{wh+1}\033[0m
-    \033[93m{i}\033[0m
-UnableToReadFile""")
-                                        return html
-                                    html+=f"<?php\n{_IN}\n?>"
-                                else:
+                            if os.path.exists(fn):
+                                try:
+                                    _IN=getcont(fn)
+                                except:
                                     if mode==2:
                                         html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
-FileNotFoundError: {repr(fn)} no such file"""
+UnableToReadFile"""
                                         html+="</font></code>"
 
                                     else:
                                         ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
-FileNotFoundError: {repr(fn)} no such file""")
+UnableToReadFile""")
                                     return html
+                                html+=f"<?php\n{_IN}\n?>"
+                            else:
+                                if mode==2:
+                                    html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
+MODULE <font color="green">{wh+1}</font><br>
+<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
+FileNotFoundError: {repr(fn)} no such file"""
+                                    html+="</font></code>"
+
+                                else:
+                                    ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
+MODULE \033[95;1m{wh+1}\033[0m
+    \033[93m{i}\033[0m
+FileNotFoundError: {repr(fn)} no such file""")
+                                return html
                     elif cmd[0].lower()=="html":
                         if len(cmd)!=2:
                             if mode==2:
@@ -1331,29 +1378,28 @@ PsmlInsertThrewError""")
                                     old_html+=result["INSERT"]
                                 html=old_html
                         else:
-                            if 1:
-                                psml=dats[elem.index("psml")]
-                                psml="\n".join(psml.split("\\n"))
-                                psml=PS2NS(psml)
-                                psml+=";!~*\nCommand(End)"
-                                result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran,no=no,werr=werr,al_=alload)
-                                if(type(result)!=dict):
-                                    if mode==2:
-                                        html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
+                            psml=dats[elem.index("psml")]
+                            psml="\n".join(psml.split("\\n"))
+                            psml=PS2NS(psml)
+                            psml+=";!~*\nCommand(End)"
+                            result=compile(psml,mode=mode,varpre=var,nobe=1,brc="INSERT",brc_=bran,no=no,werr=werr,al_=alload)
+                            if(type(result)!=dict):
+                                if mode==2:
+                                    html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
 MODULE <font color="green">{wh+1}</font><br>
 <font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
 PsmlInsertThrewError"""
-                                        html+="</font></code>"
+                                    html+="</font></code>"
 
-                                    else:
-                                        ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
+                                else:
+                                    ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
 MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 PsmlInsertThrewError""")
-                                    return html
-                                else:
-                                    old_html+=">"+result["INSERT"]
-                                html=old_html
+                                return html
+                            else:
+                                old_html+=">"+result["INSERT"]
+                            html=old_html
                     html=old_html
                 if "inner" in elem:
                     if not count in butn and "psml" not in elem:
