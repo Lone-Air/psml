@@ -16,7 +16,7 @@ Example: <br>
 <code>
 $ cat &gt; test.psml &lt;&lt; "EOF"<br>
 > text{<br>
-> &nbsp;&nbsp;&nbsp;&nbsp;inner: Hello&no&World! | &no& is is a substitute for the space symbol |<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;inner: Hello-World! <br>
 > }<br>
 > command(end)<br>
 > EOF<br>
