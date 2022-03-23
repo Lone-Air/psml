@@ -1,3 +1,9 @@
+## 1.1.1 - 2022-03-23
+
+### Fixed
+
+* Fix Update Check Unavailable Problem
+
 ## 1.1 - 2022-03-23
 
 ### Changed

@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="1.1"
+__version__="1.1.1"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -1526,7 +1526,7 @@ def upgrade():
             return
         import os,shutil
         os.chdir("temp")
-        os.system(wr_git[0]+" clone git://github.com/Lone-Air/PSML psml")
+        os.system(wr_git[0]+" clone git@github.com:Lone-Air/PSML psml")
         try: os.chdir("psml")
         except:
             ERR("\033[91mfatal error\033[0m: unable to clone the repository of psml")
@@ -1571,7 +1571,7 @@ def _check_ver():
             ERR("\033[91mfatal error\033[0m: git not found")
             os.chdir("..")
             return "ERR"
-        os.system(wr_git[0]+" clone git://github.com/Lone-Air/PSML psml")
+        os.system(wr_git[0]+" clone git@github.com:Lone-Air/PSML psml")
         try:
             os.chdir("psml")
         except:
