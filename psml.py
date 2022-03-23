@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="1.0.3"
+__version__="1.1"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -410,6 +410,7 @@ ReadyCompilingError: The length of types isn't equal to the length of elements""
             count=sub(" ",'',str(count))
             defcnt=count
             count=sub(";","",str(count))
+            countf=count
             count="".join(count.split('\t')).lower()
             if count=="":
                 if mode==2:
@@ -429,10 +430,10 @@ SyntaxError: Invalid Syntax (Need an element)""")
                     if count=="doc":
                         pass
                     else:
-                        html+=f"<{count} type={repr(tpe[ele.index(defcnt)])}"
+                        html+=f"<{countf} type={repr(tpe[ele.index(defcnt)])}"
             else:
                 if not count in butn:
-                    html+=f"<{count}"
+                    html+=f"<{countf}"
             if len(findall(r'[{](.*?)[}]',i))>0 or count in noarg:
                 inner=True
                 data=findall(r'[{](.*?)[}]',i)
@@ -1328,7 +1329,7 @@ MODULE \033[95;1m{wh+1}\033[0m
     \033[93m{i}\033[0m
 ArgumentError: Arguments weren't enough""")
                         return html
-                    if count not in butn:
+                    if countf not in butn:
                         if "end" in elem:
                             if dats[elem.index("end")].lower()=="true":
                                 psml=dats[elem.index("psml")]
@@ -1405,7 +1406,7 @@ PsmlInsertThrewError""")
                     if not count in butn and "psml" not in elem:
                         if "end" in elem:
                             if dats[elem.index("end")].lower()=="true":
-                                html+=f">{dats[elem.index('inner')]}</{count}>\n"
+                                html+=f">{dats[elem.index('inner')]}</{countf}>\n"
                             else:
                                 html+=">%s"%dats[elem.index('inner')]
                         else:
@@ -1413,7 +1414,7 @@ PsmlInsertThrewError""")
                     else:
                         if "end" in elem:
                             if dats[elem.index("end")].lower()=="true":
-                                html+=f"{dats[elem.index('inner')]}</{count}>\n"
+                                html+=f"{dats[elem.index('inner')]}</{countf}>\n"
                             else:
                                 html+="%s"%dats[elem.index('inner')]
                         else:
@@ -1422,7 +1423,7 @@ PsmlInsertThrewError""")
                     if not count in butn and "psml" not in elem:
                         if "end" in elem:
                             if dats[elem.index("end")].lower()=="true":
-                                html+=f"></{count}>\n"
+                                html+=f"></{countf}>\n"
                             else:
                                 html+=">\n"
                         else:
@@ -1430,7 +1431,7 @@ PsmlInsertThrewError""")
                     else:
                         if "end" in elem:
                             if dats[elem.index("end")].lower()=="true":
-                                html+=f"</{count}>\n"
+                                html+=f"</{countf}>\n"
                 if "br" in elem:
                     if dats[elem.index("br")].lower()=="true":
                         html+="<br/>\n"

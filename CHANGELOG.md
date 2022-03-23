@@ -1,3 +1,9 @@
+## 1.1 - 2022-03-23
+
+### Changed
+
+* Non-internal element names will no longer be all lowercase
+
 ## 1.0.3 - 2022-03-10
 
 ### Feature
