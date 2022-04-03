@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="1.1.1"
+__version__="1.1.2"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -1316,19 +1316,6 @@ CommandError: No such command""")
                     html+=tmp
                 if "psml" in elem:
                     old_html=html
-                    if mode==2:
-                        html=f"""<code>PSML THREW <font color="red">AN ERROR</font><br>
-MODULE <font color="green">{wh+1}</font><br>
-<font color="orange">&nbsp;&nbsp;&nbsp;&nbsp;{tohtml(i)}</font><br><font color="red">
-ArgumentError: Arguments weren't enough"""
-                        html+="</font></code>"
-
-                    else:
-                        ERR(f"""PSML THREW \033[91;1mAN ERROR\033[0m
-MODULE \033[95;1m{wh+1}\033[0m
-    \033[93m{i}\033[0m
-ArgumentError: Arguments weren't enough""")
-                        return html
                     if countf not in butn:
                         if "end" in elem:
                             if dats[elem.index("end")].lower()=="true":

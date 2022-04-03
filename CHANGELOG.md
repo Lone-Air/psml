@@ -1,3 +1,9 @@
+## 1.1.2 - 2022-04-03
+
+### Fixed
+
+* Fix ArgumentError reported by psml insert attribute
+
 ## 1.1.1 - 2022-03-23
 
 ### Fixed
