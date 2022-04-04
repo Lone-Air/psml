@@ -1,3 +1,9 @@
+## 1.3.0 - 2022-04-04
+
+### Changed
+
+* Version updates no longer get the version number file from the raw.github.com, but from laman28's website lone-air.github.io
+
 ## 1.2.3 - 2022-04-04
 
 ### Fixed

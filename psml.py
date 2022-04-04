@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="1.2.3"
+__version__="1.3.0"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -1510,7 +1510,7 @@ def _check_ver():
         ERR("\033[91mfatal error\033[0m: unable to switch working directory to 'temp/'")
         return "ERR"
     import urllib.request, ssl
-    req=urllib.request.Request("https://raw.github.com/Lone-Air/PSML/master/VERSION", headers={"User-Agent": 'Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.5 (like Gecko) (Kubuntu)'})
+    req=urllib.request.Request("https://lone-air.github.io/PSMLVER", headers={"User-Agent": 'Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.5 (like Gecko) (Kubuntu)'})
     context=ssl._create_unverified_context()
     try:
         _VER=urllib.request.urlopen(req, context=context)
@@ -1525,7 +1525,7 @@ def _check_ver():
             os.chdir("..")
             return VER
     except:
-        print("\033[93mwarning\033[0m: Unable to get the version file from the raw.github.com, git will be used to get the repository to determine the version")
+        print("\033[93mwarning\033[0m: Unable to get the version file from the lone-air.github.io, git will be used to get the repository to determine the version")
         wr_git=find_exe("git")
         if wr_git==[]:
             ERR("\033[91mfatal error\033[0m: git not found")
