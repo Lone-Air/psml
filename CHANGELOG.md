@@ -1,3 +1,14 @@
+## 1.2.0 - 2022-04-04
+
+### Changed
+
+* Switch to the new official Python installation
+* Use install.sh instead of install.py
+
+### Removed
+
+* Removed cmd-line argument: -uninstall
+
 ## 1.1.2 - 2022-04-03
 
 ### Fixed

@@ -5,3 +5,8 @@
 *.compiled.*
 /temp/
 *.gz
+*egg-info*
+/build/
+/dist/
+nohup.out
+build*

@@ -135,4 +135,7 @@ def change():
 app=default_app()
 app=SessionMiddleware(app, session_opts)
 if __name__=="__main__":
+    run_server()
+
+def run_server():
     run(app=app,host="127.0.0.1")

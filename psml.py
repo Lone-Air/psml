@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="1.1.2"
+__version__="1.1.3"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -1468,34 +1468,8 @@ def mkgz(f):
         _F.write(CONTENT)
 
 def __install__():
-    import sys,shutil,os
-    path=sys.path.copy()
-    for i in path:
-        if len(i.split(".zip"))>1:
-            del path[path.index(i)]
-    shutil.copyfile(__file__,os.path.join(path[1],"PSML.py"))
-    shutil.copyfile(os.path.join(os.path.dirname(__file__),"psml_web.py"),os.path.join(path[1],"psml_web.py"))
-    shutil.copyfile(os.path.join(os.path.dirname(__file__),"test.psml"),os.path.join(path[1],"test.psml"))
-    with open(os.path.join(os.path.dirname(sys.executable),"psml"),"w") as f:
-        f.write("""#!/usr/bin/env sh
-exec %s %s "$@" """%(sys.executable,os.path.join(path[1], "PSML.py")))
-    with open(os.path.join(os.path.dirname(sys.executable),"psmlweb"), "w") as f:
-        f.write("""#!/usr/bin/env sh
-exec %s %s "$@" """%(sys.executable,os.path.join(path[1], "psml_web.py")))
-    os.chmod(os.path.join(os.path.dirname(sys.executable),"psml"),0o777)
-    os.chmod(os.path.join(os.path.dirname(sys.executable),"psmlweb"),0o777)
-    shared=os.path.realpath(os.path.dirname(os.path.dirname(sys.executable)))
-    if shared=="/":
-        shared="/usr"
-    shared=os.path.join(os.path.join(os.path.join(shared, "share"),"man"), "man1")
-    try:
-        if not os.path.exists(shared): os.makedirs(shared)
-        shared=os.path.join(shared, "psml.1.gz")
-        mkgz("psml.1")
-        shutil.copyfile("psml.1.gz", shared)
-    except Exception:
-        ERR("\033[95mwarning\033[0m: unable to install manual page of psml")
-    print("\033[92mInstall successfully")
+    import os
+    os.system("sh install.sh -quiet")
     return
 
 def upgrade():
@@ -1518,7 +1492,7 @@ def upgrade():
         except:
             ERR("\033[91mfatal error\033[0m: unable to clone the repository of psml")
             return
-        os.system(sys.executable+" install.py")
+        os.system(sys.executable+" install.sh")
         os.chdir("..")
         while 1:
             try:
@@ -1610,33 +1584,6 @@ def find_exe(name):
             res.append(os.path.join(_pth, name if os.name=="posix" else name+".exe"))
     return res
 
-def __uninstall__():
-    import os,sys
-    try:
-        INFO=input("Do you really want to uninstall PSML? Enter 'Yes, do as I say' to uninstall\n[? ")
-        if INFO!="Yes, do as I say":
-            ERR("Cencel")
-            return
-    except:
-        ERR("Cancel")
-        return
-    try:
-        path=sys.path.copy()
-        for i in path:
-            if len(i.split(".zip"))>1:
-                del path[path.index(i)]
-        os.remove(__file__)
-        os.remove(os.path.join(os.path.dirname(__file__),"psmlweb"))
-        shared=os.path.realpath(os.path.dirname(os.path.dirname(sys.executable)))
-        shared=os.path.join(os.path.join(os.path.join(os.path.join(shared, "share"),"man"), "man1"), "psml.1.gz")
-        os.remove(os.path.join(path[1],"PSML.py"))
-        os.remove(os.path.join(path[1],"psml_web.py"))
-        os.remove(shared)
-        print("\033[91mUninstall successfully\033[0m")
-    except Exception:
-        ERR("\033[91merror\033[0m: uninstall failed")
-    return
-
 def __online__():
     import os,sys
     wr_psmlweb=find_exe("psmlweb")
@@ -1716,8 +1663,7 @@ string: code of psml-page
 
 fcompile.__doc__=compile.__doc__
 
-__install__.__doc__="""Copy this .py file to python libraries install directory"""
-__uninstall__.__doc__="""Remove this .py file from python libraries install direcotry"""
+__install__.__doc__="""Execute the install.sh"""
 __online__.__doc__="""Run a online compile web project server for psml"""
 
 def _start():
@@ -1790,9 +1736,6 @@ def _start():
                             exit()
                         __install__()
                         exit()
-                    elif temp[0]=="uninstall":
-                        __uninstall__()
-                        exit(0)
                     elif temp[0].split("=")[0]=="keeponly":
                         keeponly='='.join(temp[0].split("=")[1:])
                         keeponly=keeponly.replace(" ",  "")
@@ -1879,9 +1822,6 @@ def _start():
                             exit()
                         __install__()
                         exit()
-                    elif temp[0]=="uninstall":
-                        __uninstall__()
-                        exit(0)
                     elif temp[0].split("=")[0]=="keeponly":
                         keeponly='='.join(temp[0].split("=")[1:])
                         keeponly=keeponly.replace(" ",  "")

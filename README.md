@@ -6,7 +6,7 @@ It is free(libre) software, open source under the GPL v2.0 license.
 
 ---
 
-1. How to install: <code>$ sudo python install.py</code>
+1. How to install:<code>$ sudo python3 setup.py install</code>
 
 ---
 
