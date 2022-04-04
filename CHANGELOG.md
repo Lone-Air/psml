@@ -1,3 +1,9 @@
+## 1.3.4 - 2022-04-05
+
+### Fixed
+
+* Fixed some bugs
+
 ## 1.3.3 - 2022-04-05
 
 ### Refactored

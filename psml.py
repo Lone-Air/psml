@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="1.3.2"
+__version__="1.3.4"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -1468,7 +1468,7 @@ def mkgz(f):
 
 def __install__():
     import os
-    os.system("sh install.sh -quiet")
+    os.system("bash install.sh -quiet")
     return
 
 def vercomp(NEW, OLD):
@@ -1513,7 +1513,7 @@ def upgrade():
         except:
             ERR("\033[91mfatal error\033[0m: unable to clone the repository of psml")
             return
-        os.system("sh install.sh -quiet")
+        os.system("bash install.sh -quiet")
         os.chdir("..")
         while 1:
             try:
