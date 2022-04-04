@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="1.1.3"
+__version__="1.2.1"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -1492,7 +1492,7 @@ def upgrade():
         except:
             ERR("\033[91mfatal error\033[0m: unable to clone the repository of psml")
             return
-        os.system(sys.executable+" install.sh")
+        os.system("sh install.sh")
         os.chdir("..")
         while 1:
             try:
