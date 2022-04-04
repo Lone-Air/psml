@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="1.3.0"
+__version__="1.3.1"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -1471,6 +1471,28 @@ def __install__():
     os.system("sh install.sh -quiet")
     return
 
+def vercomp(NEW, OLD):
+    N=NEW.split(".")
+    O=OLD.split(".")
+    l=0
+    lo=len(O)
+    for i in N:
+        l+=1
+        if l>lo:
+            return 1
+        else:
+            try:
+                if int(i)>int(O[l-1]):
+                    return 1
+                elif int(i)<int(O[l-1]):
+                    return 0
+            except:
+                if ord(i.lower())>int(O[l-1].lower()):
+                    return 1
+                elif ord(i.lower())<ord(O[l-1].lower()):
+                    return 0
+    return 0
+
 def upgrade():
     import sys,os,shutil
     VER=_check_ver()
@@ -1491,7 +1513,7 @@ def upgrade():
         except:
             ERR("\033[91mfatal error\033[0m: unable to clone the repository of psml")
             return
-        os.system("sh install.sh")
+        os.system("sh install.sh -quiet")
         os.chdir("..")
         while 1:
             try:
@@ -1514,9 +1536,9 @@ def _check_ver():
     context=ssl._create_unverified_context()
     try:
         _VER=urllib.request.urlopen(req, context=context)
-        VER=VER.read().decode("utf8")
+        VER=_VER.read().decode("utf8")
         VER=ignore(VER, "\n")
-        if VER==__version__:
+        if not vercomp(VER, __version__):
             print("\033[92mIt's the latest version\033[0m")
             os.chdir("..")
             return "-"
@@ -1540,7 +1562,7 @@ def _check_ver():
             return "ERR"
         VER=getcont("VERSION")
         VER=ignore(VER, "\n")
-        if VER==__version__:
+        if not vercomp(VER, __version__):
             print("\033[92mIt's the latest edition\033[0m")
             os.chdir("..")
             while 1:
