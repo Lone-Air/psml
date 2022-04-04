@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="1.2.1"
+__version__="1.2.2"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -38,7 +38,6 @@ Options:
         -o -output *        Compilation results are output to '*' ('*' is a directory name)
         -mode=1|2|3|4       Set the compilation mode
         -install            Install PSML to the directory where Python is located
-        -uninstall          uninstall psml
         -online             Start psml_web
         -u -upgrade         Upgrade psml version
         -cv -check-version  Detect psml version update

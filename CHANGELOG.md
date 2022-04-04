@@ -1,3 +1,9 @@
+## 1.2.2 - 2022-04-04
+
+### Fixed
+
+* Fixed a error in Help Document
+
 ## 1.2.1 - 2022-04-04
 
 ### Fixed
