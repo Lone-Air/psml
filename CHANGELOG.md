@@ -1,3 +1,9 @@
+## 1.3.3 - 2022-04-05
+
+### Refactored
+
+* If the pip can be found again, the install. Sh will be installed with pip by default
+
 ## 1.3.2 - 2022-04-05
 
 ### Fixed
