@@ -1,3 +1,9 @@
+## 1.3.2 - 2022-04-05
+
+### Fixed
+
+* Fix GNU Readline does not work
+
 ## 1.3.1 - 2022-04-04
 
 ### Fixed
