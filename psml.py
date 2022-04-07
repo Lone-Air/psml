@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="1.3.4"
+__version__="1.3.5"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -2051,4 +2051,7 @@ def _start():
             else:
                 sys.stderr.write("\033[91mfatal error\033[0m: no such file or directory '%s'\n"%PSMLC)
                 sys.exit()
+
+if __name__=="__main__":
+    _start()
 

@@ -9,6 +9,19 @@ with open("README.md") as r:
 with open("VERSION") as v:
     _v=v.read()
 
+files=[]
+
+for p,d,f in os.walk("psmlc"):
+    for fs in f:
+        files.append(fs)
+
+Dirs=["Documents", "obj", "vim-plugins"]
+
+for Dir in Dirs:
+    for p,d,f in os.walk(os.path.join("psmlc",Dir)):
+        for fs in f:
+            files.append(os.path.join(Dir, fs))
+
 _v.replace("\n","")
 
 setup(
@@ -16,7 +29,7 @@ setup(
         author_email="Lone_air_Use@outlook.com",
         name="psmlc",
         packages=["psmlc"],
-        package_data={"psmlc":os.listdir("psmlc")},
+        package_data={"psmlc":files},
         version=_v,
         license="GPLv2.0",
         url="https://github.com/lone-air/psml",

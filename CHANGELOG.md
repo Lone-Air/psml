@@ -1,3 +1,9 @@
+## 1.3.5 - 2022-04-07
+
+### Fixed
+
+* Fix help documentation, PSMLWEB style and font files, and vim plugin not installed
+
 ## 1.3.4 - 2022-04-05
 
 ### Fixed
