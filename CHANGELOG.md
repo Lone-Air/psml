@@ -1,3 +1,9 @@
+## 1.3.6.1 - 2022-04-07
+
+### Fixed
+
+* Fix an error in document
+
 ## 1.3.6 - 2022-04-07
 
 ### Feature

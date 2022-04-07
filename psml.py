@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="1.3.6"
+__version__="1.3.6.1"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -37,9 +37,9 @@ Options:
         -q -quiet           Block output of any NOTE
         -o -output *        Compilation results are output to '*' ('*' is a directory name)
         -mode=1|2|3|4       Set the compilation mode
-        -install            Install PSML with pip (if python doesn't exists, it will use python interpreter to install)
-        -uninstall          Uninstall PSML with pip
-        -online             Start psml_web
+        -install            Install PSML with pip3 (if pip3 doesn't exists, it will use python interpreter to install)
+        -uninstall          Uninstall PSML with pip3
+        -online             Start psml_web server
         -u -upgrade         Upgrade psml version
         -cv -check-version  Detect psml version update
         -man                Displays the PSML manual pages
