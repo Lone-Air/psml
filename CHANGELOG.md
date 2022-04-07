@@ -1,3 +1,14 @@
+## 1.3.6 - 2022-04-07
+
+### Feature
+
+* Add new uninstall parameter
+
+### Fixed
+
+* Fix psml_web error
+* Fix unable to install manual problem
+
 ## 1.3.5 - 2022-04-07
 
 ### Fixed

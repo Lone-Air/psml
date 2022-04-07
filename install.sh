@@ -70,11 +70,11 @@ else
 fi
 
 if [ $? -ne 0 ]; then
-    echo -e "[\033[91;1mError\033[0m] Install Failed, please see the nohup.out for information"
+    echo -e "[\033[91;1mError\033[0m] Install Failed, please see the errors for information"
     exit 1
 fi
 
-if [ "&withman" = "yes" ]; then
+if [ "$withman" = "yes" ]; then
     if [ -d "/usr/local/share/man/man1" ]; then
         shared="/usr/local/share/man/man1"
     elif [ -d $(dirname $python_interp)/share/man/man1 ]; then

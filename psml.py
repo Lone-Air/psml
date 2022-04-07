@@ -5,7 +5,7 @@ It's a free(libre) software
 """
 from re import *
 import os,sys
-__version__="1.3.5"
+__version__="1.3.6"
 __author__="<Lone_air_Use@outlook.com>"
 import warnings,traceback
 App=None
@@ -37,7 +37,8 @@ Options:
         -q -quiet           Block output of any NOTE
         -o -output *        Compilation results are output to '*' ('*' is a directory name)
         -mode=1|2|3|4       Set the compilation mode
-        -install            Install PSML to the directory where Python is located
+        -install            Install PSML with pip (if python doesn't exists, it will use python interpreter to install)
+        -uninstall          Uninstall PSML with pip
         -online             Start psml_web
         -u -upgrade         Upgrade psml version
         -cv -check-version  Detect psml version update
@@ -1468,8 +1469,30 @@ def mkgz(f):
 
 def __install__():
     import os
-    os.system("bash install.sh -quiet")
+    wherebash=find_exe("bash" if os.name=="posix" else "bash.exe")
+    if wherebash==[]:
+        ERR("\033[91;1mfatal error\033[0m: bash is required")
+        return 1
+    else:
+        os.system("%s install.sh -quiet"%wherebash[0])
+        return 0
     return
+
+def __uninstall__():
+    print("\033[91;1mWarning!\033[0m: If you confirm (enter 'y'), PSML will be uninstalled")
+    try:
+        unins=input("\033[91mYes? (y/[n]) \033[0m")
+    except:
+        return 1
+    if unins.lower().replace(" ", "").replace("\t", "")!="y":
+        return 1
+    wherepip=find_exe("pip3" if os.name=="posix" else "pip3.exe")
+    if wherepip==[]:
+        ERR("\033[91;1mfatal error\033[0m: pip3 is required")
+        return 1
+    else:
+        os.system("%s uninstall psmlc -y"%wherepip[0])
+        return 0
 
 def vercomp(NEW, OLD):
     N=NEW.split(".")
@@ -1502,7 +1525,7 @@ def upgrade():
         return
     elif VER=="-": return
     else:
-        wr_git=find_exe("git")
+        wr_git=find_exe("git" if os.name=="posix" else "git.exe")
         if wr_git==[]:
             ERR("\033[91mfatal error\033[0m: git not found")
             return
@@ -1513,7 +1536,12 @@ def upgrade():
         except:
             ERR("\033[91mfatal error\033[0m: unable to clone the repository of psml")
             return
-        os.system("bash install.sh -quiet")
+        wherebash=find_exe("bash" if os.name=="posix" else "bash.exe")
+        if wherebash==[]:
+            ERR("\033[91;1mfatal error\033[0m: bash is required")
+            return 1
+        else:
+            os.system("%s install.sh -quiet"%wherebash[0])
         os.chdir("..")
         while 1:
             try:
@@ -1548,7 +1576,7 @@ def _check_ver():
             return VER
     except:
         print("\033[93mwarning\033[0m: Unable to get the version file from the lone-air.github.io, git will be used to get the repository to determine the version")
-        wr_git=find_exe("git")
+        wr_git=find_exe("git" if os.name=="posix" else "git.exe")
         if wr_git==[]:
             ERR("\033[91mfatal error\033[0m: git not found")
             os.chdir("..")
@@ -1757,6 +1785,9 @@ def _start():
                             exit()
                         __install__()
                         exit()
+                    elif temp[0]=="uninstall":
+                        __uninstall__()
+                        exit()
                     elif temp[0].split("=")[0]=="keeponly":
                         keeponly='='.join(temp[0].split("=")[1:])
                         keeponly=keeponly.replace(" ",  "")
@@ -1842,6 +1873,9 @@ def _start():
                             ERR("\033[91mfatal error\033[0m: must run it in the psml source directory")
                             exit()
                         __install__()
+                        exit()
+                    elif temp[0]=="uninstall":
+                        __uninstall__()
                         exit()
                     elif temp[0].split("=")[0]=="keeponly":
                         keeponly='='.join(temp[0].split("=")[1:])

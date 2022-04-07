@@ -47,7 +47,10 @@ After compiling, the PSML compiler will output the compiled content to the botto
 Adjust the compile mode at compile times (Please refer to 'COMPILE MODE' paragraph for explanation of compilation mode)
 .TP
 \fB\-install\fR
-When the root directory of the currently running psml compiler is the psml source code directory, psml will automatically install the PSML compiler to the directory where the Python interpreter is located (under Linux, it may be necessary to operate under the root user)
+When you run it in the PSML source directory, PSML will invoke the bash run install.sh to install it (which requires you to install bash)
+.TP
+\fB\-uninstall\fR
+When you use it, PSML will run pip3 to uninstall the psmlc package (this action needs to be confirmed by the user)
 .TP
 \fB\-online\fR
 Used to start PSML editing, preview page, preview compiled code functions and all-in-one web server
