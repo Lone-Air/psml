@@ -1,3 +1,9 @@
+## 1.3.7.1 - 2022-04-08
+
+### Fixed
+
+* Fix unable to get version problem
+
 ## 1.3.7 - 2022-04-08
 
 ### Changed

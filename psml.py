@@ -7,7 +7,7 @@ from re import *
 import os,sys,warnings,traceback
 warnings.filterwarnings("ignore")
 
-with open("VERSION") as f:
+with open(os.path.join(os.path.dirname(__file__), "VERSION")) as f:
     __version__=f.read().replace(" ", "").replace("\t", "").replace("\n", "")
 
 __author__="<Lone_air_Use@outlook.com>"
