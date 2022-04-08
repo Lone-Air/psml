@@ -1,3 +1,9 @@
+## 1.3.7.2 - 2022-04-08
+
+### Removed
+
+* Remove the bottle.py from the repository.
+
 ## 1.3.7.1 - 2022-04-08
 
 ### Fixed
