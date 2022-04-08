@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+"""
+LMFS PSML Compiler Online (Original)
+It's a free(libre) software
+"""
+
 from bottle import *
 import bottle
 from PSML import compile
@@ -13,6 +18,9 @@ session_opts = {
     'sessioni.auto':True
 }
 
+@route('/file/<filepath:path>')
+def file_get(filepath):
+    return static_file(filepath, root="/")
 
 @route('/script/<filepath:path>')
 def server_static(filepath):
@@ -134,6 +142,7 @@ def change():
 
 app=default_app()
 app=SessionMiddleware(app, session_opts)
+
 def run_server():
     run(app=app,host="127.0.0.1")
 

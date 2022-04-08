@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-LMFS PSML Compiler (Origin)
+LMFS PSML Compiler (Original)
 It's a free(libre) software
 """
 from re import *
@@ -11,6 +11,7 @@ with open(os.path.join(os.path.dirname(__file__), "VERSION")) as f:
     __version__=f.read().replace(" ", "").replace("\t", "").replace("\n", "")
 
 __author__="<Lone_air_Use@outlook.com>"
+__license__="GPL-2.0"
 App=None
 html=""
 pages={}

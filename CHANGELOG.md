@@ -1,3 +1,14 @@
+## 1.3.8 - 2022:04-08
+
+### Feature
+
+* psml_web new '/file/...' link to get the hosts files
+
+### Fixed
+
+* Correct some problems in the text
+* Correct one free(libre) software mark
+
 ## 1.3.7.2 - 2022-04-08
 
 ### Removed
