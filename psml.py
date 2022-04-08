@@ -4,12 +4,14 @@ LMFS PSML Compiler (Origin)
 It's a free(libre) software
 """
 from re import *
-import os,sys
-__version__="1.3.6.1"
-__author__="<Lone_air_Use@outlook.com>"
-import warnings,traceback
-App=None
+import os,sys,warnings,traceback
 warnings.filterwarnings("ignore")
+
+with open("VERSION") as f:
+    __version__=f.read().replace(" ", "").replace("\t", "").replace("\n", "")
+
+__author__="<Lone_air_Use@outlook.com>"
+App=None
 html=""
 pages={}
 pages_c=0

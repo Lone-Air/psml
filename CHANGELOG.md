@@ -1,3 +1,9 @@
+## 1.3.7 - 2022-04-08
+
+### Changed
+
+* PSML will now read the version information from the VERSION file instead of writing it separately in the code
+
 ## 1.3.6.1 - 2022-04-07
 
 ### Fixed
