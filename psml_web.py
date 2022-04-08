@@ -6,7 +6,7 @@ It's a free(libre) software
 
 from bottle import *
 import bottle
-from PSML import compile
+from psml import compile
 from os import remove,path
 from beaker.middleware import *
 from beaker import *
