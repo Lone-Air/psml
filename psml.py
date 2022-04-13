@@ -48,6 +48,7 @@ Options:
         -u -upgrade         Upgrade psml version
         -cv -check-version  Detect psml version update
         -man                Displays the PSML manual pages
+        -econf -edit-config Edit the PSML configuration file
         -h -help            Show help of psml
         -v -version         Show version of psml
 
@@ -61,6 +62,19 @@ Compile Mode:
 
 Thanks for using.
 When you find bugs, you may report it to \033[92m{__author__}\033[0m\n""")
+
+def editconf():
+    home=os.getenv("HOME") if os.getenv("HOME") else "/home"
+    confp=os.path.join(home, ".config/psml/psml.conf")
+    if(not os.path.exists(confp)):
+        ERR("\033[91;1mfatal error\033[0m: psml.conf was not found, please check your home path")
+        return 1
+    editor=os.getenv("EDITOR")
+    if(not editor):
+        ERR("\033[91;1mfatal error\033[0m: $EDITOR is not defined, please define it. e.g: export EDITOR=vim")
+        return 1
+    os.system("%s %s"%(editor,confp))
+    return 0
 
 def configinit():
     home=os.getenv("HOME")
@@ -1759,7 +1773,7 @@ def getit(conf, op, it):
 def up():
     if(_check_ver!="-"):
         try:
-            up=input("\033[94mWould you like to upgrade psml? ([y]/n) \033[0m")
+            up=input("\033[94mDo you want to check for PSML version updates? Automatically update if available\n Yes or no ([y]/n) \033[0m")
             if(up.lower()!="n"):
                 upgrade()
                 exit()
@@ -1898,6 +1912,8 @@ def _start():
                     elif temp[0]=="uninstall":
                         __uninstall__()
                         exit()
+                    elif temp[0] in ("econf", "edit-config"):
+                        exit(editconf())
                     elif temp[0].split("=")[0]=="keeponly":
                         keeponly='='.join(temp[0].split("=")[1:])
                         keeponly=keeponly.replace(" ",  "")

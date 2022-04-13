@@ -1,0 +1,4 @@
+function: upgrade
+args: -
+
+Check for PSML version updates and update if available

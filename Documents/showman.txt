@@ -1,0 +1,4 @@
+function: showman
+args: -
+
+Invoke the man program to display the PSML command line parameters help manual

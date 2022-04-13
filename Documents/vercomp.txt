@@ -1,0 +1,5 @@
+function: vercomp
+args: NEW: A string. The new version number
+      OLD: A string. The old version number
+
+Compares NEW and OLD, returns 1 if NEW is higher, otherwise returns 0

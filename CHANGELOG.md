@@ -1,3 +1,10 @@
+## 1.4.1 - 2022-04-13
+
+### Feature
+
+* Added some API functions in French
+* New '-conf'. Used to edit the PSML configuration file
+
 ## 1.4 - 2022-04-13
 
 ### Refactoried

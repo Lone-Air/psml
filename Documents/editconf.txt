@@ -1,0 +1,4 @@
+function: editconf
+args: -
+
+Open the EDITOR-defined editor to edit the psml configuration file

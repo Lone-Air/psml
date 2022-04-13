@@ -1,0 +1,4 @@
+function: configinit
+args: -
+
+Generate PSML configuration file
