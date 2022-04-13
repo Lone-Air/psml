@@ -1,3 +1,14 @@
+## 1.4 - 2022-04-13
+
+### Refactoried
+
+* Remove duplicate code in the command line argument parsing section
+
+### Feature
+
+* The newly added psml configuration file '$HOME/.config/psml/psml.conf' can be used to quickly configure psml
+* Added '-disable- *' parameter, which can be used to disable a function of psml
+
 ## 1.3.8.2 - 2022-04-08
 
 ### Fixed

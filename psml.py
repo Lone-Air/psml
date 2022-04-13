@@ -4,6 +4,7 @@ LMFS PSML Compiler (Original)
 It's a free(libre) software
 """
 from re import *
+from configparser import ConfigParser as ConfP
 import os,sys,warnings,traceback
 warnings.filterwarnings("ignore")
 
@@ -31,6 +32,7 @@ It is free(libre) software, open source under the GPL v2.0 license.
 Options:
         -Werror-*           Make this warning an error for the psml compiler task
         -no-*               Causes the psml interpreter to ignore the command
+        -disable-*          Turn off psml compiler functionality
         -keeponly=*         Only the page is output after compilation
         -script=*           Set the language of the script (default: javascript)
         -style=*            Set the format of style (default: text/css)
@@ -59,6 +61,33 @@ Compile Mode:
 
 Thanks for using.
 When you find bugs, you may report it to \033[92m{__author__}\033[0m\n""")
+
+def configinit():
+    home=os.getenv("HOME")
+    if(home==None):
+        print("\033[95;1mwarning\033[0m: $HOME is not defined, it will be default: /home")
+        home="/home"
+    if(not os.path.exists(home)):
+        ERR("\033[91;1merror\033[0m: %s is not exists"%repr(home))
+        return
+    if not os.path.exists(os.path.join(home,".config/psml/psml.conf")):
+        print("\033[95;1mwarning\033[0m: no config file, it will create")
+        try: os.mkdir(os.path.join(home, ".config/psml"))
+        except:pass
+        try: touch(os.path.join(home,".config/psml/psml.conf"), """[configuration]
+    autoupgrade = true
+    autoupchance = day
+""")
+        except:
+            ERR("\033[91;1merror\033[0m: unable to create config file")
+            return
+    conf=ConfP()
+    conf.read(os.path.join(home,".config/psml/psml.conf"))
+    return conf
+
+def touch(filen, content=""):
+    with open(filen, "w") as f:
+        f.write(content)
 
 def change_script(new):
     global sc
@@ -1718,8 +1747,27 @@ fcompile.__doc__=compile.__doc__
 __install__.__doc__="""Execute the install.sh"""
 __online__.__doc__="""Run a online compile web project server for psml"""
 
+def exiop(conf, op):
+    try: conf.options(op)
+    except: return None
+    return 1
+
+def getit(conf, op, it):
+    try: return conf[op][it]
+    except: return None
+
+def up():
+    if(_check_ver!="-"):
+        try:
+            up=input("\033[94mWould you like to upgrade psml? ([y]/n) \033[0m")
+            if(up.lower()!="n"):
+                upgrade()
+                exit()
+        except:
+            pass
+
 def _start():
-    import sys,os,rlcompleter
+    import sys,os,rlcompleter,time
     w2err=[]
     realargs=[]
     noc=[]
@@ -1733,6 +1781,62 @@ def _start():
     justp_stat=0
     p_var={"psmlver": {"value": __version__, "type": "const"}}
     ffile=0
+    conf=configinit()
+    disabled=[]
+    ### Configuration information processing
+    needup=0
+    foup=0
+    if(exiop(conf, "configuration")):
+        if(getit(conf, "configuration", "autoupgrade")=="true"):
+            home="/home" if os.getenv("HOME")==None else os.getenv("HOME")
+            try:
+                lastup=float(getcont(os.path.join(home, ".config/psml/lastupgrade")).replace("\n", ""))
+                if(getit(conf, "configuration", "autoupchance")=="day"):
+                    if(time.time()-lastup>=86400):
+                        needup=1
+                elif(getit(conf, "configuration", "autoupchance")=="weekly"):
+                    if(time.time()-lastup>=86400*7):
+                        needup=1
+                elif(getit(conf, "configuration", "autoupchance")=="month"):
+                    if(time.time()-lastup>=86400*30):
+                        needup=1
+                elif(getit(conf, "configuration", "autoupchance")=="always"):
+                    needup=1
+                elif(getit(conf, "configuration", "autoupchance")=="force"):
+                    needup=1
+                    foup=1
+                elif(getit(conf, "configuration", "autoupchance")=="never"):
+                    pass
+                else:
+                    ERR("\033[91;1mfatal error\033[0m: %s is not usable in configuration at 'configuration.autoupchance'. free: day weekly month always force never"%repr(getit(conf,"configuration","autoupchance")))
+                    exit()
+            except:
+                touch(os.path.join(home, ".config/psml/lastupgrade"), str(time.time()))
+                needup=1
+        else:
+            if(getit(conf, "configuration", "autoupgrade")!="false"):
+                ERR("\033[91;1mfatal error\033[0m: %s is not usable in configuration at 'configuration.autoupgrade'. free: true false"%repr(getit(conf, "configuration","autoupgrade")))
+                exit()
+    if(exiop(conf, "function")):
+        if(getit(conf,"function", "server")in("true", "false", None)):
+            if getit(conf,"function","server")=="false":
+                noc.append("server")
+        else:
+            ERR("\033[91;1mfatal error\033[0m: %s is not usable in configuration at 'function.server'. free: true false"%repr(getit(conf, "function", "server")))
+            exit()
+        if(getit(conf,"function", "quiet")in("true", "false", None)): 
+            if getit(conf,"function","quiet")=="true":
+                qit=True
+        else:
+            ERR("\033[91;1mfatal error\033[0m: %s is not usable in configuration at 'function.quiet'. free: true false"%repr(getit(conf, "function", "quiet")))
+            exit()
+    if(exiop(conf, "define-const")):
+        for i in conf.options("define-const"):
+            p_var[i]={"value": conf["define-const"][i], "type": "const"}
+    if(exiop(conf, "define-normal")):
+        for i in conf.options("define-normal"):
+            p_var[i]={"value": conf["define-normal"][i], "type": "normal"}
+    ### Command-line parameter processing
     for i in sys.argv:
         c+=1
         if c==1: continue
@@ -1756,14 +1860,17 @@ def _start():
             exit()
         elif(len(i)>1):
             if(len(i)>2):
-                if i[0]+i[1]=="--":
+                if i[0]=="-":
                     temp=list(i)
                     del temp[0]
-                    del temp[0]
+                    if temp[0]=="-":
+                        del temp[0]
                     temp="".join(temp)
                     temp=temp.split("-")
                     if temp[0]=="Werror":
                         w2err.append("-".join(temp[1:]))
+                    elif temp[0]=="disable":
+                        disabled.append("-".join(temp[1:]))
                     elif temp[0]=="no":
                         noc.append("-".join(temp[1:]))
                     elif temp[0]=="compile":
@@ -1846,95 +1953,6 @@ def _start():
                     else:
                         sys.stderr.write(f"\033[91mfatal error\033[0m: unrecognized option (--): {repr(temp[0])}\n")
                         exit()
-                elif i[0]=="-":
-                    temp=list(i)
-                    del temp[0]
-                    temp="".join(temp)
-                    temp=temp.split("-")
-                    if temp[0]=="Werror":
-                        w2err.append("-".join(temp[1:]))
-                    elif temp[0]=="no":
-                        noc.append("-".join(temp[1:]))
-                    elif temp[0]=="quiet" or temp[0]=="q":
-                        qit=True
-                    elif temp[0]=="c":
-                        _M=3
-                    elif temp[0]=="man":
-                        showman()
-                        exit(0)
-                    elif temp[0]=="upgrade" or temp[0]=="u":
-                        upgrade()
-                        exit(0)
-                    elif '-'.join(temp[:2])=="check-version" or temp[0]=="cv":
-                        _check_ver()
-                        exit(0)
-                    elif temp[0]=="online":
-                        __online__()
-                        exit(0)
-                    elif temp[0]=="install":
-                        if(os.path.realpath(os.path.dirname(__file__)).split(os.sep)[-1] not in ("psml", "psml-master")):
-                            ERR("\033[91mfatal error\033[0m: must run it in the psml source directory")
-                            exit()
-                        __install__()
-                        exit()
-                    elif temp[0]=="uninstall":
-                        __uninstall__()
-                        exit()
-                    elif temp[0].split("=")[0]=="keeponly":
-                        keeponly='='.join(temp[0].split("=")[1:])
-                        keeponly=keeponly.replace(" ",  "")
-                        keeponly=keeponly.replace("\t", "")
-                        keeponly=keeponly.split(",")
-                        if "all" in keeponly: keeponly="all"
-                    elif temp[0].split("=")[0]=="print":
-                        justp='='.join(temp[0].split("=")[1:])
-                        justp=justp.replace(" ",  "")
-                        justp=justp.replace("\t", "")
-                        justp=justp.split(",")
-                        if "all" in justp: justp="all"
-                        justp_stat=1
-                    elif temp[0].split("=")[0]=="script":
-                        _sc='='.join(temp[0].split("=")[1:])
-                        _sc=_sc.replace(" ",  "")
-                        _sc=_sc.replace("\t", "")
-                        change_script(_sc)
-                    elif temp[0].split("=")[0]=="style":
-                        _st='='.join(temp[0].split("=")[1:])
-                        _st=_st.replace(" ",  "")
-                        _st=_st.replace("\t", "")
-                        change_style(_st)
-                    elif temp[0][:1]=="D":
-                        _INN=temp[0][1:]
-                        _INN=_INN.split("=")
-                        if(len(_INN)<2):
-                            ERR("\033[91merror\033[0m: invaild variable syntax")
-                            continue
-                        n=_INN[0]
-                        v="=".join(_INN[1:])
-                        n=ignore(n, " ")
-                        n=ignore(n, "\t")
-                        if n=="":
-                            ERR("\033[91merror\033[0m: variable name cannot be empty")
-                            continue
-                        if(n in p_var.keys()):
-                            ERR("\033[91merror\033[0m: cannot change a constant that already exists")
-                            continue
-                        p_var[n]={"value": v, "type": "const"}
-                    elif temp[0].split("=")[0]=="mode":
-                        _M='='.join(temp[0].split("=")[1:])
-                        _M=_M.replace(" ",  "")
-                        _M=_M.replace("\t", "")
-                        try:
-                            _M=int(_M)
-                            if _M<1 or _M>4: raise ValueError("Must be a number from 1 to 4")
-                        except:
-                            sys.stderr.write(f"\033[91mfatal error\033[0m: compile mode must be a number from 1 to 4")
-                            exit()
-                    elif temp[0]=="o" or temp[0]=="output":
-                        OM=True
-                    else:
-                        sys.stderr.write(f"\033[91mfatal error\033[0m: unrecognized option (-): {repr(temp[0])}\n")
-                        sys.exit()
                 else:
                     realargs.append(i)
             else:
@@ -1959,6 +1977,10 @@ def _start():
                     realargs.append(i)
         else:
             realargs.append(i)
+    if "autoup" in disabled and foup!=1:
+        needup=0
+    if needup:
+        up()
     sys.argv=realargs.copy()
     if(sys.argv==[]):
         code=""
