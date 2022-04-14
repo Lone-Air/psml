@@ -1682,10 +1682,10 @@ def find_exe(name):
 def __online__():
     import os,sys
     wr_psmlweb=find_exe("psmlweb")
-    if os.path.exists(os.path.join(os.path.dirname(__file__),"psml_web.py")):
+    if wr_psmlweb!=[]:
+        os.system("%s %s"%(sys.executable, wr_psmlweb[0]))
+    elif os.path.exists(os.path.join(os.path.dirname(__file__),"psml_web.py")):
         os.system("%s %s"%(sys.executable,(os.path.join(os.path.dirname(__file__),"psml_web.py"))))
-    elif wr_psmlweb!=[]:
-        os.system("%s %s"%(sys.executable,wr_psmlweb[0]))
     else:
         ERR("\033[91mfatal error\033[0m: psmlweb not found")
     return
