@@ -1962,7 +1962,7 @@ def _start():
                             _M=int(_M)
                             if _M<1 or _M>4: raise ValueError("Must be a number from 1 to 4")
                         except:
-                            sys.stderr.write(f"\033[91mfatal error\033[0m: compile mode must be a number from 1 to 4")
+                            sys.stderr.write("\033[91mfatal error\033[0m: compile mode must be a number from 1 to 4")
                             exit()
                     elif temp[0]=="output":
                         OM=True
